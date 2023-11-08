@@ -18,3 +18,4 @@ yarn start
 
 - [ ] Mobile Navigation Bar
 - [ ] Desktop Navigation Bar
+- [ ] Setup the deployment
