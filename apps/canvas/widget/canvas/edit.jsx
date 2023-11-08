@@ -1,0 +1,1 @@
+const { value, onChange, onSubmit, onCancel } = props;
