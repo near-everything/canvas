@@ -16,6 +16,5 @@ yarn start
 
 ## TODO
 
-- [ ] Extract out to a Provider
-- [ ] Separate flags/bos-loader functionality to it's own plugin
-- [ ] Integrate with create-bos-app
+- [ ] Mobile Navigation Bar
+- [ ] Desktop Navigation Bar

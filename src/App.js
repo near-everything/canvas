@@ -35,6 +35,7 @@ import EmbedPage from "./pages/EmbedPage";
 import Flags from "./pages/Flags";
 import SignInPage from "./pages/SignInPage";
 import ViewPage from "./pages/ViewPage";
+import EverythingCanvas from "./components/custom/Canvas";
 
 export const refreshAllowanceObj = {};
 const documentationHref = "https://github.com/NearBuilders/docs";
@@ -86,6 +87,9 @@ function App() {
               props.to = sanitizeUrl(props.to);
             }
             return <Link {...props} />;
+          },
+          Canvas: (props) => {
+            return <EverythingCanvas {...props} />;
           },
         },
         config: {

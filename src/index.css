@@ -1,3 +1,7 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap");
+
+@import url("@tldraw/tldraw/tldraw.css");
+
 :root {
   --slate-dark-1: #151718;
   --slate-dark-5: #2B2F31;

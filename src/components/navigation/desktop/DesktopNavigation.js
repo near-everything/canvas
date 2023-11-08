@@ -64,37 +64,17 @@ export function DesktopNavigation(props) {
   return (
     <StyledNavigation>
       <div className="container">
-        <Link
-          to="/"
-          className="logo-link"
-          onClick={() => {
-            window.scrollTo({ top: 0, behavior: "smooth" });
-          }}
-        >
-          <Logotype />
-        </Link>
-        <div className="navigation-section">
-          <NavigationButton route="/">Home</NavigationButton>
-          <NavigationButton route="/edit">Editor</NavigationButton>
-          <NavigationButton href={props.documentationHref}>
-            Docs
-            <ArrowUpRight />
-          </NavigationButton>
-        </div>
-        <div className="user-section">
-          <DevActionsDropdown {...props} />
-          {!props.signedIn && (
-            <SignInButton onSignIn={() => props.requestSignIn()} />
-          )}
-          {props.signedIn && (
-            <>
-              <NotificationWidget
-                notificationButtonSrc={props.widgets.notificationButton}
-              />
-              <UserDropdown {...props} />
-            </>
-          )}
-        </div>
+        {!props.signedIn && (
+          <SignInButton onSignIn={() => props.requestSignIn()} />
+        )}
+        {props.signedIn && (
+          <>
+            <NotificationWidget
+              notificationButtonSrc={props.widgets.notificationButton}
+            />
+            <UserDropdown {...props} />
+          </>
+        )}
       </div>
     </StyledNavigation>
   );

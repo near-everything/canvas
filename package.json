@@ -15,6 +15,7 @@
     "@near-wallet-selector/neth": "^8.5.0",
     "@near-wallet-selector/nightly": "^8.5.0",
     "@near-wallet-selector/sender": "^8.5.0",
+    "@tldraw/tldraw": "^2.0.0-canary.ba4664d27979",
     "@web3-onboard/core": "^2.16.2",
     "@web3-onboard/injected-wallets": "^2.8.4",
     "@web3-onboard/ledger": "^2.4.4",
