@@ -46,6 +46,8 @@ function EverythingCanvas(props) {
                 editor.selectedShapeIds
               )}
               deleteShapes={(v) => editor.deleteShapes(v)}
+              createShapes={(v) => editor.createShapes(v)}
+              setReadOnly={(isReadonly) => editor.updateInstanceState({ isReadonly })}
             />
           </div>
         </div>

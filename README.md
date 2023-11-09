@@ -19,3 +19,5 @@ yarn start
 - [ ] Mobile Navigation Bar
 - [ ] Desktop Navigation Bar
 - [ ] Setup the deployment
+- [ ] Pass in the login button to the View
+- [ ] Some cool interactive element to dive into it, built on BOS using Luis three.js VM

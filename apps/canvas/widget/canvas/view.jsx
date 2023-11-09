@@ -28,8 +28,15 @@ const drawings = indices
   })
   .flat();
 
+if (drawings.length === 0) {
+  return <p>No drawings yet!</p>;
+}
+
 return (
-  <div style={{ width: "50vw", height: "100vh" }}>
-    <Canvas initialShapes={drawings} />
+  <div style={{ width: "100%", height: "100%" }}>
+    <Widget
+      src="/*__@appAccount__*//widget/canvas.core"
+      props={{ initialShapes: drawings }}
+    />
   </div>
 );
