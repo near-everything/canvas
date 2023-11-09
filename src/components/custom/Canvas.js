@@ -1,4 +1,4 @@
-import { Tldraw, track, Canvas, useEditor } from "@tldraw/tldraw";
+import { Canvas, Tldraw } from "@tldraw/tldraw";
 import React, { useCallback, useEffect, useState } from "react";
 
 function EverythingCanvas(props) {
@@ -15,6 +15,10 @@ function EverythingCanvas(props) {
       editor.on("change", (change) => props.handleChangeEvent(change));
     }
 
+    if (props.initialSnapshot) {
+      editor.store.loadSnapshot(props.initialSnapshot);
+    }
+
     if (props.initialShapes) {
       editor.createShapes(props.initialShapes);
     }
@@ -26,56 +30,13 @@ function EverythingCanvas(props) {
     };
   }, [editor]);
 
-  const handleUiEvent = useCallback((name, data) => {
-    if (props.handleUiEvent) {
-      props.handleUiEvent(name, data);
+  useEffect(() => {
+    if (props.trigger) {
+      const snapshot = editor.store.getSnapshot();
+      const stringified = JSON.stringify(snapshot);
+      props.onGetData(stringified);
     }
-  }, []);
-
-  const CustomUi = track(() => {
-    const editor = useEditor();
-
-    if (props.Custom) {
-      const Custom = props.Custom;
-      return (
-        <div className="custom-layout">
-          <div className="custom-toolbar">
-            <Custom
-              selectedShapeIds={editor.selectedShapeIds}
-              selectedShapes={editor.getContentFromCurrentPage(
-                editor.selectedShapeIds
-              )}
-              deleteShapes={(v) => editor.deleteShapes(v)}
-              createShapes={(v) => editor.createShapes(v)}
-              setReadOnly={(isReadonly) => editor.updateInstanceState({ isReadonly })}
-            />
-          </div>
-        </div>
-      );
-    }
-
-    return (
-      <div className="custom-layout">
-        <div className="custom-toolbar">
-          <button
-            className="custom-button"
-            data-isactive={editor.currentToolId === "select"}
-            onClick={() => {
-              if (props.handlePublish) {
-                props.handlePublish(
-                  // Do something with the selection of shapes
-                  editor.getContentFromCurrentPage(editor.selectedShapeIds)
-                );
-              }
-              // editor.setCurrentTool('select')
-            }}
-          >
-            Publish
-          </button>
-        </div>
-      </div>
-    );
-  });
+  }, [props.trigger, props.onGetData]);
 
   return (
     <Tldraw
@@ -83,10 +44,8 @@ function EverythingCanvas(props) {
       autoFocus={props.autoFocus}
       hideUi={props.hideUi}
       onMount={setAppToState}
-      onUiEvent={handleUiEvent}
     >
       <Canvas />
-      <CustomUi />
     </Tldraw>
   );
 }

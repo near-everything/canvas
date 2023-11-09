@@ -77,7 +77,7 @@ class NoscriptDescriptionInjector {
 
 function defaultData() {
   const image = "https://nearbuilders.org/assets/logo.png";
-  const title = "Build DAO";
+  const title = "Canvas";
   const description =
     "Support Systems for Open Web Developers";
   return {
