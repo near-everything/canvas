@@ -26,6 +26,8 @@ import "react-bootstrap-typeahead/css/Typeahead.bs5.css";
 import "react-bootstrap-typeahead/css/Typeahead.css";
 import { Link, Route, BrowserRouter as Router, Switch } from "react-router-dom";
 import { BosLoaderBanner } from "./components/BosLoaderBanner";
+import EverythingCanvas from "./components/custom/Canvas";
+import { MonacoEditor } from "./components/custom/MonacoEditor";
 import { NavigationWrapper } from "./components/navigation/NavigationWrapper";
 import { useEthersProviderContext } from "./data/web3";
 import { NetworkId, Widgets } from "./data/widgets";
@@ -33,10 +35,9 @@ import { useBosLoaderInitializer } from "./hooks/useBosLoaderInitializer";
 import EditorPage from "./pages/EditorPage";
 import EmbedPage from "./pages/EmbedPage";
 import Flags from "./pages/Flags";
+import HomePage from "./pages/Home";
 import SignInPage from "./pages/SignInPage";
 import ViewPage from "./pages/ViewPage";
-import EverythingCanvas from "./components/custom/Canvas";
-import HomePage from "./pages/Home";
 
 export const refreshAllowanceObj = {};
 const documentationHref = "https://github.com/NearBuilders/docs";
@@ -91,6 +92,9 @@ function App() {
           },
           Canvas: (props) => {
             return <EverythingCanvas {...props} />;
+          },
+          MonacoEditor: (props) => {
+            return <MonacoEditor {...props} />;
           },
         },
         config: {
