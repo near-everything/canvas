@@ -36,6 +36,7 @@ import Flags from "./pages/Flags";
 import SignInPage from "./pages/SignInPage";
 import ViewPage from "./pages/ViewPage";
 import EverythingCanvas from "./components/custom/Canvas";
+import HomePage from "./pages/Home";
 
 export const refreshAllowanceObj = {};
 const documentationHref = "https://github.com/NearBuilders/docs";
@@ -188,7 +189,10 @@ function App() {
               <NavigationWrapper {...passProps} />
               <EditorPage {...passProps} />
             </Route>
-            <Route path={"/:widgetSrc*"}>
+            <Route path={"/"} exact>
+              <HomePage />
+            </Route>
+            <Route path={"/canvas/:widgetSrc*"}>
               <BosLoaderBanner />
               <NavigationWrapper {...passProps} />
               <ViewPage {...passProps} />
