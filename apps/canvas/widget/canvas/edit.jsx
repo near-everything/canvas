@@ -1,36 +1,32 @@
-const { value, onChange, onSubmit, onCancel } = props;
+const { value, onChange, onSubmit, onCancel, path } = props;
 
-const indices = Social.index(
-  "post",
-  {
-    // thing
-    type: "thing",
-    path: "efiz.near/thing/draw", // this is the page??
-  },
-  {
-    order: "desc",
-    limit: 100, // this needs to adjust based on slider
-    // accountId: props.accounts, // undefined
+const [initialShapes, setInitialShapes] = useState([]);
+
+useEffect(() => {
+  if (typeof value === "string") {
+    setInitialShapes([
+      {
+        id: `shape:editor`,
+        type: "text",
+        props: { text: value, align: "start", size: "s" },
+      },
+    ]);
   }
-);
+}, [value, setInitialShapes]);
 
-if (!indices) {
-  return <p>Loading...</p>;
-}
-
-const drawings = indices
-  .map((it) => {
-    const path = `${it.accountId}/post/main`;
-    const blockHeight = it.blockHeight;
-
-    const val = JSON.parse(Social.get(path, blockHeight) || "null");
-    return val.content.shapes ? val.content.shapes : [];
-  })
-  .flat();
+// <button onClick={getDataFromChild}>Get Data From Child</button>;
+// {
+//   canvasData && <p>Data from child: {canvasData}</p>;
+// }
 
 return (
-  <Widget
-    src="/*__@appAccount__*//widget/canvas.core"
-    props={{ initialShapes: drawings }}
-  />
+  <div style={{ display: "flex" }}>
+    <div style={{ width: "60vw", height: "80vh" }}>
+      <Canvas
+        initialShapes={initialShapes}
+        persistanceKey={path}
+        // onSave={handleSave}
+      />
+    </div>
+  </div>
 );

@@ -23,10 +23,22 @@ const Content = styled.div`
   align-items: center;
 `;
 
+const [selectedSource, setSelectedSource] = useState("canvas");
+
 return (
   <Container>
-    <Content>
-      <Widget src="/*__@appAccount__*//widget/canvas.view" />
+    <select
+      value={selectedSource}
+      onChange={(e) => setSelectedSource(e.target.value)}
+    >
+      <option value="canvas">canvas</option>
+      <option value="feed">feed</option>
+    </select>
+    <Content key={selectedSource}>
+      <Widget
+        src="/*__@appAccount__*//widget/canvas.view"
+        props={{ selectedSource }}
+      />
     </Content>
   </Container>
 );

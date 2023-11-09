@@ -32,7 +32,6 @@ import { NavigationWrapper } from "./components/navigation/NavigationWrapper";
 import { useEthersProviderContext } from "./data/web3";
 import { NetworkId, Widgets } from "./data/widgets";
 import { useBosLoaderInitializer } from "./hooks/useBosLoaderInitializer";
-import EditorPage from "./pages/EditorPage";
 import EmbedPage from "./pages/EmbedPage";
 import Flags from "./pages/Flags";
 import HomePage from "./pages/Home";
@@ -189,14 +188,26 @@ function App() {
             <Route path={"/embed/:widgetSrc*"}>
               <EmbedPage {...passProps} />
             </Route>
-            <Route path={"/edit/:widgetSrc*"}>
+            <Route path={"/edit"}>
+              <BosLoaderBanner />
               <NavigationWrapper {...passProps} />
-              <EditorPage {...passProps} />
+              <ViewPage
+                {...passProps}
+                overrideWidget={"everycanvas.near/widget/app"}
+              />
+            </Route>
+            <Route path={"/canvas"}>
+              <BosLoaderBanner />
+              <NavigationWrapper {...passProps} />
+              <ViewPage
+                {...passProps}
+                overrideWidget={"everycanvas.near/widget/canvas.app"}
+              />
             </Route>
             <Route path={"/"} exact>
               <HomePage />
             </Route>
-            <Route path={"/canvas/:widgetSrc*"}>
+            <Route path={"/:widgetSrc*"}>
               <BosLoaderBanner />
               <NavigationWrapper {...passProps} />
               <ViewPage {...passProps} />

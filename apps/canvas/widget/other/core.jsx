@@ -14,10 +14,12 @@ const handleGetData = (data) => {
   setTrigger(false); // Reset the trigger
 };
 
+const handlePublish
+
 return (
   <>
-    <button onClick={getDataFromChild}>Get Data From Child</button>
-    {canvasData && <p>Data from child: {canvasData}</p>}
+    <button onClick={getDataFromChild}>Get Data</button>
+    <button onClick={handlePublish} disabled={!canvasData}>Publish</button>
     <Canvas
       initialShapes={initialShapes}
       hideUi={hide}
