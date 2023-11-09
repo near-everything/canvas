@@ -1,48 +1,41 @@
 import { Canvas, Tldraw } from "@tldraw/tldraw";
 import React, { useCallback, useEffect, useState } from "react";
 
-function EverythingCanvas(props) {
+function EverythingCanvas({
+  initialSnapshot,
+  trigger,
+  onGetData,
+  persistenceKey,
+  autoFocus,
+  hideUi,
+}) {
   const [editor, setEditor] = useState();
+  const [isSnapshotLoaded, setIsSnapshotLoaded] = useState(false);
 
-  const setAppToState = useCallback((editor) => {
-    setEditor(editor);
+  const setAppToState = useCallback((editorInstance) => {
+    setEditor(editorInstance);
   }, []);
 
   useEffect(() => {
-    if (!editor) return;
-
-    if (props.handleChangeEvent) {
-      editor.on("change", (change) => props.handleChangeEvent(change));
+    if (editor && !isSnapshotLoaded) {
+      editor.store.loadSnapshot(initialSnapshot);
+      setIsSnapshotLoaded(true);
     }
-
-    if (props.initialSnapshot) {
-      editor.store.loadSnapshot(props.initialSnapshot);
-    }
-
-    if (props.initialShapes) {
-      editor.createShapes(props.initialShapes);
-    }
-
-    return () => {
-      if (props.handleChangeEvent) {
-        editor.off("change", (change) => props.handleChangeEvent(change));
-      }
-    };
-  }, [editor]);
+  }, [editor, initialSnapshot, isSnapshotLoaded]);
 
   useEffect(() => {
-    if (props.trigger) {
+    if (trigger) {
       const snapshot = editor.store.getSnapshot();
       const stringified = JSON.stringify(snapshot);
-      props.onGetData(stringified);
+      onGetData(stringified);
     }
-  }, [props.trigger, props.onGetData]);
+  }, [trigger, onGetData]);
 
   return (
     <Tldraw
-      persistenceKey={props.persistenceKey}
-      autoFocus={props.autoFocus}
-      hideUi={props.hideUi}
+      persistenceKey={persistenceKey}
+      autoFocus={autoFocus}
+      hideUi={hideUi}
       onMount={setAppToState}
     >
       <Canvas />

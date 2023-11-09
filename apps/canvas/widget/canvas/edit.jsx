@@ -14,10 +14,10 @@ useEffect(() => {
   }
 }, [value, setInitialShapes]);
 
-// <button onClick={getDataFromChild}>Get Data From Child</button>;
-// {
-//   canvasData && <p>Data from child: {canvasData}</p>;
-// }
+{/* <button onClick={getDataFromChild}>Get Data From Child</button>;
+{
+  canvasData && <p>Data from child: {canvasData}</p>;
+} */}
 
 return (
   <div style={{ display: "flex" }}>

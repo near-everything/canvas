@@ -27,16 +27,13 @@ import "react-bootstrap-typeahead/css/Typeahead.css";
 import { Link, Route, BrowserRouter as Router, Switch } from "react-router-dom";
 import { BosLoaderBanner } from "./components/BosLoaderBanner";
 import EverythingCanvas from "./components/custom/Canvas";
-import { MonacoEditor } from "./components/custom/MonacoEditor";
 import { NavigationWrapper } from "./components/navigation/NavigationWrapper";
 import { useEthersProviderContext } from "./data/web3";
 import { NetworkId, Widgets } from "./data/widgets";
 import { useBosLoaderInitializer } from "./hooks/useBosLoaderInitializer";
-import EmbedPage from "./pages/EmbedPage";
 import Flags from "./pages/Flags";
-import HomePage from "./pages/Home";
-import SignInPage from "./pages/SignInPage";
 import ViewPage from "./pages/ViewPage";
+import SignInPage from "./pages/SignInPage";
 
 export const refreshAllowanceObj = {};
 const documentationHref = "https://github.com/NearBuilders/docs";
@@ -91,9 +88,6 @@ function App() {
           },
           Canvas: (props) => {
             return <EverythingCanvas {...props} />;
-          },
-          MonacoEditor: (props) => {
-            return <MonacoEditor {...props} />;
           },
         },
         config: {
@@ -185,29 +179,7 @@ function App() {
               <NavigationWrapper {...passProps} />
               <SignInPage {...passProps} />
             </Route>
-            <Route path={"/embed/:widgetSrc*"}>
-              <EmbedPage {...passProps} />
-            </Route>
-            <Route path={"/edit"}>
-              <BosLoaderBanner />
-              <NavigationWrapper {...passProps} />
-              <ViewPage
-                {...passProps}
-                overrideWidget={"everycanvas.near/widget/app"}
-              />
-            </Route>
-            <Route path={"/canvas"}>
-              <BosLoaderBanner />
-              <NavigationWrapper {...passProps} />
-              <ViewPage
-                {...passProps}
-                overrideWidget={"everycanvas.near/widget/canvas.app"}
-              />
-            </Route>
-            <Route path={"/"} exact>
-              <HomePage />
-            </Route>
-            <Route path={"/:widgetSrc*"}>
+            <Route path={"/:canvasSrc*"}>
               <BosLoaderBanner />
               <NavigationWrapper {...passProps} />
               <ViewPage {...passProps} />
