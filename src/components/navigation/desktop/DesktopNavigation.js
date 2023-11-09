@@ -15,7 +15,6 @@ const StyledNavigation = styled.div`
   left: 0;
   right: 0;
   width: 100%;
-  background-color: var(--slate-dark-1);
   z-index: 1000;
   padding: 8px 0;
 
@@ -29,6 +28,7 @@ const StyledNavigation = styled.div`
   .container {
     display: flex;
     align-items: center;
+    justify-content: flex-end;
 
     .navigation-section {
       margin-left: 50px;
@@ -69,9 +69,6 @@ export function DesktopNavigation(props) {
         )}
         {props.signedIn && (
           <>
-            <NotificationWidget
-              notificationButtonSrc={props.widgets.notificationButton}
-            />
             <UserDropdown {...props} />
           </>
         )}

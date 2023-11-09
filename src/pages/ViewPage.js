@@ -1,9 +1,8 @@
 import { Widget } from "near-social-vm";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { useHashRouterLegacy } from "../hooks/useHashRouterLegacy";
-import { useQuery } from "../hooks/useQuery";
 import { useBosLoaderStore } from "../stores/bos-loader";
 
 const Container = styled.div`
@@ -17,56 +16,21 @@ const Container = styled.div`
 export default function ViewPage(props) {
   useHashRouterLegacy();
 
-  const { widgetSrc } = useParams();
-  const query = useQuery();
-  const [widgetProps, setWidgetProps] = useState({});
+  const { canvasSrc } = useParams();
   const redirectMapStore = useBosLoaderStore();
 
-  const src =
-    widgetSrc || window?.InjectedConfig?.defaultWidget || props.overrideWidget;
-  const showMenu = !window?.InjectedConfig?.hideMenu;
-  const setWidgetSrc = props.setWidgetSrc;
-  const viewSourceWidget = props.widgets.viewSource;
+  const src = props.widgets.default;
 
-  useEffect(() => {
-    setWidgetProps(Object.fromEntries([...query.entries()]));
-  }, [query]);
-
-  useEffect(() => {
-    setTimeout(() => {
-      setWidgetSrc(
-        src === viewSourceWidget && query.get("src")
-          ? {
-              edit: query.get("src"),
-              view: null,
-            }
-          : {
-              edit: src,
-              view: src,
-            }
-      );
-    }, 1);
-  }, [src, query, setWidgetSrc, viewSourceWidget]);
-
-  return showMenu ? (
+  return (
     <Container>
       <Widget
         key={src}
         src={src}
-        props={widgetProps}
+        props={{ canvasSrc }}
         config={{
           redirectMap: redirectMapStore.redirectMap,
         }}
       />
     </Container>
-  ) : (
-    <Widget
-      key={src}
-      src={src}
-      props={widgetProps}
-      config={{
-        redirectMap: redirectMapStore.redirectMap,
-      }}
-    />
   );
 }

@@ -14,8 +14,6 @@ const handleGetData = (data) => {
   setTrigger(false); // Reset the trigger
 };
 
-const handlePublish
-
 return (
   <>
     <button onClick={getDataFromChild}>Get Data</button>

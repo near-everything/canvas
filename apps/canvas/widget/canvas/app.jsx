@@ -1,44 +1,69 @@
-// I want this to show the login, or switch between the edit and view
+const canvasSrc = props.canvasSrc || "efiz.near/thing/canvas";
+
+const accountId = context.accountId;
 
 const Container = styled.div`
-  height: 100vh;
+  height: 95vh;
   width: 100vw;
-  padding: 20px;
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
 `;
 
-const Content = styled.div`
-  border: 2px solid black;
-  padding: 10px;
-  margin-top: 20px;
-  width: 95%;
-  height: 95%;
-  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
+let data;
 
-const [selectedSource, setSelectedSource] = useState("canvas");
+
+if (canvasSrc) {
+  data = JSON.parse(Social.get(canvasSrc, "final") || "null");
+
+  if (!data) {
+    return <Container>Invalid canvas</Container>;
+  }
+} else {
+  data = JSON.parse(Social.get("*/thing/canvas", "final") || "null");
+}
+
+
+// return <p>{JSON.stringify(data)}</p>
+
+const [snapshot, setSnapshot] = useState(data);
+
+const [trigger, setTrigger] = useState(false);
+const [canvasSnapshot, setCanvasSnapshot] = useState(null);
+
+const getDataFromChild = () => {
+  setTrigger(true); // Triggers the effect in the child
+};
+
+const handleDataFromChild = (data) => {
+  setCanvasSnapshot(data);
+  setTrigger(false); // Reset the trigger
+};
+
+const handlePublish = () => {
+  Social.set({
+    thing: {
+      canvas: canvasSnapshot,
+    },
+  });
+};
+
+const Button = styled.button``;
+
+const ButtonRow = styled.div`
+  display: flex;
+  flex-direction: row;
+  height: auto;
+`;
 
 return (
   <Container>
-    <select
-      value={selectedSource}
-      onChange={(e) => setSelectedSource(e.target.value)}
-    >
-      <option value="canvas">canvas</option>
-      <option value="feed">feed</option>
-    </select>
-    <Content key={selectedSource}>
-      <Widget
-        src="/*__@appAccount__*//widget/canvas.view"
-        props={{ selectedSource }}
-      />
-    </Content>
+    <ButtonRow>
+      <Button onClick={getDataFromChild}>get canvas data</Button>
+      <Button onClick={handlePublish} disabled={!canvasSnapshot}>
+        publish
+      </Button>
+    </ButtonRow>
+    <Widget
+      src="/*__@appAccount__*//widget/canvas.core"
+      props={{ snapshot, trigger, handleDataFromChild }}
+    />
   </Container>
 );
