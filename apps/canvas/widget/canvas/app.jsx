@@ -4,11 +4,10 @@ const accountId = context.accountId;
 
 const Container = styled.div`
   height: 95vh;
-  width: 100vw;
+  width: 100%;
 `;
 
 let data;
-
 
 if (canvasSrc) {
   data = JSON.parse(Social.get(canvasSrc, "final") || "null");
@@ -19,9 +18,6 @@ if (canvasSrc) {
 } else {
   data = JSON.parse(Social.get("*/thing/canvas", "final") || "null");
 }
-
-
-// return <p>{JSON.stringify(data)}</p>
 
 const [snapshot, setSnapshot] = useState(data);
 
@@ -50,20 +46,16 @@ const Button = styled.button``;
 const ButtonRow = styled.div`
   display: flex;
   flex-direction: row;
-  height: auto;
+  // height: auto;
 `;
 
 return (
   <Container>
-    <ButtonRow>
-      <Button onClick={getDataFromChild}>get canvas data</Button>
-      <Button onClick={handlePublish} disabled={!canvasSnapshot}>
-        publish
-      </Button>
-    </ButtonRow>
-    <Widget
-      src="/*__@appAccount__*//widget/canvas.core"
-      props={{ snapshot, trigger, handleDataFromChild }}
+    <Canvas
+      initialSnapshot={snapshot}
+      trigger={trigger}
+      onGetData={handleDataFromChild}
+      persistance={canvasSrc}
     />
   </Container>
 );

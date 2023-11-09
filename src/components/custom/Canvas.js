@@ -17,7 +17,7 @@ function EverythingCanvas({
   }, []);
 
   useEffect(() => {
-    if (editor && !isSnapshotLoaded) {
+    if (editor && !isSnapshotLoaded && initialSnapshot) {
       editor.store.loadSnapshot(initialSnapshot);
       setIsSnapshotLoaded(true);
     }
