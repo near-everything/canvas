@@ -10,18 +10,11 @@ function EverythingCanvas({
   hideUi,
 }) {
   const [editor, setEditor] = useState();
-  const [isSnapshotLoaded, setIsSnapshotLoaded] = useState(false);
 
   const setAppToState = useCallback((editorInstance) => {
     setEditor(editorInstance);
+    editorInstance.store.loadSnapshot(initialSnapshot);
   }, []);
-
-  useEffect(() => {
-    if (editor && !isSnapshotLoaded && initialSnapshot) {
-      editor.store.loadSnapshot(initialSnapshot);
-      setIsSnapshotLoaded(true);
-    }
-  }, [editor, initialSnapshot, isSnapshotLoaded]);
 
   useEffect(() => {
     if (trigger) {
