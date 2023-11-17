@@ -53,3 +53,34 @@ a {
   background-color: #f5f5f5;
   color: #333;
 }
+
+.tlui-help-menu {
+	display: none !important;
+}
+
+.tlui-debug-panel {
+	display: none !important;
+}
+
+/* ------ tldraw ----- */
+
+.tldraw__editor {
+	position: fixed;
+	inset: 0px;
+	overflow: hidden;
+}
+
+.tldrawLogo {
+	position: absolute;
+	z-index: 9999999;
+	bottom: 0px;
+	right: 0px;
+}
+
+.tldrawLogo__mobile {
+	bottom: 60px;
+}
+
+.tldraw__shareZone {
+	pointer-events: all;
+}

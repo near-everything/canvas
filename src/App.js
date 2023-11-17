@@ -26,7 +26,7 @@ import "react-bootstrap-typeahead/css/Typeahead.bs5.css";
 import "react-bootstrap-typeahead/css/Typeahead.css";
 import { Link, Route, BrowserRouter as Router, Switch } from "react-router-dom";
 import { BosLoaderBanner } from "./components/BosLoaderBanner";
-import EverythingCanvas from "./components/custom/Canvas";
+import EverythingCanvas from "./components/custom/tldraw/Canvas";
 import { NavigationWrapper } from "./components/navigation/NavigationWrapper";
 import { useEthersProviderContext } from "./data/web3";
 import { NetworkId, Widgets } from "./data/widgets";
