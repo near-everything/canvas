@@ -1,3 +1,5 @@
+import context from "react-bootstrap/esm/AccordionContext";
+
 const ModalBackdrop = styled.div`
   position: fixed;
   top: 0;
@@ -77,8 +79,8 @@ const save = () => {
       canvas: {
         "": JSON.stringify(getSnapshot()),
         metadata: {
-          type: "canvas"
-        }
+          type: "canvas",
+        },
       },
     },
   });
@@ -94,9 +96,11 @@ const toggleModal = () => {
 
 return (
   <>
-    <Button className="classic" onClick={save}>
-      <i class="bi bi-save"></i> save canvas
-    </Button>
+    {context.accountId && (
+      <Button className="classic" onClick={save}>
+        <i class="bi bi-save"></i> save canvas
+      </Button>
+    )}
     {isModalOpen && (
       <Modal onClose={toggleModal}>
         <Widget src="hack.near/widget/create.hyperfile" />
