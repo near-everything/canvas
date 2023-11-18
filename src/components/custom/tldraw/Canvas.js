@@ -1,9 +1,10 @@
-import { Tldraw, useEditor } from "@tldraw/tldraw";
-import React, { useCallback } from "react";
+import { Tldraw, createTLStore, defaultShapeUtils } from "@tldraw/tldraw";
+import React, { useCallback, useState } from "react";
 import { ActionButton } from "../../ActionButton";
 import { ResponseShapeUtil } from "./ResponseShape";
 import ShareZone from "./ShareZone";
 import { TldrawLogo } from "./TldrawLogo";
+import { set } from "local-storage";
 
 const shapeUtils = [ResponseShapeUtil];
 
@@ -13,12 +14,23 @@ function EverythingCanvas({
   hideUi,
   initialSnapshot,
   plugins,
+  showAction,
 }) {
-  // const setAppToState = useCallback((editor) => {
-  //   if (editor && initialSnapshot) {
-  //     editor.store.loadSnapshot(initialSnapshot);
-  //   }
-  // }, []);
+  const [store] = useState(() => {
+    if (initialSnapshot) {
+      const newStore = createTLStore({
+        shapeUtils: defaultShapeUtils.concat(shapeUtils),
+      });
+
+      newStore.loadSnapshot(initialSnapshot);
+
+      return newStore;
+    }
+  });
+
+  const setAppToState = useCallback((editor) => {
+    // Do something
+  }, []);
 
   return (
     <div className={"tldraw__editor"}>
@@ -30,11 +42,12 @@ function EverythingCanvas({
             <ShareZone />
           </div>
         }
-        // onMount={setAppToState}
+        store={store}
+        onMount={setAppToState}
         autoFocus={autoFocus ?? true}
         hideUi={hideUi ?? false}
       >
-        <ActionButton />
+        {showAction && <ActionButton />}
         <TldrawLogo />
       </Tldraw>
     </div>

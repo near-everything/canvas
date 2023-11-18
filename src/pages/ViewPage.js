@@ -16,7 +16,7 @@ const Container = styled.div`
 export default function ViewPage(props) {
   useHashRouterLegacy();
 
-  const { canvasSrc } = useParams();
+  const { path } = useParams();
   const redirectMapStore = useBosLoaderStore();
 
   const src = props.widgets.default;
@@ -26,7 +26,7 @@ export default function ViewPage(props) {
       <Widget
         key={src}
         src={src}
-        props={{ canvasSrc }}
+        props={{ path: path }}
         config={{
           redirectMap: redirectMapStore.redirectMap,
         }}
