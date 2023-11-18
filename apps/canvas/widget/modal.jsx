@@ -1,18 +1,1 @@
-const {
-  selectedShapes,
-  selectedShapeIds,
-  deleteShapes,
-  // updateShapes,
-  // createShapes,
-  // getShape,
-  // toggleReadOnly,
-  // setCamera,
-  // toggleFreezeCamera,
-  // toggleDarkMode,
-} = props;
-
-// pass toasts
-
-return (
-  <Widget src="everycanvas.near/widget/magic" props={{ selectedShapes }} />
-);
+// This could be the widget that is called after action button... although not all the time

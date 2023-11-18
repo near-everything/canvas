@@ -149,6 +149,19 @@ window.parent.postMessage({ command: 'ready' }, '*');
 </html>
 `;
 
+const {
+  selectedShapes,
+  selectedShapeIds,
+  deleteShapes,
+  getShapePageBounds,
+  createShapeId,
+  createShape,
+  updateShape,
+  asSvg,
+  asPng,
+  asDataUrl,
+} = props;
+
 const SECRET_KEY_STORAGE_KEY = "secretKey";
 Storage.privateGet(SECRET_KEY_STORAGE_KEY);
 
@@ -178,16 +191,100 @@ function init_iframe() {
   });
 }
 
+function tldrawStart() {}
+
 function ask_ai() {
-  State.update({
-    iframeMessage: {
-      command: "ask_ai",
-      aiquestion: state.aiquestion,
-      model: state.aimodel,
-      ts: new Date().getTime(),
+  // start tldraw
+  const previewPosition = selectedShapes.reduce(
+    (acc, shape) => {
+      const bounds = getShapePageBounds(shape);
+      const right = bounds?.maxX ?? 0;
+      const top = bounds?.minY ?? 0;
+      return {
+        x: Math.max(acc.x, right),
+        y: Math.min(acc.y, top),
+      };
     },
-    progress: true,
+    { x: 0, y: Infinity }
+  );
+
+  const previousPreviews = selectedShapes.filter((shape) => {
+    return shape.type === "preview";
   });
+
+  if (previousPreviews.length > 1) {
+    throw new Error(
+      "You can only give the developer one previous design to work with."
+    );
+  }
+
+  const previousHtml =
+    previousPreviews.length === 1
+      ? previousPreviews[0].props.html
+      : "No previous design has been provided this time.";
+
+  asSvg(selectedShapes)
+    .then((svg) => {
+      if (!svg) {
+        throw new Error("SVG generation failed");
+      }
+      return asPng(svg);
+    })
+    .then((blob) => {
+      if (!blob) {
+        throw new Error("Blob generation failed");
+      }
+      return asDataUrl(blob);
+    })
+    .then((dataUrl) => {
+      if (!dataUrl) {
+        throw new Error("Data URL conversion failed");
+      }
+
+      const id = createShapeId();
+
+      // Use the resolved dataUrl
+      createShape({
+        id,
+        type: "preview",
+        x: previewPosition.x,
+        y: previewPosition.y,
+        props: { html: "", source: dataUrl },
+      });
+    })
+    .catch((error) => {
+      console.error("Error during processing:", error);
+      // Handle the error appropriately
+    });
+
+  // const svg = asSvg(selectedShapes);
+  // if (!svg) {
+  //   return;
+  // }
+
+  // const blob = asPng(svg);
+
+  // const dataUrl = asDataUrl(blob);
+
+  // const id = createShapeId();
+
+  // createShape({
+  //   id,
+  //   type: "preview",
+  //   x: previewPosition.x,
+  //   y: previewPosition.y,
+  //   props: { html: "", source: dataUrl },
+  // // });
+
+  // State.update({
+  //   iframeMessage: {
+  //     command: "ask_ai",
+  //     aiquestion: state.aiquestion,
+  //     model: state.aimodel,
+  //     ts: new Date().getTime(),
+  //   },
+  //   progress: true,
+  // });
   console.log("state updated", state.iframeMessage);
 }
 

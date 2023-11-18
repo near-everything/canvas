@@ -4,34 +4,29 @@ import { ResponseShapeUtil } from "./ResponseShape";
 import { TldrawLogo } from "./TldrawLogo";
 import { Widget } from "near-social-vm";
 import { ActionButton } from "../../ActionButton";
+import { useBosLoaderStore } from "../../../stores/bos-loader";
 
 const shapeUtils = [ResponseShapeUtil];
 
-function TestButton() {
+function SaveButton() {
   const editor = useEditor();
+  const redirectMapStore = useBosLoaderStore();
+  // const snapshot = editor.store.getSnapshot();
 
-  const handleClick = useCallback(() => {
-    const selectedShapes = editor.getSelectedShapeIds();
-    console.log(selectedShapes);
-    // try {
-    // 	await makeReal(editor)
-    // } catch (e) {
-    // 	console.error(e)
-    // 	addToast({
-    // 		icon: 'cross-2',
-    // 		title: 'Something went wrong',
-    // 		description: (e as Error).message.slice(0, 100),
-    // 	})
-    // }
-  }, []);
+  const selectedShapes = editor.getSelectedShapes();
 
-  return <button onClick={handleClick}>Test</button>;
+  return (
+    <Widget
+      src="everycanvas.near/widget/save"
+      props={{ selectedShapes }}
+      config={{
+        redirectMap: redirectMapStore.redirectMap,
+      }}
+    />
+  );
 }
 
 function EverythingCanvas({
-  initialSnapshot,
-  trigger,
-  onGetData,
   persistenceKey,
   autoFocus,
   hideUi,
@@ -43,13 +38,6 @@ function EverythingCanvas({
   //   editorInstance.store.loadSnapshot(initialSnapshot);
   // }, []);
 
-  // useEffect(() => {
-  //   if (trigger) {
-  //     const snapshot = editor.store.getSnapshot();
-  //     const stringified = JSON.stringify(snapshot);
-  //     onGetData(stringified);
-  //   }
-  // }, [trigger, onGetData]);
 
   return (
     <div className={"tldraw__editor"}>
@@ -59,7 +47,7 @@ function EverythingCanvas({
         shareZone={
           <div className={"tldraw__shareZone"}>
             {/* We can put whatever want here... */}
-            <TestButton />
+            <SaveButton />
             {/* <Widget src="efiz.near/widget/Tree" /> */}
           </div>
         }

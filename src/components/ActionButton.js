@@ -1,9 +1,15 @@
-import { useEditor } from "@tldraw/tldraw";
+/**
+ * this is your action -- it's what happens after you click the black button.
+ * 
+ * what do you want it to do?
+ * 
+ * This one opens up a modal, acts as an API for shapes on the canvas (make an api?)
+ * then closes the modal
+ * 
+ */
+import { getSvgAsImage, useEditor } from "@tldraw/tldraw";
 import { Widget } from "near-social-vm";
-import React, {
-  useCallback,
-  useState
-} from "react";
+import React, { useCallback, useState } from "react";
 import styled from "styled-components";
 import { useBosLoaderStore } from "../stores/bos-loader";
 
@@ -80,32 +86,12 @@ const CloseButton = styled.button`
   float: right;
 `;
 
-function Modal({
-  isOpen,
-  onClose,
-  selectedShapes,
-  selectedShapeIds,
-  deleteShapes,
-  redirectMapStore,
-}) {
-  if (!isOpen) return null;
-
+function Modal({ onClose, children }) {
   return (
     <ModalBackdrop>
       <ModalBox>
         <CloseButton onClick={onClose}>Close</CloseButton>
-        <Widget
-          key={"everycanvas.near/widget/modal"}
-          src={"everycanvas.near/widget/modal"}
-          props={{
-            selectedShapes: selectedShapes,
-            selectedShapeIds: selectedShapeIds,
-            deleteShapes: deleteShapes,
-          }}
-          config={{
-            redirectMap: redirectMapStore.redirectMap,
-          }}
-        />
+        {children}
       </ModalBox>
     </ModalBackdrop>
   );
@@ -116,6 +102,8 @@ export function ActionButton() {
   const redirectMapStore = useBosLoaderStore();
 
   const editor = useEditor();
+  const snapshot = editor.store.getSnapshot();
+
   const selectedShapes = editor.getSelectedShapes();
   const selectedShapeIds = editor.getSelectedShapeIds();
 
@@ -123,20 +111,83 @@ export function ActionButton() {
     editor.deleteShapes(shapes);
   }, []);
 
+  const getShapePageBounds = useCallback((shape) => {
+    editor.getShapePageBounds(shape);
+  }, []);
+
+  const createShapeId = useCallback(() => {
+    createShapeId();
+  }, []);
+
+  const createShape = useCallback((shape) => {
+    editor.createShape(shape);
+  }, []);
+
+  const updateShape = useCallback((shape) => {
+    editor.updateShape(shape);
+  }, []);
+
   const toggleModal = () => {
     setModalOpen(!isModalOpen);
   };
+
+  const asSvg = useCallback(async (shapes) => {
+    const svg = await editor.getSvg(shapes);
+    return svg;
+  }, []);
+
+  const asPng = useCallback(async (svg) => {
+    const IS_SAFARI = /^((?!chrome|android).)*safari/i.test(
+      navigator.userAgent
+    );
+    const blob = await getSvgAsImage(svg, IS_SAFARI, {
+      type: "png",
+      quality: 1,
+      scale: 1,
+    });
+    return blob;
+  }, []);
+
+  const asDataUrl = useCallback(async (blob) => {
+    const dataUrl = await blobToBase64(blob);
+    return dataUrl;
+  }, []);
+
+  function blobToBase64(blob) {
+    return new Promise((resolve, _) => {
+      const reader = new FileReader();
+      reader.onloadend = () => resolve(reader.result);
+      reader.readAsDataURL(blob);
+    });
+  }
+
   return (
     <>
       <StyledActionButton onClick={toggleModal} />
-      <Modal
-        isOpen={isModalOpen}
-        onClose={() => setModalOpen(false)}
-        selectedShapes={selectedShapes}
-        selectedShapeIds={selectedShapeIds}
-        deleteShapes={deleteShapes}
-        redirectMapStore={redirectMapStore}
-      />
+      {isModalOpen && (
+        <Modal onClose={toggleModal} isOpen={isModalOpen}>
+          <Widget
+            key="everycanvas.near/widget/magic"
+            src="everycanvas.near/widget/magic"
+            props={{
+              selectedShapes,
+              selectedShapeIds,
+              deleteShapes,
+              getShapePageBounds,
+              createShapeId,
+              createShape,
+              updateShape,
+              asSvg,
+              asPng,
+              asDataUrl,
+              snapshot: JSON.stringify(snapshot)
+            }}
+            config={{
+              redirectMap: redirectMapStore.redirectMap,
+            }}
+          />
+        </Modal>
+      )}
     </>
   );
 }
