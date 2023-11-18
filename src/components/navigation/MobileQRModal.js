@@ -1,3 +1,8 @@
+/**
+ * I lost how this was used, but I want it back
+ * Somewhere in the profile menu when not logged in, option to 
+ * sign in via QR code
+ */
 import React, { useEffect, useState } from "react";
 import Modal from "react-bootstrap/Modal";
 import { useAccount } from "near-social-vm";

@@ -167,7 +167,7 @@ function App() {
             <Route path={"/signin"}>
               <SignInPage {...passProps} />
             </Route>
-            <Route path={"/:canvasSrc*"}>
+            <Route path={"/:path*"}>
               <BosLoaderBanner />
               <ViewPage {...passProps} />
               <Core {...passProps} />

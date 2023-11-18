@@ -31,6 +31,16 @@ const CoreBox = styled.div`
   // border-radius: 0px 8px 8px 0px;
   box-shadow: 0 10px 5px rgba(0, 0, 0, 0.3);
   z-index: 1002;
+
+  &:hover {
+    box-shadow: 0px 8px 3px rgba(0, 0, 0, 0.2);
+    transform: scale(0.98) translateY(3px); // scale down slightly and move downward
+  }
+
+  &:active {
+    box-shadow: 0px 5px 2px rgba(0, 0, 0, 0.2);
+    transform: scale(0.96) translateY(6px); // more scale down and more downward movement for click
+  }
 `;
 
 const StyledDropdown = styled.div`
