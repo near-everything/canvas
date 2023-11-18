@@ -120,6 +120,7 @@ const ArrowButton = styled.button`
 const Core = (props) => {
   const near = useNear();
   const account = useAccount();
+  // const [showModal, setShowModal] = useState(false);
   const [matches, setMatches] = useState(
     window.matchMedia("(min-width: 992px)").matches
   );
@@ -184,7 +185,10 @@ const Core = (props) => {
               />
             </div>
           ) : (
-            <Button onClick={props.requestSignIn} style={{ width: "48px", padding: 0 }}>
+            <Button
+              onClick={props.requestSignIn}
+              style={{ width: "48px", padding: 0 }}
+            >
               <svg
                 width="40"
                 height="40"
@@ -215,6 +219,15 @@ const Core = (props) => {
                 my everything
               </NavLink>
             </li>
+            {/* <li>
+              <NavLink
+                className="dropdown-item"
+                type="button"
+                onClick={() => setShowModal(true)}
+              >
+                teleport
+              </NavLink>
+            </li> */}
             {/* <li>
             <button
               className="dropdown-item"
@@ -273,6 +286,17 @@ const Core = (props) => {
           onHide={() => setShowPretendModal(false)}
           widgets={props.widgets}
         />
+        {/* {showModal && (
+          <Modal onClose={() => setShowModal(false)}>
+            <input
+              value={destination}
+              onChange={(e) => setDestination(e.target.value)}
+            />
+            <NavLink type="button" to={`/${destination}`}>
+              <i className="bi bi-house"></i>
+            </NavLink>
+          </Modal>
+        )} */}
       </CoreBox>
     </CoreBackdrop>
   );

@@ -13,6 +13,8 @@ const ModalBackdrop = styled.div`
 
 const ModalBox = styled.div`
   background: white;
+  min-width: 400px;
+  max-width: 600px;
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
@@ -95,13 +97,20 @@ const toggleModal = () => {
 return (
   <>
     {context.accountId && (
-      <Button className="classic" onClick={save}>
+      <Button className="classic" onClick={toggleModal}>
         <i class="bi bi-save"></i> save canvas
       </Button>
     )}
     {isModalOpen && (
       <Modal onClose={toggleModal}>
-        <Widget src="hack.near/widget/create.hyperfile" />
+        <div className="w-100">
+          <Widget src="hack.near/widget/create.hyperfile" />
+        </div>
+        {/* Attributions should be a plugin */}
+        <Widget
+          src="miraclx.near/widget/Attribution"
+          props={{ dep: true, authors: ["hack.near", "flowscience.near"] }}
+        />
         <button onClick={save}>save</button>
       </Modal>
     )}

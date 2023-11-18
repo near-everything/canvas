@@ -1,5 +1,5 @@
-import { Tldraw } from "@tldraw/tldraw";
-import React from "react";
+import { Tldraw, useEditor } from "@tldraw/tldraw";
+import React, { useCallback } from "react";
 import { ActionButton } from "../../ActionButton";
 import { ResponseShapeUtil } from "./ResponseShape";
 import ShareZone from "./ShareZone";
@@ -7,12 +7,17 @@ import { TldrawLogo } from "./TldrawLogo";
 
 const shapeUtils = [ResponseShapeUtil];
 
-function EverythingCanvas({ persistenceKey, autoFocus, hideUi, plugins }) {
-  // const [editor, setEditor] = useState();
-
-  // const setAppToState = useCallback((editorInstance) => {
-  //   setEditor(editorInstance);
-  //   editorInstance.store.loadSnapshot(initialSnapshot);
+function EverythingCanvas({
+  persistenceKey,
+  autoFocus,
+  hideUi,
+  initialSnapshot,
+  plugins,
+}) {
+  // const setAppToState = useCallback((editor) => {
+  //   if (editor && initialSnapshot) {
+  //     editor.store.loadSnapshot(initialSnapshot);
+  //   }
   // }, []);
 
   return (
@@ -25,6 +30,7 @@ function EverythingCanvas({ persistenceKey, autoFocus, hideUi, plugins }) {
             <ShareZone />
           </div>
         }
+        // onMount={setAppToState}
         autoFocus={autoFocus ?? true}
         hideUi={hideUi ?? false}
       >
@@ -32,14 +38,6 @@ function EverythingCanvas({ persistenceKey, autoFocus, hideUi, plugins }) {
         <TldrawLogo />
       </Tldraw>
     </div>
-    // <Tldraw
-    //   persistenceKey={persistenceKey}
-    //   autoFocus={autoFocus}
-    //   hideUi={hideUi}
-    //   onMount={setAppToState}
-    // >
-    //   <Canvas />
-    // </Tldraw>
   );
 }
 

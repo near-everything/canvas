@@ -172,6 +172,10 @@ export function ActionButton() {
               redirectMap: redirectMapStore.redirectMap,
             }}
           />
+          <Widget
+            src="miraclx.near/widget/Attribution"
+            props={{ dep: true, authors: ["petersalomonsen.near"] }}
+          />
         </Modal>
       )}
     </>
