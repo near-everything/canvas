@@ -202,6 +202,7 @@ const Core = (props) => {
                   stroke-linecap="round"
                 />
               </svg>
+              {/* connect */}
             </Button>
           )}
           <ul
@@ -209,6 +210,21 @@ const Core = (props) => {
             aria-labelledby="dropdownMenu2222"
             style={{ minWidth: "fit-content" }}
           >
+            <li>
+              <NavLink
+                className="dropdown-item"
+                style={{ maxWidth: "300px"}}
+                type="button"
+                to={`/${account.accountId}`}
+              >
+                <Widget
+                  src={"mob.near/widget/Profile.InlineBlock"}
+                  props={{
+                    accountId: account.accountId,
+                  }}
+                />
+              </NavLink>
+            </li>
             <li>
               <NavLink
                 className="dropdown-item"

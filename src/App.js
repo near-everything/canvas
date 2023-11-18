@@ -24,7 +24,6 @@ import { Link, Route, BrowserRouter as Router, Switch } from "react-router-dom";
 import { BosLoaderBanner } from "./components/BosLoaderBanner";
 import Core from "./components/Core";
 import EverythingCanvas from "./components/custom/tldraw/Canvas";
-import { NavigationWrapper } from "./components/navigation/NavigationWrapper";
 import { useEthersProviderContext } from "./data/web3";
 import { NetworkId, Widgets } from "./data/widgets";
 import { useBosLoaderInitializer } from "./hooks/useBosLoaderInitializer";
@@ -166,12 +165,10 @@ function App() {
               <Flags {...passProps} />
             </Route>
             <Route path={"/signin"}>
-              <NavigationWrapper {...passProps} />
               <SignInPage {...passProps} />
             </Route>
             <Route path={"/:canvasSrc*"}>
               <BosLoaderBanner />
-              <NavigationWrapper {...passProps} />
               <ViewPage {...passProps} />
               <Core {...passProps} />
             </Route>
