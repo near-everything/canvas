@@ -34,6 +34,7 @@ import { useBosLoaderInitializer } from "./hooks/useBosLoaderInitializer";
 import Flags from "./pages/Flags";
 import ViewPage from "./pages/ViewPage";
 import SignInPage from "./pages/SignInPage";
+import Core from "./components/Core";
 
 export const refreshAllowanceObj = {};
 const documentationHref = "https://github.com/NearBuilders/docs";
@@ -57,23 +58,15 @@ function App() {
   const accountId = account.accountId;
 
   useEffect(() => {
+    const desktop = window.matchMedia("(min-width: 992px)").matches;
     initNear &&
       initNear({
         networkId: NetworkId,
         selector: setupWalletSelector({
           network: NetworkId,
-          modules: [
-            setupNearWallet(),
-            setupMyNearWallet(),
-            setupSender(),
-            setupHereWallet(),
-            setupMeteorWallet(),
-            setupNeth({
-              gas: "300000000000000",
-              bundle: false,
-            }),
-            setupNightly(),
-          ],
+          modules: desktop
+            ? [setupMeteorWallet(), setupMyNearWallet()]
+            : [setupHereWallet(), setupMeteorWallet()],
         }),
         customElements: {
           Link: (props) => {
@@ -183,6 +176,7 @@ function App() {
               <BosLoaderBanner />
               <NavigationWrapper {...passProps} />
               <ViewPage {...passProps} />
+              <Core {...passProps} />
             </Route>
           </Switch>
         </Router>

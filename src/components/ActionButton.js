@@ -15,11 +15,7 @@ import { useBosLoaderStore } from "../stores/bos-loader";
 
 const StyledActionButton = styled.div`
   position: fixed;
-  // right: 20px;
-  // bottom: 84px;
   z-index: 1000;
-  // width: 80px;
-  // height: 80px;
   border-radius: 50%;
   cursor: pointer;
   background: radial-gradient(circle at 30% 30%, #4a4949, #000000);

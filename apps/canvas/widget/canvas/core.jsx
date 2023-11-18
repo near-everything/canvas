@@ -12,11 +12,16 @@ const handleDataFromChild = (data) => {
 };
 
 const handlePublish = () => {
-  Social.set({
-    thing: {
-      canvas: canvasSnapshot,
+  Social.set(
+    {
+      thing: {
+        canvas: "hello",
+      },
     },
-  });
+    {
+      force: true,
+    }
+  );
 };
 
 const Button = styled.button``;
@@ -29,10 +34,6 @@ const ButtonRow = styled.div`
 
 return (
   <>
-    <ButtonRow>
-      <Button onClick={getDataFromChild}>get canvas data</Button>
-      <Button onClick={handlePublish}>publish</Button>
-    </ButtonRow>
     <Canvas
       initialSnapshot={data || {}}
       trigger={trigger}

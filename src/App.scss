@@ -84,3 +84,9 @@ a {
 .tldraw__shareZone {
 	pointer-events: all;
 }
+
+/* ------ near-wallet-selector ----- */
+
+.nws-modal-wrapper {
+  z-index: 5000;
+}
