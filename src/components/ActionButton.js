@@ -1,11 +1,11 @@
 /**
  * this is your action -- it's what happens after you click the black button.
- * 
+ *
  * what do you want it to do?
- * 
+ *
  * This one opens up a modal, acts as an API for shapes on the canvas (make an api?)
  * then closes the modal
- * 
+ *
  */
 import { getSvgAsImage, useEditor } from "@tldraw/tldraw";
 import { Widget } from "near-social-vm";
@@ -108,7 +108,15 @@ export function ActionButton() {
   }, []);
 
   const getShapePageBounds = useCallback((shape) => {
-    editor.getShapePageBounds(shape);
+    return editor.getShapePageBounds(shape);
+  }, []);
+
+  const getSelectedShapeIds = useCallback(() => {
+    return editor.getSelectedShapeIds();
+  }, []);
+
+  const getSelectedShapes = useCallback(() => {
+    return editor.getSelectedShapes();
   }, []);
 
   const createShapeId = useCallback(() => {
@@ -176,7 +184,7 @@ export function ActionButton() {
               asSvg,
               asPng,
               asDataUrl,
-              snapshot: JSON.stringify(snapshot)
+              snapshot: JSON.stringify(snapshot),
             }}
             config={{
               redirectMap: redirectMapStore.redirectMap,

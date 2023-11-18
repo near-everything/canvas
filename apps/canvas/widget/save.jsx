@@ -1,6 +1,6 @@
 const {
-  selectedShapes,
-  selectedShapeIds,
+  getSelectedShapes,
+  getSnapshot,
   deleteShapes,
   getShapePageBounds,
   createShapeId,
@@ -13,16 +13,19 @@ const {
 } = props;
 
 const save = () => {
-  console.log("hello!");
   Social.set({
     thing: {
-      canvas: selectedShapes,
+      canvas: JSON.stringify(getSnapshot()),
     },
   });
 };
 
+const Button = styled.button`
+  padding: 10px 20px;
+`;
+
 return (
-  <button className="classic" onClick={save}>
-    save canvas
-  </button>
+  <Button className="classic" onClick={save}>
+    <i class="bi bi-save"></i> save canvas
+  </Button>
 );

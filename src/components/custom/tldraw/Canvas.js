@@ -1,36 +1,13 @@
-import { Tldraw, useEditor } from "@tldraw/tldraw";
-import React, { useCallback } from "react";
-import { ResponseShapeUtil } from "./ResponseShape";
-import { TldrawLogo } from "./TldrawLogo";
-import { Widget } from "near-social-vm";
+import { Tldraw } from "@tldraw/tldraw";
+import React from "react";
 import { ActionButton } from "../../ActionButton";
-import { useBosLoaderStore } from "../../../stores/bos-loader";
+import { ResponseShapeUtil } from "./ResponseShape";
+import ShareZone from "./ShareZone";
+import { TldrawLogo } from "./TldrawLogo";
 
 const shapeUtils = [ResponseShapeUtil];
 
-function SaveButton() {
-  const editor = useEditor();
-  const redirectMapStore = useBosLoaderStore();
-  // const snapshot = editor.store.getSnapshot();
-
-  const selectedShapes = editor.getSelectedShapes();
-
-  return (
-    <Widget
-      src="everycanvas.near/widget/save"
-      props={{ selectedShapes }}
-      config={{
-        redirectMap: redirectMapStore.redirectMap,
-      }}
-    />
-  );
-}
-
-function EverythingCanvas({
-  persistenceKey,
-  autoFocus,
-  hideUi,
-}) {
+function EverythingCanvas({ persistenceKey, autoFocus, hideUi, plugins }) {
   // const [editor, setEditor] = useState();
 
   // const setAppToState = useCallback((editorInstance) => {
@@ -38,19 +15,18 @@ function EverythingCanvas({
   //   editorInstance.store.loadSnapshot(initialSnapshot);
   // }, []);
 
-
   return (
     <div className={"tldraw__editor"}>
       <Tldraw
-        persistenceKey={"tldraw"}
+        persistenceKey={persistenceKey || "everyone"}
         shapeUtils={shapeUtils}
         shareZone={
           <div className={"tldraw__shareZone"}>
-            {/* We can put whatever want here... */}
-            <SaveButton />
-            {/* <Widget src="efiz.near/widget/Tree" /> */}
+            <ShareZone />
           </div>
         }
+        autoFocus={autoFocus ?? true}
+        hideUi={hideUi ?? false}
       >
         <ActionButton />
         <TldrawLogo />
