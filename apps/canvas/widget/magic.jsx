@@ -1,6 +1,8 @@
 // Sourced from
 // https://github.com/petersalomonsen/near-openai/blob/main/boswidgets/askchatgpt/main.js
 
+// TODO: Separate out into its own SDK
+
 const NETWORK_ID = "mainnet";
 
 // what does near-api-js use these for?
@@ -149,18 +151,7 @@ window.parent.postMessage({ command: 'ready' }, '*');
 </html>
 `;
 
-const {
-  selectedShapes,
-  selectedShapeIds,
-  deleteShapes,
-  getShapePageBounds,
-  createShapeId,
-  createShape,
-  updateShape,
-  asSvg,
-  asPng,
-  asDataUrl,
-} = props;
+const { model, messages, setResponse } = props;
 
 const SECRET_KEY_STORAGE_KEY = "secretKey";
 Storage.privateGet(SECRET_KEY_STORAGE_KEY);
@@ -168,8 +159,8 @@ Storage.privateGet(SECRET_KEY_STORAGE_KEY);
 State.init({
   secretKey: null,
   airesponse: "",
-  aiquestion: "",
-  aimodel: "gpt-3.5-turbo",
+  aiquestion: messages ?? "What is the meaning of life?",
+  aimodel: model ?? "gpt-3.5-turbo",
   accountId: "",
   iframeMessage: null,
   usingAccount: false,
@@ -194,97 +185,15 @@ function init_iframe() {
 function tldrawStart() {}
 
 function ask_ai() {
-  // start tldraw
-  const previewPosition = selectedShapes.reduce(
-    (acc, shape) => {
-      const bounds = getShapePageBounds(shape);
-      const right = bounds?.maxX ?? 0;
-      const top = bounds?.minY ?? 0;
-      return {
-        x: Math.max(acc.x, right),
-        y: Math.min(acc.y, top),
-      };
+  State.update({
+    iframeMessage: {
+      command: "ask_ai",
+      aiquestion: props.messages,
+      model: state.aimodel,
+      ts: new Date().getTime(),
     },
-    { x: 0, y: Infinity }
-  );
-
-  const previousPreviews = selectedShapes.filter((shape) => {
-    return shape.type === "preview";
+    progress: true,
   });
-
-  if (previousPreviews.length > 1) {
-    throw new Error(
-      "You can only give the developer one previous design to work with."
-    );
-  }
-
-  const previousHtml =
-    previousPreviews.length === 1
-      ? previousPreviews[0].props.html
-      : "No previous design has been provided this time.";
-
-  asSvg(selectedShapes)
-    .then((svg) => {
-      if (!svg) {
-        throw new Error("SVG generation failed");
-      }
-      return asPng(svg);
-    })
-    .then((blob) => {
-      if (!blob) {
-        throw new Error("Blob generation failed");
-      }
-      return asDataUrl(blob);
-    })
-    .then((dataUrl) => {
-      if (!dataUrl) {
-        throw new Error("Data URL conversion failed");
-      }
-
-      const id = createShapeId();
-
-      // Use the resolved dataUrl
-      createShape({
-        id,
-        type: "preview",
-        x: previewPosition.x,
-        y: previewPosition.y,
-        props: { html: "", source: dataUrl },
-      });
-    })
-    .catch((error) => {
-      console.error("Error during processing:", error);
-      // Handle the error appropriately
-    });
-
-  // const svg = asSvg(selectedShapes);
-  // if (!svg) {
-  //   return;
-  // }
-
-  // const blob = asPng(svg);
-
-  // const dataUrl = asDataUrl(blob);
-
-  // const id = createShapeId();
-
-  // createShape({
-  //   id,
-  //   type: "preview",
-  //   x: previewPosition.x,
-  //   y: previewPosition.y,
-  //   props: { html: "", source: dataUrl },
-  // // });
-
-  // State.update({
-  //   iframeMessage: {
-  //     command: "ask_ai",
-  //     aiquestion: state.aiquestion,
-  //     model: state.aimodel,
-  //     ts: new Date().getTime(),
-  //   },
-  //   progress: true,
-  // });
   console.log("state updated", state.iframeMessage);
 }
 
@@ -304,6 +213,9 @@ function handleMessage(msg) {
       });
       break;
     case "airesponse":
+      if (setResponse) {
+        setResponse(msg.airesponse);
+      }
       State.update({ airesponse: msg.airesponse, progress: false });
       break;
     case "usingaccount":
@@ -354,8 +266,8 @@ return (
       onChange={(e) => State.update({ aimodel: e.target.value })}
       value={state.aimodel}
     >
-      <option value="gpt-3.5-turbo">gpt-3.5-turbo</option>
-      <option value="gpt-4">gpt-4</option>
+      {/* <option value="gpt-3.5-turbo">gpt-3.5-turbo</option>
+      <option value="gpt-4">gpt-4</option> */}
       <option value="gpt-4-vision-preview">gpt-4-vision-preview</option>
     </select>
     {state.progress ? (
@@ -379,13 +291,18 @@ return (
     <p></p>
     <p>
       Spending account ID: <pre>{state.accountId}</pre>
+      Copy account Id and fund from your own wallet (I recommend .5 N){" "}
+      {/* How can we improve this? 
+        Button to fund specific account from wallet?
+        Keypom claim?
+      */}
       <button
         className="classic"
         onClick={() => {
           clipboard.writeText(state.accountId);
         }}
       >
-        <i class="bi bi-clipboard" />
+        <i className="bi bi-clipboard" />
       </button>
     </p>
     <p>Spending account secret key: {secretKeyToggle}</p>

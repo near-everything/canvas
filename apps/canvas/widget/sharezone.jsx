@@ -74,7 +74,12 @@ const [isModalOpen, setModalOpen] = useState(false);
 const save = () => {
   Social.set({
     thing: {
-      canvas: JSON.stringify(getSnapshot()),
+      canvas: {
+        "": JSON.stringify(getSnapshot()),
+        metadata: {
+          type: "canvas"
+        }
+      },
     },
   });
 };
@@ -89,7 +94,7 @@ const toggleModal = () => {
 
 return (
   <>
-    <Button className="classic" onClick={toggleModal}>
+    <Button className="classic" onClick={save}>
       <i class="bi bi-save"></i> save canvas
     </Button>
     {isModalOpen && (
