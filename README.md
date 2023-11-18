@@ -2,9 +2,7 @@
 
 > This started with an experimental fork of tldraw's [draw a ui](https://github.com/tldraw/draw-a-ui), which was an experimental fork of Sawyer Hood's [draw a ui](https://github.com/SawyerHood/draw-a-ui).
 
-
-
-Uses Peter Salomonson's [near-bos-webcomponent](https://github.com/petersalomonsen/near-bos-webcomponent) to embed a NEAR BOS widget into a tldraw shape. Made possible by [Evgeny Kuzyakov](https://github.com/evgenykuzyakov)'s [NEARSocial/VM](https://github.com/NearSocial/VM).
+Uses Peter Salomonson's [near-bos-webcomponent](https://github.com/petersalomonsen/near-bos-webcomponent) to embed a widget into a tldraw shape. Made possible by [Evgeny Kuzyakov](https://github.com/evgenykuzyakov)'s [NEARSocial/VM](https://github.com/NearSocial/VM). Connect and pay for OpenAI API requests using [NEAR token](https://near.org/papers/the-official-near-white-paper) via [near-openai](https://github.com/petersalomonsen/near-openai)), although we can expand this to [other chains](https://docs.near.org/bos/tutorial/ethers-js).
 
 Welcome to the Open Web!
 
@@ -19,6 +17,7 @@ Join us at [near.social](https://near.social/#/).
 - [x] Option to provide your own API key ([near-openai](https://github.com/petersalomonsen/near-openai))
 - [ ] Feature to provide custom prompts and option to swap chat gpt model - IN DEV
 - [ ] Store JSON on IPFS and create [hyperfiles](https://github.com/hyperfiles-org/hyperfiles) for saving canvas and communicating with [Obsidian](https://docs.obsidian.md/Plugins/Getting+started/Build+a+plugin).
+- [ ] Deploy to [web4](https://github.com/vgrichina/web4)
 
 
 # Context
