@@ -22,7 +22,7 @@ function ShareZone() {
   return (
     <Widget
       key={JSON.stringify(getSelectedShapeIds)}
-      src="everycanvas.near/widget/save"
+      src="everycanvas.near/widget/sharezone"
       props={{ getSnapshot: getSnapshot }}
       config={{
         redirectMap: redirectMapStore.redirectMap,

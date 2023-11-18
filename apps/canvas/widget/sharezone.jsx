@@ -19,6 +19,12 @@ const ModalBox = styled.div`
   z-index: 1002;
 `;
 
+const ModalHeader = styled.div`
+  display: flex;
+  justify-content: end;
+  align-items: center;
+`;
+
 const CloseButton = styled.button`
   background: #f44336;
   color: white;
@@ -29,12 +35,21 @@ const CloseButton = styled.button`
   float: right;
 `;
 
+const ModalContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  min-width: 300px;
+  padding: 10px;
+`;
+
 function Modal({ onClose, children }) {
   return (
     <ModalBackdrop>
       <ModalBox>
-        <CloseButton onClick={onClose}>Close</CloseButton>
-        {children}
+        <ModalHeader>
+          <CloseButton onClick={onClose}>Close</CloseButton>
+        </ModalHeader>
+        <ModalContent>{children}</ModalContent>
       </ModalBox>
     </ModalBackdrop>
   );
@@ -79,26 +94,8 @@ return (
     </Button>
     {isModalOpen && (
       <Modal onClose={toggleModal}>
-        <Widget
-          key="everycanvas.near/widget/magic"
-          src="everycanvas.near/widget/magic"
-          props={{
-            selectedShapes,
-            selectedShapeIds,
-            deleteShapes,
-            getShapePageBounds,
-            createShapeId,
-            createShape,
-            updateShape,
-            asSvg,
-            asPng,
-            asDataUrl,
-            snapshot: JSON.stringify(snapshot),
-          }}
-          config={{
-            redirectMap: redirectMapStore.redirectMap,
-          }}
-        />
+        <Widget src="hack.near/widget/create.hyperfile" />
+        <button onClick={save}>save</button>
       </Modal>
     )}
   </>

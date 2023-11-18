@@ -169,7 +169,7 @@ export function ActionButton() {
     <>
       <StyledActionButton onClick={toggleModal} />
       {isModalOpen && (
-        <Modal onClose={toggleModal} isOpen={isModalOpen}>
+        <Modal onClose={toggleModal}>
           <Widget
             key="everycanvas.near/widget/magic"
             src="everycanvas.near/widget/magic"
