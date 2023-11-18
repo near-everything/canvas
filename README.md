@@ -1,4 +1,4 @@
-# everything canvas
+# near every canvas
 
 > This started with an experimental fork of tldraw's [draw a ui](https://github.com/tldraw/draw-a-ui), which was an experimental fork of Sawyer Hood's [draw a ui](https://github.com/SawyerHood/draw-a-ui).
 
