@@ -58,15 +58,16 @@ function App() {
   const accountId = account.accountId;
 
   useEffect(() => {
-    const desktop = window.matchMedia("(min-width: 992px)").matches;
     initNear &&
       initNear({
         networkId: NetworkId,
         selector: setupWalletSelector({
           network: NetworkId,
-          modules: desktop
-            ? [setupMeteorWallet(), setupMyNearWallet()]
-            : [setupHereWallet(), setupMeteorWallet()],
+          modules: [
+            setupHereWallet(),
+            setupMeteorWallet(),
+            setupMyNearWallet(),
+          ],
         }),
         customElements: {
           Link: (props) => {
