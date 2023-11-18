@@ -9,7 +9,7 @@
  */
 import { createShapeId, getSvgAsImage, useEditor } from "@tldraw/tldraw";
 import { Widget } from "near-social-vm";
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
 import { useBosLoaderStore } from "../stores/bos-loader";
 
@@ -117,33 +117,41 @@ export function ActionButton() {
 
   const editor = useEditor();
 
-  const createMessages = useCallback(async (e) => {
-    setModalOpen(true);
-    e.preventDefault();
+  const getMessages = useCallback(
+    async (e) => {
+      const selectedShapes = editor.getSelectedShapes();
+      if (selectedShapes.length === 0) {
+        throw new Error("First select something to make real.");
+      }
 
-    const selectedShapes = editor.getSelectedShapes();
-    if (selectedShapes.length === 0) {
-      throw new Error("First select something to make real.");
-    }
+      // first, we build the prompt that we'll send to openai.
+      const prompt = await buildPromptForOpenAi(editor);
 
-    // first, we build the prompt that we'll send to openai.
-    const prompt = await buildPromptForOpenAi(editor);
-    console.log(prompt);
-    setMessages(JSON.stringify(prompt));
+      // then, we create an empty response shape. we'll put the response from openai in here, but for
+      // now it'll just show a spinner so the user knows we're working on it.
+      const responseShapeId = makeEmptyResponseShape(editor);
+      setRepsonseShapeId(responseShapeId);
 
-    // then, we create an empty response shape. we'll put the response from openai in here, but for
-    // now it'll just show a spinner so the user knows we're working on it.
-    const responseShapeId = makeEmptyResponseShape(editor);
-    setRepsonseShapeId(responseShapeId);
-  }, []);
+      return JSON.stringify(prompt);
+    },
+    [editor]
+  );
 
   const setResponse = (response) => {
     populateResponseShape(editor, responseShapeId, response);
   };
 
+  useEffect(() => {
+    if (isModalOpen) {
+      getMessages().then((messages) => {
+        setMessages(messages);
+      });
+    }
+  }, [isModalOpen]);
+
   return (
     <>
-      <StyledActionButton onClick={createMessages} />
+      <StyledActionButton onClick={() => setModalOpen(true)} />
       {isModalOpen && (
         <Modal
           onClose={() => {

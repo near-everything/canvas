@@ -1,5 +1,3 @@
-import context from "react-bootstrap/esm/AccordionContext";
-
 const ModalBackdrop = styled.div`
   position: fixed;
   top: 0;
