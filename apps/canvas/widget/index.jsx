@@ -37,7 +37,7 @@ return (
       initialSnapshot={data}
       persistance={path}
       autoFocus={true}
-      showAction={creatorId === context.accountId} // plugins object?
+      showAction={context.accountId} // plugins object?
     />
   </Container>
 );

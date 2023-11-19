@@ -4,7 +4,6 @@ import { ActionButton } from "../../ActionButton";
 import { ResponseShapeUtil } from "./ResponseShape";
 import ShareZone from "./ShareZone";
 import { TldrawLogo } from "./TldrawLogo";
-import { set } from "local-storage";
 
 const shapeUtils = [ResponseShapeUtil];
 
@@ -13,7 +12,7 @@ function EverythingCanvas({
   autoFocus,
   hideUi,
   initialSnapshot,
-  plugins,
+  plugins, // we could replace showAction, pass plugins to action button
   showAction,
 }) {
   const [store] = useState(() => {
@@ -30,6 +29,11 @@ function EverythingCanvas({
 
   const setAppToState = useCallback((editor) => {
     // Do something
+
+    // Once the canvas mounts
+
+    // Can we set widget on top of canvas
+
   }, []);
 
   return (
