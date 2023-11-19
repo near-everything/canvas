@@ -200,21 +200,6 @@ const Core = (props) => {
               style={{ width: "48px", padding: 0 }}
             >
               <i className="bi bi-key-fill" />
-              <span>login</span>
-              {/* <svg
-                width="40"
-                height="40"
-                viewBox="0 0 40 40"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M10 10 L30 30 M30 10 L10 30"
-                  stroke="#FF0000"
-                  stroke-width="5"
-                  stroke-linecap="round"
-                />
-              </svg> */}
-              {/* connect */}
             </Button>
           )}
           <ul
@@ -225,7 +210,7 @@ const Core = (props) => {
             <li>
               <a
                 className="dropdown-item"
-                style={{ maxWidth: "300px"}}
+                style={{ maxWidth: "300px" }}
                 type="button"
                 href={`https://${account.accountId}.social`}
               >
