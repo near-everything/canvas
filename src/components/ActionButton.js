@@ -13,6 +13,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
 import { useBosLoaderStore } from "../stores/bos-loader";
 
+// move this to the modal
 const systemPrompt = `You are an expert web developer who specializes in tailwind css.
 A user will provide you with a low-fidelity wireframe of an application. 
 You will return a single html file that uses HTML, tailwind css, and JavaScript to create a high fidelity website.
@@ -87,6 +88,7 @@ const ModalBox = styled.div`
   border-radius: 8px;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
   z-index: 1002;
+  max-width: 100vw;
 `;
 
 const CloseButton = styled.button`
@@ -160,8 +162,7 @@ export function ActionButton() {
             setModalOpen(false);
           }}
         >
-          <Widget
-            key={"everycanvas.near/widget/magic"}
+          <Widget // this is the widget that will send the prompt to openai and display the response
             src="everycanvas.near/widget/magic"
             props={{
               model: "gpt-4-vision-preview",

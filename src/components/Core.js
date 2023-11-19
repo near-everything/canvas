@@ -199,7 +199,9 @@ const Core = (props) => {
               onClick={props.requestSignIn}
               style={{ width: "48px", padding: 0 }}
             >
-              <svg
+              <i className="bi bi-key-fill" />
+              <span>login</span>
+              {/* <svg
                 width="40"
                 height="40"
                 viewBox="0 0 40 40"
@@ -211,7 +213,7 @@ const Core = (props) => {
                   stroke-width="5"
                   stroke-linecap="round"
                 />
-              </svg>
+              </svg> */}
               {/* connect */}
             </Button>
           )}
@@ -221,11 +223,11 @@ const Core = (props) => {
             style={{ minWidth: "fit-content" }}
           >
             <li>
-              <NavLink
+              <a
                 className="dropdown-item"
                 style={{ maxWidth: "300px"}}
                 type="button"
-                to={`/${account.accountId}`}
+                href={`https://${account.accountId}.social`}
               >
                 <Widget
                   src={"mob.near/widget/Profile.InlineBlock"}
@@ -233,7 +235,7 @@ const Core = (props) => {
                     accountId: account.accountId,
                   }}
                 />
-              </NavLink>
+              </a>
             </li>
             <li>
               <NavLink
