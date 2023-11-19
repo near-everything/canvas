@@ -68,21 +68,28 @@ const {
   asSvg,
   asPng,
   asDataUrl,
-  snapshot,
 } = props;
 
 const [isModalOpen, setModalOpen] = useState(false);
 
-const save = () => {
+const save = (v) => {
   Social.set({
     thing: {
       canvas: {
-        "": JSON.stringify(getSnapshot()),
+        "": v.reference,
         metadata: {
           type: "canvas",
         },
       },
     },
+  }, {
+    force: true,
+    onCommit: () => {
+      setModalOpen(false);
+    },
+    onCancel: () => {
+      setModalOpen(false);
+    }
   });
 };
 
@@ -94,24 +101,28 @@ const toggleModal = () => {
   setModalOpen(!isModalOpen);
 };
 
+const snapshot = JSON.stringify(getSnapshot());
+
 return (
   <>
     {context.accountId && (
       <Button className="classic" onClick={toggleModal}>
-        <i class="bi bi-save"></i> save canvas
+        <i className="bi bi-save"></i> save canvas
       </Button>
     )}
     {isModalOpen && (
       <Modal onClose={toggleModal}>
         <div className="w-100">
-          <Widget src="hack.near/widget/create.hyperfile" />
+          <Widget
+            src="everycanvas.near/widget/create.hyperfile"
+            props={{ data: snapshot, onSubmit: save }}
+          />
         </div>
         {/* Attributions should be a plugin */}
         <Widget
           src="miraclx.near/widget/Attribution"
           props={{ dep: true, authors: ["hack.near", "flowscience.near"] }}
         />
-        <button onClick={save}>save</button>
       </Modal>
     )}
   </>
