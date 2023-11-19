@@ -2,6 +2,8 @@
 
 Connect your canvas to the open web.
 
+![draw everything](./docs/draw.everything.dev.gif)
+
 [everyone](https://near.social/mob.near/widget/Everyone) [builds](https://www.nearbuilders.org/) [everything](https://www.merriam-webster.com/dictionary/everything) [together](https://near.social).
 
 
