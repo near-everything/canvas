@@ -15,7 +15,7 @@ I had originally adapted the prompt and preview shape to create [near.social](ht
 
 ![A demo of the app](https://github.com/elliotBraem/draw-a-ui/blob/121194dfbfbfbc1df650e894d2667a7bddbf030f/demo.gif)
 
-It worked by taking the current canvas SVG, converting it to a PNG, and then sending that png to gpt-4-vision with instructions to return a single jsx file with styled components. The JSX was then passed to a [near-bos-webcomponent](https://github.com/petersalomonsen/near-bos-webcomponent), but now I'm  thinking there should be a widget with an iframe inside it -- then this iframe holds the html that gets generated from the canvas. Possibly sharing some resemblance with [bos-web-engine](https://github.com/near/bos-web-engine/blob/main/architecture.md#trust).
+It worked by taking the current canvas SVG, converting it to a PNG, and then sending that png to gpt-4-vision with instructions to return a single jsx file with styled components. The JSX code was then passed to a [near-bos-webcomponent](https://github.com/petersalomonsen/near-bos-webcomponent) so it could be rendered via the Near Social VM](https://github.com/NearSocial/VM), but now I'm  thinking there should be a widget with an iframe inside it -- then this iframe holds the html that gets generated from the canvas. Possibly sharing some resemblance with [bos-web-engine](https://github.com/near/bos-web-engine/blob/main/architecture.md#trust).
 
 
 # Overview
