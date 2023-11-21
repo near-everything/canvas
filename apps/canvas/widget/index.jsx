@@ -2,7 +2,7 @@
  * This should be primary view
  */
 
-const path = props.path || context.accountId || "everycanvas.near";
+const path = props.path || "everycanvas.near";
 
 const parts = path.split("/");
 
@@ -17,18 +17,25 @@ const Container = styled.div`
   width: 100%;
 `;
 
-const data = JSON.parse(Social.get(path, "final") || "null");
+// what about when an account doesn't have this?
+const hyperfile = JSON.parse(Social.get(path, "final") || "null");
+let data; // what is an empty snapshot?
+
+if (hyperfile.adapter) {
+  const { get } =
+    VM.require(hyperfile.adapter) || (() => {});
+  if (get) {
+    data = get(hyperfile.reference) || null;
+  } else {
+    return <p>{`Loading or adapter not found : ${hyperfile.adapter}`}</p>;
+  }
+}
+
+// // button to select and load a specific canvas.
+// // what is the multiples example?
 
 if (!data) {
-  console.log("canvas not found: ", path);
-  // how to tell between not found and loading?
-  return (
-    <div>
-      <p>Loading...</p>
-      <p>I don't really have a way to tell between a canvas being found or still loading</p>
-      <p>If you're lost, maybe go <Link to="/">home</Link>.</p>
-    </div>
-  );
+  return <p>{`Loading or canvas not found : ${hyperfile.adapter}`}</p>;
 }
 
 return (
