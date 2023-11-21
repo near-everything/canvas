@@ -101,6 +101,7 @@ const CloseButton = styled.button`
   float: right;
 `;
 
+// Modal should be part of the widget.
 function Modal({ onClose, children }) {
   return (
     <ModalBackdrop>
@@ -113,6 +114,8 @@ function Modal({ onClose, children }) {
 }
 
 export function ActionButton() {
+  // This is within the canvas, so we can use the editor
+
   const [isModalOpen, setModalOpen] = useState(false);
   const redirectMapStore = useBosLoaderStore();
   const [messages, setMessages] = useState("");
@@ -152,12 +155,15 @@ export function ActionButton() {
     }
   }, [isModalOpen]);
 
+  // onMount
+
   return (
     <>
       <StyledActionButton onClick={() => setModalOpen(true)} />
       {isModalOpen && (
         <Modal
           onClose={() => {
+            // onClone function
             editor.deleteShapes([responseShapeId]);
             setModalOpen(false);
           }}

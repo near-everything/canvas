@@ -57,7 +57,7 @@ function Modal({ onClose, children }) {
   );
 }
 
-const { // these are available to plugins from the ShareZone
+const { // these are available to plugins from the ActionButton
   getSelectedShapes,
   getSnapshot,
   deleteShapes,
@@ -68,33 +68,12 @@ const { // these are available to plugins from the ShareZone
   asSvg,
   asPng,
   asDataUrl,
-} = props;
+} = props; 
+
+const { plugin } = props;
 
 const [isModalOpen, setModalOpen] = useState(false);
 
-const save = (v) => {
-  Social.set(
-    {
-      thing: {
-        canvas: {
-          "": v.reference,
-          metadata: {
-            type: "canvas",
-          },
-        },
-      },
-    },
-    {
-      force: true,
-      onCommit: () => {
-        setModalOpen(false);
-      },
-      onCancel: () => {
-        setModalOpen(false);
-      },
-    }
-  );
-};
 
 const Button = styled.button`
   padding: 10px 20px;
@@ -104,30 +83,23 @@ const toggleModal = () => {
   setModalOpen(!isModalOpen);
 };
 
-const snapshot = JSON.stringify(getSnapshot());
-
 // these two are related, this is almost an entire plugin here
 return (
   <>
-    <Button className="classic" onClick={toggleModal}>
-      <i className="bi bi-save"></i> save canvas
-    </Button>
     {isModalOpen && (
       <Modal onClose={toggleModal}>
         <div className="w-100">
           <Widget
-            src="/*__@appAccount__*//widget/create.hyperfile"
+            src={plugins.src}
             props={{
-              data: snapshot,
-              source: "tldraw",
-              type: "canvas",
+
             }}
           />
         </div>
         {/* Attributions should be a plugin */}
         <Widget
           src="miraclx.near/widget/Attribution"
-          props={{ dep: true, authors: ["hack.near", "flowscience.near"] }}
+          props={{ dep: true, authors: plugin.authors }}
         />
       </Modal>
     )}

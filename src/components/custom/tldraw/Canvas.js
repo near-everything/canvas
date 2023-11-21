@@ -13,7 +13,6 @@ function EverythingCanvas({
   hideUi,
   initialSnapshot,
   plugins, // we could replace showAction, pass plugins to action button
-  showAction,
 }) {
   const [store] = useState(() => {
     if (initialSnapshot) {
@@ -51,7 +50,7 @@ function EverythingCanvas({
         autoFocus={autoFocus ?? true}
         hideUi={hideUi ?? false}
       >
-        {showAction && <ActionButton />}
+        <ActionButton plugins={plugins}/>
         <TldrawLogo />
       </Tldraw>
     </div>
