@@ -38,13 +38,34 @@ if (!data) {
   return <p>{`Loading or canvas not found : ${hyperfile.adapter}`}</p>;
 }
 
+// this can come from user or app settings
+const plugins = [
+  {
+    "hyperfile": {
+      src: "everycanvas.near/widget/create.hyperfile",
+      description: "able to create hyperfiles",
+      layout: "sharezone",
+      authors: ["hack.near", "flowscience.near", "efiz.near"]
+    }
+  },
+  {
+    "magic": {
+      src: "everycanvas.near/widget/magic",
+      description: "use open ai",
+      layout: "action",
+      isModalOpen: true,
+      authors: ["petersalomonsen.near"]
+    }
+  }
+]
+
 return (
   <Container key={path}>
     <Canvas
       initialSnapshot={data}
       persistance={path}
       autoFocus={true}
-      showAction={context.accountId} // plugins object?
+      plugins={plugins}
     />
   </Container>
 );
