@@ -1,43 +1,67 @@
+const Wrapper = styled.div`
+  max-width: 400px;
+  margin: 0 auto;
+`;
 
-props.fileType ||
-  initState({
-    json: props.data ?? "",
-    name: "canvas" // temp
-  });
+const Form = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 100%;
+`;
 
-const ipfsUrl = (cid) => `https://ipfs.near.social/ipfs/${cid}`;
+const Label = styled.label`
+  font-weight: bold;
+`;
 
-const UploadJson = () => {
-  if (state.json.length) {
-    const body = new Blob([state.json], { type: "application/json" });
-    console.log(body);
-    asyncFetch("https://ipfs.near.social/add", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-      },
-      body,
-    }).then((res) => {
-      const cid = res.body.cid;
-      console.log("CID", cid);
-      State.update({
-        file: {
-          cid,
-        },
-      });
-    });
-  } else {
-    State.update({
-      file: null,
-    });
-  }
-};
+const Input = styled.input`
+  padding: 5px;
+`;
 
-const onChangeName = (name) => {
-  State.update({
-    name,
-  });
-};
+const Select = styled.select`
+  padding: 8px;
+`;
+
+const FormGroup = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+`;
+
+const adapters = [
+  // these can come from the user (or app) settings
+  // {
+  //   title: "Local Storage",
+  //   value: "everycanvas.near/widget/adapter.local",
+  // },
+  // {
+  //   title: "SocialDB",
+  //   value: "everycanvas.near/widget/adapter.social",
+  // },
+  {
+    title: "IPFS",
+    value: "everycanvas.near/widget/adapter.ipfs",
+  },
+  // {
+  //   title: "GitHub",
+  //   value: "hack.near/widget/adapter.github",
+  // },
+  // {
+  //   title: "Obsidian",
+  //   value: "hack.near/widget/adapter.obsidian",
+  // },
+  // {
+  //   title: "Tldraw",
+  //   value: "hack.near/widget/adapter.tldraw",
+  // },
+];
+
+const defaultAdapter = adapters[0];
+
+const [json, setJson] = useState(props.data ?? "");
+const [source, setSource] = useState(props.source ?? "");
+const [adapter, setAdapter] = useState(defaultAdapter.value ?? "");
+const [reference, setReference] = useState(undefined);
 
 function generateUID() {
   return (
@@ -51,205 +75,60 @@ const thingId = state.name ?? generateUID();
 
 const handleCreate = () => {
   // load in the state.adapter
-  // const { create } = VM.require(state.adapter);
-  // const hyperfile = create({ cid: state.file.cid });
-  // console.log("hyperfile", hyperfile);
-  const hyperfile = {
-    thing: {
-      [thingId]: {
-        "": JSON.stringify({
-          fileformat: props.fileformat,
-          source: "IPFS", // state.source
-          adapter: "everycanvas.near/widget/adapter.ipfs", // state.adapter
-          reference: {
-            cid: state.file.cid,
+  const { create } = VM.require(adapter) || (() => {});
+  if (create) {
+    create(json).then((reference) => {
+      console.log("reference", reference);
+      const hyperfile = {
+        thing: {
+          [thingId]: {
+            "": JSON.stringify({
+              fileformat: `${props.type}.${source}`,
+              source: source,
+              adapter: adapter,
+              reference: reference,
+            }),
+            metadata: {
+              type: props.type,
+            },
           },
-        }),
-        metadata: {
-          type: props.type,
         },
-      },
-    },
-  };
-
-  Social.set(hyperfile);
+      };
+      // we're not logged in, so it doesn't do anything!
+      Social.set(hyperfile, { force: true });
+    });
+  }
 };
 
 return (
-  <>
-    <textarea
-      className="form-control mb-3"
-      rows={5}
-      value={state.json}
-      onChange={(e) => {
-        state.json = e.target.value;
-        State.update();
-      }}
-    />
-    <a type="button" class="btn btn-success" onClick={() => UploadJson()}>
-      Upload
-    </a>
-    <br />
-    {state.file && (
-      <div>
-        <br />
-        Your file:
-        <a href={ipfsUrl(state.file.cid)}>{state.file.cid}</a>
-        <br />
-        {/* <h5 className="mt-3">Name</h5>
-        <input
+  <Wrapper>
+    <Form>
+      <FormGroup>
+        <Label>source</Label>
+        <Input
           type="text"
-          value={state.name}
-          onChange={(e) => onChangeName(e.target.value)}
-        /> */}
-        <button className="btn btn-outline-success mt-3" onClick={handleCreate}>
-          Create
-        </button>
-      </div>
-    )}
-  </>
+          value={source}
+          onChange={(e) => onChangeSource(e.target.value)}
+          disabled={props.source} // disable if source is passed in
+        />
+      </FormGroup>
+      <textarea
+        className="form-control mb-3"
+        rows={5}
+        value={json}
+        onChange={(e) => setJson(e.target.value)}
+      />
+      <FormGroup>
+        <Label>adapter</Label>
+        <Select value={adapter} onChange={(e) => setAdapter(e.target.value)}>
+          {adapters.map((o) => (
+            <option value={o.value}>{o.title}</option>
+          ))}
+        </Select>
+      </FormGroup>
+      <button className="btn btn-success mb-1" onClick={handleCreate}>
+        Create
+      </button>
+    </Form>
+  </Wrapper>
 );
-
-
-
-// const accountId = context.accountId;
-
-// if (!accountId) {
-//   return "please connect your NEAR account";
-// }
-
-// const { data, onSubmit } = props;
-
-// const options = [
-//   {
-//     title: "SocialDB",
-//     value: "everycanvas.near/widget/adapter.github",
-//   },
-//   // {
-//   //   title: "GitHub",
-//   //   value: "hack.near/widget/adapter.github",
-//   // },
-//   // {
-//   //   title: "Obsidian",
-//   //   value: "hack.near/widget/adapter.obsidian",
-//   // },
-//   // {
-//   //   title: "Tldraw",
-//   //   value: "hack.near/widget/adapter.tldraw",
-//   // },
-// ];
-
-// const defaultOption = options[0];
-
-// State.init({
-//   source: defaultOption.title,
-//   adapter: defaultOption.value,
-//   reference: data,
-// });
-
-// const Wrapper = styled.div`
-//   max-width: 400px;
-//   margin: 0 auto;
-// `;
-
-// const Form = styled.div`
-//   display: flex;
-//   flex-direction: column;
-//   gap: 15px;
-// `;
-
-// const Label = styled.label`
-//   font-weight: bold;
-// `;
-
-// const Input = styled.input`
-//   padding: 5px;
-// `;
-
-// const Select = styled.select`
-//   padding: 8px;
-// `;
-
-// const TextArea = styled.textarea`
-//   padding: 5px;
-//   height: 222px;
-//   resize: vertical;
-// `;
-
-// const onChangeSource = (source) => {
-//   State.update({
-//     source,
-//   });
-// };
-
-// const onChangeAdapter = (adapter) => {
-//   State.update({
-//     adapter,
-//   });
-// };
-
-// const onChangeReference = (reference) => {
-//   State.update({
-//     reference,
-//   });
-// };
-
-// // function generateUID() {
-// //   return (
-// //     Math.random().toString(16).slice(2) +
-// //     Date.now().toString(36) +
-// //     Math.random().toString(16).slice(2)
-// //   );
-// // }
-
-// // const thingId = generateUID();
-
-// // const handleCreate = () => {
-// //   const data = {
-// //     thing: {
-// //       [thingId]: {
-// //         source: state.source,
-// //         adapter: state.adapter,
-// //         reference: state.reference,
-// //       },
-// //     },
-// //   };
-
-// //   Social.set(data);
-// // };
-
-// return (
-//   <Wrapper>
-//     <h4 className="mb-3">
-//       <b>hyperfile creator</b>
-//     </h4>
-//     <Form>
-//       {/* <Label>source</Label>
-//       <Input
-//         type="text"
-//         value={state.source}
-//         onChange={(e) => onChangeSource(e.target.value)}
-//       /> */}
-//       <Label>adapter</Label>
-//       <Select
-//         placeholder={placeholder}
-//         value={state.adapter}
-//         onChange={({ target: { value } }) => onChangeAdapter(value)}
-//       >
-//         {options.map((o) => (
-//           <option value={o.value}>{o.title}</option>
-//         ))}
-//       </Select>
-
-//       <Label htmlFor="reference">reference (JSON)</Label>
-//       <TextArea
-//         type="text"
-//         value={state.reference}
-//         onChange={(e) => onChangeReference(e.target.value)}
-//       />
-//       <button className="btn btn-success mt-3" onClick={() => onSubmit(state)}>
-//         create
-//       </button>
-//     </Form>
-//   </Wrapper>
-// );

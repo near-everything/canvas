@@ -108,11 +108,9 @@ const snapshot = JSON.stringify(getSnapshot());
 
 return (
   <>
-    {context.accountId && (
-      <Button className="classic" onClick={toggleModal}>
-        <i className="bi bi-save"></i> save canvas
-      </Button>
-    )}
+    <Button className="classic" onClick={toggleModal}>
+      <i className="bi bi-save"></i> save canvas
+    </Button>
     {isModalOpen && (
       <Modal onClose={toggleModal}>
         <div className="w-100">
@@ -120,7 +118,7 @@ return (
             src="/*__@appAccount__*//widget/create.hyperfile"
             props={{
               data: snapshot,
-              fileformat: "canvas.tldraw",
+              source: "tldraw",
               type: "canvas",
             }}
           />
