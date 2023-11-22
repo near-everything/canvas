@@ -28,7 +28,6 @@ import { useEthersProviderContext } from "./data/web3";
 import { NetworkId, Widgets } from "./data/widgets";
 import { useBosLoaderInitializer } from "./hooks/useBosLoaderInitializer";
 import Flags from "./pages/Flags";
-import SignInPage from "./pages/SignInPage";
 import ViewPage from "./pages/ViewPage";
 
 export const refreshAllowanceObj = {};
@@ -163,9 +162,6 @@ function App() {
           <Switch>
             <Route path={"/flags"}>
               <Flags {...passProps} />
-            </Route>
-            <Route path={"/signin"}>
-              <SignInPage {...passProps} />
             </Route>
             <Route path={"/:path*"}>
               <BosLoaderBanner />
