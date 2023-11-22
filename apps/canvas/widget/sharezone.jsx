@@ -73,30 +73,6 @@ const {
 
 const [isModalOpen, setModalOpen] = useState(false);
 
-const save = (v) => {
-  Social.set(
-    {
-      thing: {
-        canvas: {
-          "": v.reference,
-          metadata: {
-            type: "canvas",
-          },
-        },
-      },
-    },
-    {
-      force: true,
-      onCommit: () => {
-        setModalOpen(false);
-      },
-      onCancel: () => {
-        setModalOpen(false);
-      },
-    }
-  );
-};
-
 const Button = styled.button`
   padding: 10px 20px;
 `;
