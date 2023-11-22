@@ -73,30 +73,6 @@ const {
 
 const [isModalOpen, setModalOpen] = useState(false);
 
-const save = (v) => {
-  Social.set(
-    {
-      thing: {
-        canvas: {
-          "": v.reference,
-          metadata: {
-            type: "canvas",
-          },
-        },
-      },
-    },
-    {
-      force: true,
-      onCommit: () => {
-        setModalOpen(false);
-      },
-      onCancel: () => {
-        setModalOpen(false);
-      },
-    }
-  );
-};
-
 const Button = styled.button`
   padding: 10px 20px;
 `;
@@ -105,34 +81,94 @@ const toggleModal = () => {
   setModalOpen(!isModalOpen);
 };
 
-const snapshot = JSON.stringify(getSnapshot());
+const [activePlugin, setActivePlugin] = useState("SAVE_CANVAS");
+
+const plugins = [
+  {
+    name: "load",
+    icon: "bi bi-download",
+    title: "load ",
+    onClick: () => {
+      toggleModal();
+      setActivePlugin("LOAD_WIDGET");
+    },
+    modal: "LOAD_WIDGET",
+    needsAuth: false,
+    module: {
+      src: "/*__@appAccount__*//widget/plugin.LoadWidget",
+      props: {
+        createShape: (v) => {
+
+          console.log("createShape", v);
+        },
+      },
+    },
+    authors: ["efiz.near"],
+  },
+  {
+    name: "save",
+    icon: "bi bi-save",
+    title: "save ",
+    onClick: () => {
+      toggleModal();
+      setActivePlugin("SAVE_CANVAS");
+    },
+    modal: "SAVE_CANVAS",
+    needsAuth: true,
+    module: {
+      src: "/*__@appAccount__*//widget/create.hyperfile",
+      props: {
+        data: JSON.stringify(getSnapshot()),
+        source: "tldraw",
+        type: "canvas",
+        filename: "canvas",
+      },
+    },
+    authors: ["hack.near", "flowscience.near", "efiz.near"],
+  },
+];
+
+function Plugin({ activePlugin }) {
+  const plugin = plugins.find((p) => p.modal === activePlugin);
+  return (
+    <>
+      <Widget src={plugin.module.src} props={plugin.module.props} />
+      <Widget
+        src="miraclx.near/widget/Attribution"
+        props={{ dep: true, authors: plugin.authors }}
+      />
+    </>
+  );
+}
+
+const ButtonRow = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
 
 // these two are related, this is almost an entire plugin here
 return (
   <>
-    {context.accountId && (
-      <Button className="classic" onClick={toggleModal}>
-        <i className="bi bi-save"></i> save canvas
-      </Button>
-    )}
+    <ButtonRow>
+      {plugins.map(
+        (plugin) =>
+          (!needsAuth || (needsAuth && context.account)) && (
+            <Button
+              className="classic"
+              onClick={plugin.onClick}
+              key={plugin.name}
+            >
+              <i className={plugin.icon}></i> {plugin.title}
+            </Button>
+          )
+      )}
+    </ButtonRow>
     {isModalOpen && (
       <Modal onClose={toggleModal}>
         <div className="w-100">
-          <Widget
-            src="/*__@appAccount__*//widget/create.hyperfile"
-            props={{
-              data: snapshot,
-              source: "tldraw",
-              type: "canvas",
-              filename: "canvas",
-            }}
-          />
+          <Plugin activePlugin={activePlugin} />
         </div>
         {/* Attributions should be a plugin */}
-        <Widget
-          src="miraclx.near/widget/Attribution"
-          props={{ dep: true, authors: ["hack.near", "flowscience.near"] }}
-        />
       </Modal>
     )}
   </>
