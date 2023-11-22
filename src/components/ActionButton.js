@@ -160,15 +160,42 @@ export function ActionButton() {
   return (
     <>
       <StyledActionButton onClick={() => setModalOpen(true)} />
+      {/* I think we could just put the widget here with the props passed to it */}
       {isModalOpen && (
         <Modal
           onClose={() => {
-            // onClone function
+            // onClose function
             editor.deleteShapes([responseShapeId]);
             setModalOpen(false);
           }}
         >
           <Widget // this is the widget that will send the prompt to openai and display the response
+            src="everycanvas.near/widget/action"
+            props={{
+              adapter: {
+                getSelectionAsImageDataUrl: async () => await getSelectionAsImageDataUrl(editor),
+                getSelectionAsText: () => getSelectionAsText(editor),
+                getSelectedShapes: () => editor.getSelectedShapes(),
+                getSelectedShapeIds: () => editor.getSelectedShapeIds(),
+                getShape: (id) => editor.getShape(id),
+                getShapeAndDescendantIds: (ids) =>
+                  editor.getShapeAndDescendantIds(ids),
+                getShapePageBounds: (shape) =>
+                  editor.getShapePageBounds(shape),
+                getSnapshot: () => editor.store.getSnapshot(),
+                getSvg: (shapes) => editor.getSvg(shapes),
+                updateShape: (shape) => editor.updateShape(shape),
+                createShape: (shape) => editor.createShape(shape),
+                deleteShapes: (shapes) => editor.deleteShapes(shapes),
+                createShapeId: () => createShapeId(),
+              },
+              data: JSON.stringify(editor.getSelectedShapes()),
+            }}
+            config={{
+              redirectMap: redirectMapStore.redirectMap,
+            }}
+          />
+          {/* <Widget // this is the widget that will send the prompt to openai and display the response
             src="everycanvas.near/widget/magic"
             props={{
               model: "gpt-4-vision-preview",
@@ -178,7 +205,7 @@ export function ActionButton() {
             config={{
               redirectMap: redirectMapStore.redirectMap,
             }}
-          />
+          /> */}
           <Widget
             src="miraclx.near/widget/Attribution"
             props={{ dep: true, authors: ["petersalomonsen.near"] }}
@@ -197,18 +224,18 @@ async function buildPromptForOpenAi(editor) {
       type: "image_url",
       image_url: {
         // send an image of the current selection to gpt-4 so it can see what we're working with
-        url: await getSelectionAsImageDataUrl(editor),
+        url: await getSelectionAsImageDataUrl(editor), // dataUrl
         detail: "high",
       },
     },
     {
       type: "text",
-      text: "Turn this into a single html file using tailwind.",
+      text: "Turn this into a single html file using tailwind.", // comes from agent definition (instruction)
     },
     {
       // send the text of all selected shapes, so that GPT can use it as a reference (if anything is hard to see)
       type: "text",
-      text: getSelectionAsText(editor),
+      text: getSelectionAsText(editor), // comments
     },
   ];
 

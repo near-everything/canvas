@@ -1,0 +1,1 @@
+// This is a module so that the iframe can be used in your code to make requests to and from OpenAI, with it's own wallet
