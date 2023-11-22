@@ -88,7 +88,14 @@ const ModalBox = styled.div`
   border-radius: 8px;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
   z-index: 1002;
-  max-width: 100vw;
+  width: 100%;
+
+  @media (min-width: 768px) {
+    /* For tablet and desktop */
+    width: auto; /* Take the width of the contents */
+    min-width: 400px; /* But not smaller than 400px */
+    max-width: 100%; /* Maximum width is the full screen on tablet */
+  }
 `;
 
 const CloseButton = styled.button`
@@ -172,6 +179,7 @@ export function ActionButton() {
           <Widget // this is the widget that will send the prompt to openai and display the response
             src="everycanvas.near/widget/action"
             props={{
+              closeModal: () => setModalOpen(false),
               adapter: {
                 getSelectionAsImageDataUrl: async () => await getSelectionAsImageDataUrl(editor),
                 getSelectionAsText: () => getSelectionAsText(editor),

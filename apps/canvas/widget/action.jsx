@@ -3,112 +3,16 @@
  *
  * It receives a trigger(?) and data to interact on
  */
-// const ModalBackdrop = styled.div`
-//   position: fixed;
-//   top: 0;
-//   left: 0;
-//   width: 100vw;
-//   height: 100vh;
-//   background-color: rgba(0, 0, 0, 0.5);
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-//   z-index: 1001;
-// `;
 
-// const ModalBox = styled.div`
-//   background: white;
-//   min-width: 400px;
-//   max-width: 600px;
-//   padding: 20px;
-//   border-radius: 8px;
-//   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-//   z-index: 1002;
-// `;
+const {
+  // these are available to plugins from the ActionButton
+  adapter,
+  closeModal,
+} = props;
 
-// const ModalHeader = styled.div`
-//   display: flex;
-//   justify-content: end;
-//   align-items: center;
-// `;
+// get plugins
 
-// const CloseButton = styled.button`
-//   background: #f44336;
-//   color: white;
-//   border: none;
-//   border-radius: 5px;
-//   padding: 10px 15px;
-//   cursor: pointer;
-//   float: right;
-// `;
-
-// const ModalContent = styled.div`
-//   display: flex;
-//   flex-direction: column;
-//   min-width: 300px;
-//   padding: 10px;
-// `;
-
-// function Modal({ onClose, children }) {
-//   return (
-//     <ModalBackdrop>
-//       <ModalBox>
-//         <ModalHeader>
-//           <CloseButton onClick={onClose}>Close</CloseButton>
-//         </ModalHeader>
-//         <ModalContent>{children}</ModalContent>
-//       </ModalBox>
-//     </ModalBackdrop>
-//   );
-// }
-
-// const { // these are available to plugins from the ActionButton
-//   getSelectedShapes,
-//   getSnapshot,
-//   deleteShapes,
-//   getShapePageBounds,
-//   createShapeId,
-//   createShape,
-//   updateShape,
-//   asSvg,
-//   asPng,
-//   asDataUrl,
-// } = props;
-
-// const { plugin } = props;
-
-// const [isModalOpen, setModalOpen] = useState(false);
-
-// const Button = styled.button`
-//   padding: 10px 20px;
-// `;
-
-// const toggleModal = () => {
-//   setModalOpen(!isModalOpen);
-// };
-
-// // these two are related, this is almost an entire plugin here
-// return (
-//   <>
-//     {isModalOpen && (
-//       <Modal onClose={toggleModal}>
-//         <div className="w-100">
-//           <Widget
-//             src={plugins.src}
-//             props={{
-
-//             }}
-//           />
-//         </div>
-//         {/* Attributions should be a plugin */}
-//         <Widget
-//           src="miraclx.near/widget/Attribution"
-//           props={{ dep: true, authors: plugin.authors }}
-//         />
-//       </Modal>
-//     )}
-//   </>
-// );
+// const activePlugin = "everycanvas.near/widget/plugin.NearOpenAI";
 
 const Container = styled.div`
   width: 100%;
@@ -134,8 +38,21 @@ const options = [
   {
     label: "Tailwind & HTML",
     value: {
-      prompt:
-        "You are an expert web developer who specializes in tailwind css...",
+      prompt: `You are an expert web developer who specializes in tailwind css.
+      A user will provide you with a low-fidelity wireframe of an application. 
+      You will return a single html file that uses HTML, tailwind css, and JavaScript to create a high fidelity website.
+      Include any extra CSS and JavaScript in the html file.
+      If you have any images, load them from Unsplash or use solid colored rectangles.
+      The user will provide you with notes in blue or red text, arrows, or drawings.
+      The user may also include images of other websites as style references. Transfer the styles as best as you can, matching fonts / colors / layouts.
+      They may also provide you with the html of a previous design that they want you to iterate from.
+      Carry out any changes they request from you.
+      In the wireframe, the previous design's html will appear as a white rectangle.
+      For your reference, all text from the image will also be provided to you as a list of strings, separated by newlines. Use them as a reference if any text is hard to read.
+      Use creative license to make the application more fleshed out.
+      Use JavaScript modules and unpkg to import any necessary dependencies.
+      
+      Respond ONLY with the contents of the html file.`,
       model: "gpt-4-vision-preview",
     },
   },
@@ -179,9 +96,7 @@ return (
       )}
     </Section>
     <Section>
-      <Button onClick={() => setIsCollapsed(!isCollapsed)}>
-        text only
-      </Button>
+      <Button onClick={() => setIsCollapsed(!isCollapsed)}>text only</Button>
       {!isCollapsed && (
         <Textarea
           value={inputData}
