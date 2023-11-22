@@ -62,6 +62,7 @@ const [json, setJson] = useState(props.data ?? "");
 const [source, setSource] = useState(props.source ?? "");
 const [adapter, setAdapter] = useState(defaultAdapter.value ?? "");
 const [reference, setReference] = useState(undefined);
+const [filename, setFilename] = useState(props.filename ?? "");
 
 function generateUID() {
   return (
@@ -71,7 +72,7 @@ function generateUID() {
   );
 }
 
-const thingId = state.name ?? generateUID();
+const thingId = filename ?? generateUID();
 
 const handleCreate = () => {
   // load in the state.adapter

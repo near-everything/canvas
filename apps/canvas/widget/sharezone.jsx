@@ -57,7 +57,8 @@ function Modal({ onClose, children }) {
   );
 }
 
-const { // these are available to plugins from the ShareZone
+const {
+  // these are available to plugins from the ShareZone
   getSelectedShapes,
   getSnapshot,
   deleteShapes,
@@ -109,9 +110,11 @@ const snapshot = JSON.stringify(getSnapshot());
 // these two are related, this is almost an entire plugin here
 return (
   <>
-    <Button className="classic" onClick={toggleModal}>
-      <i className="bi bi-save"></i> save canvas
-    </Button>
+    {context.accountId && (
+      <Button className="classic" onClick={toggleModal}>
+        <i className="bi bi-save"></i> save canvas
+      </Button>
+    )}
     {isModalOpen && (
       <Modal onClose={toggleModal}>
         <div className="w-100">
@@ -121,6 +124,7 @@ return (
               data: snapshot,
               source: "tldraw",
               type: "canvas",
+              filename: "canvas",
             }}
           />
         </div>
