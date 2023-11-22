@@ -158,14 +158,10 @@ function App() {
 
   return (
     <div className="App">
-      <EthersProviderContext.Provider value={ethersProviderContext}>
         <Router basename={process.env.PUBLIC_URL}>
           <Switch>
             <Route path={"/flags"}>
               <Flags {...passProps} />
-            </Route>
-            <Route path={"/signin"}>
-              <SignInPage {...passProps} />
             </Route>
             <Route path={"/:path*"}>
               <BosLoaderBanner />
@@ -174,7 +170,6 @@ function App() {
             </Route>
           </Switch>
         </Router>
-      </EthersProviderContext.Provider>
     </div>
   );
 }
