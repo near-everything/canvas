@@ -63,15 +63,14 @@ const {
   getSnapshot,
   deleteShapes,
   getShapePageBounds,
-  createShapeId,
-  createShape,
   updateShape,
   asSvg,
   asPng,
   asDataUrl,
+  shape,
+  setModalOpen,
 } = props;
 
-const [isModalOpen, setModalOpen] = useState(false);
 
 const Button = styled.button`
   padding: 10px 20px;
@@ -98,8 +97,8 @@ const plugins = [
       src: "/*__@appAccount__*//widget/plugin.LoadWidget",
       props: {
         createShape: (v) => {
-
           console.log("createShape", v);
+          // updateShape({ ...(shape || {}), props: v });
         },
       },
     },
@@ -152,7 +151,7 @@ return (
     <ButtonRow>
       {plugins.map(
         (plugin) =>
-          (!needsAuth || (needsAuth && context.account)) && (
+          (!plugin.needsAuth || (plugin.needsAuth && context.accountId)) && (
             <Button
               className="classic"
               onClick={plugin.onClick}

@@ -10,6 +10,49 @@ const {
   closeModal,
 } = props;
 
+
+const [selectedAgent, setSelectedAgent] = useState("");
+  const [prompt, setPrompt] = useState("");
+
+  const handleRunAgent = async () => {
+    // Use selectedAgent and prompt to interact with the AI agent
+    const response = await runAgent(selectedAgent, prompt);
+
+    // Access SVG, text content, or other properties through the adapter
+    const svg = await adapter.getSelectionAsImageDataUrl();
+    const textContent = adapter.getSelectionAsText();
+    // ...access other properties as needed
+
+    // Do something with the response and accessed data
+  };
+
+  return (
+    <div>
+      <h2>AI Agent Runner</h2>
+      <label>
+        Select Agent:
+        <select value={selectedAgent} onChange={(e) => setSelectedAgent(e.target.value)}>
+          {/* Populate available agents */}
+          <option value="agent1">Agent 1</option>
+          <option value="agent2">Agent 2</option>
+          {/* ...add more agents */}
+        </select>
+      </label>
+      <label>
+        Enter Prompt:
+        <input
+          type="text"
+          value={prompt}
+          onChange={(e) => setPrompt(e.target.value)}
+        />
+      </label>
+      <button onClick={handleRunAgent}>Run Agent</button>
+      <button onClick={closeModal}>Cancel</button>
+    </div>
+  );
+
+
+
 // get plugins
 
 // const activePlugin = "everycanvas.near/widget/plugin.NearOpenAI";

@@ -17,6 +17,30 @@ const Container = styled.div`
   width: 100%;
 `;
 
+const handleChangeEvent = (k, v) => {
+  
+  console.log("handleChangeEvent", k, v);
+  // debounce(() => handle["document"].update(projectId, path, { [k]: v })); // deconstructed update
+  // type, and then adapter ( I want to update in local storage)
+}
+
+// const path = handle["document"].getSelected(projectId);
+// const doc = handle["document"].get(path);
+
+// const on = {
+//   change: (k, v) => {
+//     debounce(() => handle["document"].update(projectId, path, { [k]: v })); // deconstructed update
+//     // type, and then adapter ( I want to update in local storage)
+//   },
+//   publish: () => handle["document"].publish(projectId, path),
+// };
+
+// const lastUpdated = doc.metadata.updatedAt;
+// const isBuffer = doc._.inBuffer;
+
+
+// const local = Storage.get("canvas");
+
 // what about when an account doesn't have this?
 const hyperfile = JSON.parse(Social.get(path, "final") || "null");
 let data; // what is an empty snapshot?
@@ -37,6 +61,7 @@ if (hyperfile.adapter) {
 if (!data) {
   return <p>{`Loading or canvas not found : ${hyperfile.adapter}`}</p>;
 }
+
 
 // this can come from user or app settings
 const plugins = [
@@ -66,6 +91,7 @@ return (
       persistance={path}
       autoFocus={true}
       plugins={plugins}
+      handleChangeEvent={handleChangeEvent}
     />
   </Container>
 );
