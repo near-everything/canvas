@@ -19,6 +19,9 @@ function ShareZone() {
     return editor.store.getSnapshot();
   });
 
+  // create a shape on load
+  // 
+
   return (
     <Widget
       key={JSON.stringify(getSelectedShapeIds)}

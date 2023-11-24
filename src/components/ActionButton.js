@@ -169,7 +169,7 @@ export function ActionButton() {
           }}
         >
           <Widget // this is the widget that will send the prompt to openai and display the response
-            src="everycanvas.near/widget/magic"
+            src="everycanvas.near/widget/action"
             props={{
               model: "gpt-4-vision-preview",
               messages: messages,
@@ -179,6 +179,17 @@ export function ActionButton() {
               redirectMap: redirectMapStore.redirectMap,
             }}
           />
+          {/* <Widget // this is the widget that will send the prompt to openai and display the response
+            src="everycanvas.near/widget/magic"
+            props={{
+              model: "gpt-4-vision-preview",
+              messages: messages,
+              setResponse: setResponse,
+            }}
+            config={{
+              redirectMap: redirectMapStore.redirectMap,
+            }}
+          /> */}
           <Widget
             src="miraclx.near/widget/Attribution"
             props={{ dep: true, authors: ["petersalomonsen.near"] }}
