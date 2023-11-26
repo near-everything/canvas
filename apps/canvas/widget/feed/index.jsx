@@ -79,6 +79,8 @@ if (items.length === 0) {
 function Item({ accountId, name, type, metadata }) {
   // Use metadata.name if it exists, otherwise use the passed name
   const displayName = metadata.name || name;
+  const defaultImage =
+    "https://ipfs.near.social/ipfs/bafkreihi3qh72njb3ejg7t2mbxuho2vk447kzkvpjtmulsb2njd6m2cfgi";
 
   return (
     <div
@@ -92,33 +94,22 @@ function Item({ accountId, name, type, metadata }) {
         overflow: "hidden",
       }}
     >
-      {metadata.backgroundImage && (
-        <div
-          className="card-img-top"
-          style={{
-            backgroundImage: `url(${metadata.backgroundImage})`,
-            height: "80px",
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-          }}
-        ></div>
-      )}
-
-      {metadata.image && (
-        <img
-          src={metadata.image}
-          className="card-img-top"
-          alt={displayName}
-          style={{ height: "80px", objectFit: "cover" }}
-        />
-      )}
+      <div
+        className="card-img-top"
+        style={{
+          backgroundImage: `url(${metadata.backgroundImage || defaultImage})`,
+          height: "80px",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+      />
 
       <div className="card-body">
         <Link
           to={`/${accountId}/${type}/${name}`}
           style={{ textDecoration: "none" }}
         >
-          <h5 className="card-title">{displayName}</h5>
+          <h5 className="card-title">{accountId}/{displayName}</h5>
         </Link>
         {metadata.description && (
           <p
@@ -128,15 +119,9 @@ function Item({ accountId, name, type, metadata }) {
             {metadata.description}
           </p>
         )}
-        <p className="card-text">
-          <small className="text-muted">Account ID: {accountId}</small>
-        </p>
-        <p className="card-text">
-          <small className="text-muted">Type: {type}</small>
-        </p>
       </div>
       {context.accountId && (
-        <>
+        <div className="pb-2" style={{ display: 'flex', justifyContent: 'flex-end', gap: "4px" }}>
           <Widget
             src="mob.near/widget/N.StarButton"
             props={{
@@ -155,7 +140,7 @@ function Item({ accountId, name, type, metadata }) {
               },
             }}
           />
-        </>
+        </div>
       )}
     </div>
   );
