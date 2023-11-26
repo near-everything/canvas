@@ -36,7 +36,8 @@ const adapters = [
   // these can come from the user (or app) settings
   // {
   //   title: "Local Storage",
-  //   value: "everycanvas.near/widget/adapter.local",
+  //   value: "everycanvas.near/widget/adapter.local_storage",
+  //   saveRef: false
   // },
   // {
   //   title: "SocialDB",
@@ -62,6 +63,8 @@ const adapters = [
 
 const defaultAdapter = adapters[0];
 
+const { creatorId } = props;
+
 const [json, setJson] = useState(props.data ?? "");
 const [source, setSource] = useState(props.source ?? "");
 const [adapter, setAdapter] = useState(defaultAdapter.value ?? "");
@@ -79,16 +82,21 @@ function generateUID() {
   );
 }
 
-const thingId = filename ?? generateUID();
-
 const handleCreate = () => {
-  // load in the state.adapter
+  const isCreator = context.accountId === creatorId;
+
+  // load in the state.adapter (modules for IPFS, Arweave, Ceramic, Verida, On Machina... )
   const { create } = VM.require(adapter) || (() => {});
   if (create) {
+    // store the data somewhere, based on the adapter
     create(json).then((reference) => {
-      console.log("reference", reference);
+      // now we have a reference to the data
+      // we need to name it... are we the original creator or are we forking? We don't want to overwrite any of the users custom (or maybe we do!)
+      const thingId = filename ?? generateUID();
+
       const hyperfile = {
         [props.type]: {
+          // which we store in the social contract
           [thingId]: {
             "": JSON.stringify({
               fileformat: `${props.type}.${source}`,
@@ -104,7 +112,31 @@ const handleCreate = () => {
           },
         },
       };
-      // we're not logged in, so it doesn't do anything!
+
+      if (creatorId !== context.accountId) {
+        // handle request merge
+        hyperfile.index = {
+          notify: JSON.stringify({
+            key: creatorId,
+            value: {
+              type: "request",
+              data: {
+                type: "merge",
+                upstream: `${creatorId}/${props.type}/${props.filename}`,
+                origin: `${context.accountId}/${props.type}/${thingId}`,
+              },
+            },
+          }),
+        };
+        hyperfile[props.type][thingId].metadata = {
+          ...hyperfile[props.type][thingId].metadata,
+          upstream: `${creatorId}/${props.type}/${props.filename}`,
+        };
+        // I want to make a request to merge
+        // set upstream and downstream
+      }
+
+      // sometimes we're not logged in, so it doesn't do anything!
       Social.set(hyperfile, { force: true });
     });
   }
@@ -112,6 +144,7 @@ const handleCreate = () => {
 
 return (
   <Wrapper>
+    <h3>{context.accountId === creatorId ? "create" : "request merge"}</h3>
     <ul className="nav nav-tabs">
       <li className="nav-item">
         <a

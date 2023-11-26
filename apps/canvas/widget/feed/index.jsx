@@ -130,6 +130,7 @@ function Item({ accountId, name, type, metadata }) {
           <Widget
             src="mob.near/widget/N.StarButton"
             props={{
+              notifyAccountId: accountId,
               item: {
                 type: "social",
                 path: `${accountId}/${type}/${name}`,
@@ -139,6 +140,7 @@ function Item({ accountId, name, type, metadata }) {
           <Widget
             src="mob.near/widget/N.LikeButton"
             props={{
+              notifyAccountId: accountId,
               item: {
                 type: "social",
                 path: `${accountId}/${type}/${name}`,

@@ -3,7 +3,7 @@ import { Widget } from "near-social-vm";
 import React, { useCallback } from "react";
 import { useBosLoaderStore } from "../../../stores/bos-loader";
 
-function ShareZone() {
+function ShareZone({ path }) {
   const editor = useEditor();
   const redirectMapStore = useBosLoaderStore();
 
@@ -23,7 +23,7 @@ function ShareZone() {
     <Widget
       key={JSON.stringify(getSelectedShapeIds)}
       src="everycanvas.near/widget/sharezone"
-      props={{ getSnapshot: getSnapshot }}
+      props={{ getSnapshot: getSnapshot, path: path }}
       config={{
         redirectMap: redirectMapStore.redirectMap,
       }}
