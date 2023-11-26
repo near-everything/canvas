@@ -109,7 +109,9 @@ function Item({ accountId, name, type, metadata }) {
           to={`/${accountId}/${type}/${name}`}
           style={{ textDecoration: "none" }}
         >
-          <h5 className="card-title">{accountId}/{displayName}</h5>
+          <h5 className="card-title">
+            {accountId}/{displayName}
+          </h5>
         </Link>
         {metadata.description && (
           <p
@@ -121,7 +123,10 @@ function Item({ accountId, name, type, metadata }) {
         )}
       </div>
       {context.accountId && (
-        <div className="pb-2" style={{ display: 'flex', justifyContent: 'flex-end', gap: "4px" }}>
+        <div
+          className="pb-2"
+          style={{ display: "flex", justifyContent: "flex-end", gap: "4px" }}
+        >
           <Widget
             src="mob.near/widget/N.StarButton"
             props={{
@@ -148,7 +153,17 @@ function Item({ accountId, name, type, metadata }) {
 
 return (
   <Container>
-    <h3 className="mb-3">every {type}</h3>
+    <div className="d-flex justify-content-between align-items-center mb-3">
+      <h3>every {type}</h3>
+      {/* <div>
+        <button className="classic me-2">
+          <i className="bi bi-upload" />
+        </button>
+        <button className="classic">
+          <i className="bi bi-gear" />
+        </button>
+      </div> */}
+    </div>
     <Widget
       src="/*__@appAccount__*//widget/ItemFeed"
       props={{
