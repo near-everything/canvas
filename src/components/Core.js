@@ -7,7 +7,10 @@
 // src/components/Core.js
 import { Widget, useAccount, useNear } from "near-social-vm";
 import { default as React, useCallback, useEffect, useState } from "react";
-import { NavLink } from "react-router-dom/cjs/react-router-dom.min";
+import {
+  NavLink,
+  useLocation,
+} from "react-router-dom/cjs/react-router-dom.min";
 import styled from "styled-components";
 import { LogOut } from "./icons/LogOut";
 import { Pretend } from "./icons/Pretend";
@@ -20,7 +23,7 @@ const CoreBackdrop = styled.div`
   left: 0;
   bottom: 20%;
   width: 70px;
-  height: 60px;
+  height: auto;
   display: flex;
   z-index: 50;
 `;
@@ -40,6 +43,11 @@ const CoreBox = styled.div`
   &:active {
     box-shadow: 0px 5px 2px rgba(0, 0, 0, 0.2);
     transform: scale(0.96) translateY(6px); // more scale down and more downward movement for click
+  }
+
+  a {
+    text-decoration: none;
+    color: black;
   }
 `;
 
@@ -134,6 +142,7 @@ const Core = (props) => {
   const [matches, setMatches] = useState(
     window.matchMedia("(min-width: 992px)").matches
   );
+  const location = useLocation();
 
   useEffect(() => {
     window
@@ -176,6 +185,17 @@ const Core = (props) => {
   return (
     <CoreBackdrop>
       <CoreBox className="classic">
+        <Button>
+          {location.pathname === "/feed" ? (
+            <NavLink to={"/"}>
+              <i className="bi bi-house" />
+            </NavLink>
+          ) : (
+            <NavLink to={"/feed"}>
+              <i className="bi bi-view-list" />
+            </NavLink>
+          )}
+        </Button>
         <StyledDropdown className="dropdown">
           {props.signedIn ? (
             <div

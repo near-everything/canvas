@@ -124,7 +124,7 @@ return (
               data: snapshot,
               source: "tldraw",
               type: "canvas",
-              filename: "canvas",
+              filename: "main",
             }}
           />
         </div>
