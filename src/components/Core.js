@@ -1,12 +1,5 @@
-// import React from "react";
-// import styled from "styled-components";
-
-// // Styled div centered within the box
-// const CenteredDiv = styled.div``;
-
-// src/components/Core.js
-import { Widget, useAccount, useNear } from "near-social-vm";
-import { default as React, useCallback, useEffect, useState } from "react";
+import { Widget, useAccount } from "near-social-vm";
+import React, { useState } from "react";
 import {
   NavLink,
   useLocation,
@@ -30,19 +23,17 @@ const CoreBackdrop = styled.div`
 
 const CoreBox = styled.div`
   background: white;
-  // padding: 20px;
-  // border-radius: 0px 8px 8px 0px;
   box-shadow: 0 10px 5px rgba(0, 0, 0, 0.3);
   z-index: 1002;
 
   &:hover {
     box-shadow: 0px 8px 3px rgba(0, 0, 0, 0.2);
-    transform: scale(0.98) translateY(3px); // scale down slightly and move downward
+    transform: scale(0.98) translateY(3px);
   }
 
   &:active {
     box-shadow: 0px 5px 2px rgba(0, 0, 0, 0.2);
-    transform: scale(0.96) translateY(6px); // more scale down and more downward movement for click
+    transform: scale(0.96) translateY(6px);
   }
 
   a {
@@ -128,59 +119,43 @@ const ButtonRow = styled.div`
   display: flex;
   flex-direction: row;
   flex: 1;
-  // justify-content: space-between;
 `;
 
 const ArrowButton = styled.button`
   flex-grow: 1;
 `;
 
+const Button = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  text-transform: lowercase !important;
+  height: 48px;
+  width: 48px;
+  text-align: center;
+  text-decoration: none;
+  border: 2px outset #333;
+  cursor: pointer;
+  color: #333;
+  padding: 20px 20px;
+  margin: 4px;
+
+  &:active {
+    border-style: inset;
+    color: #000;
+  }
+
+  &:hover {
+    color: #111;
+  }
+`;
+
 const Core = (props) => {
-  const near = useNear();
   const account = useAccount();
-  // const [showModal, setShowModal] = useState(false);
-  const [matches, setMatches] = useState(
-    window.matchMedia("(min-width: 992px)").matches
-  );
   const location = useLocation();
 
-  useEffect(() => {
-    window
-      .matchMedia("(min-width: 992px)")
-      .addEventListener("change", (e) => setMatches(e.matches));
-  }, []);
-
-  const withdrawStorage = useCallback(async () => {
-    await near.contract.storage_withdraw({}, undefined, "1");
-  }, [near]);
-
-  const [showPretendModal, setShowPretendModal] = React.useState(false);
-
-  const Button = styled.button`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    text-transform: lowercase !important;
-    height: 48px;
-    width: 48px;
-    text-align: center;
-    text-decoration: none;
-    border: 2px outset #333;
-    cursor: pointer;
-    color: #333;
-    padding: 20px 20px;
-    margin: 4px;
-
-    &:active {
-      border-style: inset;
-      color: #000;
-    }
-
-    &:hover {
-      color: #111;
-    }
-  `;
+  const [showPretendModal, setShowPretendModal] = useState(false);
 
   return (
     <CoreBackdrop>
@@ -252,25 +227,6 @@ const Core = (props) => {
                 my everything
               </NavLink>
             </li>
-            {/* <li>
-              <NavLink
-                className="dropdown-item"
-                type="button"
-                onClick={() => setShowModal(true)}
-              >
-                teleport
-              </NavLink>
-            </li> */}
-            {/* <li>
-            <button
-              className="dropdown-item"
-              type="button"
-              onClick={() => withdrawStorage()}
-            >
-              <Withdraw />
-              Withdraw {props.availableStorage.div(1000).toFixed(2)}kb
-            </button>
-          </li> */}
             {account.pretendAccountId ? (
               <li>
                 <button
@@ -319,17 +275,6 @@ const Core = (props) => {
           onHide={() => setShowPretendModal(false)}
           widgets={props.widgets}
         />
-        {/* {showModal && (
-          <Modal onClose={() => setShowModal(false)}>
-            <input
-              value={destination}
-              onChange={(e) => setDestination(e.target.value)}
-            />
-            <NavLink type="button" to={`/${destination}`}>
-              <i className="bi bi-house"></i>
-            </NavLink>
-          </Modal>
-        )} */}
       </CoreBox>
     </CoreBackdrop>
   );
