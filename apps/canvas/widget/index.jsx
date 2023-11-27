@@ -22,9 +22,12 @@ const hyperfile = JSON.parse(Social.get(path, "final") || "null");
 let data; // what is an empty snapshot?
 
 if (hyperfile.adapter) {
-  const { get } = VM.require(hyperfile.adapter) || (() => {});
+  const { get } = VM.require(hyperfile.adapter) || (() => {}); // this is like getting data from the remote
   if (get) {
     data = get(hyperfile.reference) || null;
+    // get ref from local storage
+    // if ref in local storage is !== to current, then we want to merge
+    // old and new snapshot
   } else {
     return <p>{`Loading or adapter not found : ${hyperfile.adapter}`}</p>;
   }

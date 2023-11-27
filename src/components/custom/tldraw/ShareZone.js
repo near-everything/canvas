@@ -26,7 +26,7 @@ function ShareZone({ path }) {
   return (
     <Widget
       key={JSON.stringify(getSelectedShapeIds)}
-      src="everycanvas.near/widget/sharezone"
+      src="everycanvas.near/widget/tldraw.ShareZone"
       props={{
         getSnapshot: getSnapshot,
         getSelectedShapes: getSelectedShapes,

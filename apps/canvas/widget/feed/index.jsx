@@ -157,14 +157,14 @@ return (
   <Container>
     <div className="d-flex justify-content-between align-items-center mb-3">
       <h3>every {type}</h3>
-      <div>
+      {/* <div>
         <button className="classic me-2">
           <i className="bi bi-upload" />
         </button>
         <button className="classic">
           <i className="bi bi-gear" />
         </button>
-      </div>
+      </div> */}
     </div>
     <Widget
       src="/*__@appAccount__*//widget/ItemFeed"

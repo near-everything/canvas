@@ -9,7 +9,7 @@ function TopZone({ path }) {
     <>
       <Widget
         key={`${path}-topzone`}
-        src="everycanvas.near/widget/topzone"
+        src="everycanvas.near/widget/tldraw.TopZone"
         props={{ path: path }}
         config={{
           redirectMap: redirectMapStore.redirectMap,
