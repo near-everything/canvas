@@ -158,19 +158,21 @@ const Core = (props) => {
   const [showPretendModal, setShowPretendModal] = useState(false);
 
   return (
-    <CoreBackdrop>
+    <CoreBackdrop className="core__auth">
       <CoreBox className="classic">
-        <Button>
-          {location.pathname === "/feed" ? (
-            <NavLink to={"/"}>
+        {location.pathname === "/feed" ? (
+          <NavLink to={"/"}>
+            <Button>
               <i className="bi bi-house" />
-            </NavLink>
-          ) : (
-            <NavLink to={"/feed"}>
+            </Button>
+          </NavLink>
+        ) : (
+          <NavLink to={"/feed"}>
+            <Button>
               <i className="bi bi-view-list" />
-            </NavLink>
-          )}
-        </Button>
+            </Button>
+          </NavLink>
+        )}
         <StyledDropdown className="dropdown">
           {props.signedIn ? (
             <div
@@ -200,7 +202,6 @@ const Core = (props) => {
               {/* <i className="bi bi-hammer" /> */}
               {/* <i className="bi bi-pen" /> */}
               {/* <i className="bi bi-vector-pen" /> */}
-
             </Button>
           )}
           <ul

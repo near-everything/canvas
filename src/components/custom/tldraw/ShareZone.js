@@ -15,6 +15,10 @@ function ShareZone({ path }) {
     return editor.getSelectedShapes();
   }, [editor]);
 
+  const getShapePageBounds = useCallback(() => {
+    return editor.getShapePageBounds();
+  }, [editor]);
+
   const getSnapshot = useCallback(() => {
     return editor.store.getSnapshot();
   });
@@ -23,7 +27,12 @@ function ShareZone({ path }) {
     <Widget
       key={JSON.stringify(getSelectedShapeIds)}
       src="everycanvas.near/widget/sharezone"
-      props={{ getSnapshot: getSnapshot, path: path }}
+      props={{
+        getSnapshot: getSnapshot,
+        getSelectedShapes: getSelectedShapes,
+        getShapePageBounds: getShapePageBounds,
+        path: path,
+      }}
       config={{
         redirectMap: redirectMapStore.redirectMap,
       }}

@@ -1,3 +1,6 @@
+/**
+ * Modal can be moved to its own module
+ */
 const ModalBackdrop = styled.div`
   position: fixed;
   top: 0;
@@ -57,8 +60,20 @@ function Modal({ onClose, children }) {
   );
 }
 
+const [isModalOpen, setModalOpen] = useState(false);
+const [activePluginId, setActivePluginId] = useState(null);
+
+const toggleModal = (pluginId) => {
+  setModalOpen(!isModalOpen);
+  setActivePluginId(pluginId);
+};
+
+const Button = styled.button`
+  // this could take in theme
+  padding: 10px 20px;
+`;
+
 const {
-  // these are available to plugins from the ShareZone
   getSelectedShapes,
   getSnapshot,
   deleteShapes,
@@ -72,26 +87,15 @@ const {
   path,
 } = props;
 
-const [isModalOpen, setModalOpen] = useState(false);
-
-const Button = styled.button`
-  padding: 10px 20px;
-`;
-
-const toggleModal = () => {
-  setModalOpen(!isModalOpen);
-};
 const parts = path.split("/");
 const creatorId = parts[0];
 
-const snapshot = JSON.stringify(getSnapshot());
-// we're able to get shapes, getShapePageBounds
-// const creatorId = getSnapshot().metadata.creator;
-
-// these two are related, this is almost an entire plugin here
+const snapshot = getSnapshot();
+const selectedShapes = getSelectedShapes();
 
 const plugins = [
   {
+    id: "canvas.save",
     button: {
       icon: "bi bi-save",
       label: "save canvas",
@@ -104,84 +108,73 @@ const plugins = [
         source: "tldraw", // hardcoded Props
         type: "canvas",
         filename: "main",
-        data: snapshot, // vs dynamic
+        data: JSON.stringify(snapshot), // vs dynamic
       },
+      attribution: ["hack.near", "flowscience.near"], // this should come from widget metadata
+      isVisible: context.accountId === creatorId,
     },
-    plugins: [
-      // this can be saved in a widget's metadata
-      {
-        name: "attribution",
-        src: "miraclx.near/widget/Attribution",
-        props: {
-          dep: true,
-          authors: ["hack.near", "flowscience.near"],
-        },
-      },
-    ],
   },
-  {
-    button: {
-      icon: "bi bi-sign-merge-right",
-      label: "request merge",
-    },
-    interface: {
-      src: "james.near/widget/update",
-      props: {
-        data: snapshot,
-        src: creatorId,
-        update: "tldraw",
-        type: "canvas",
-        filename: "main",
-        data: snapshot, // vs dynamic
-      },
-    },
-    plugins: [
-      {
-        name: "attribution",
-        src: "miraclx.near/widget/Attribution",
-        props: {
-          dep: true,
-          authors: ["james.near"],
-        },
-      },
-    ],
-  },
+  // {
+  //   id: "canvas.request.merge",
+  //   button: {
+  //     icon: "bi bi-sign-merge-right",
+  //     label: "request merge",
+  //   },
+  //   interface: {
+  //     src: "james.near/widget/update",
+  //     props: {},
+  //     attribution: ["james.near"],
+  //     isVisible: context.accountId !== creatorId,
+  //   },
+  // },
+  // {
+  //   id: "canvas.post",
+  //   button: {
+  //     icon: "bi bi-send",
+  //     label: "post",
+  //     // disabled: selectedShapes.length === 0,
+  //   },
+  //   interface: {
+  //     src: "everycanvas.near/widget/canvas.post",
+  //     props: {
+  //       shapes: JSON.stringify(selectedShapes),
+  //     },
+  //     attribution: ["james.near"],
+  //     isVisible: context.accountId,
+  //   },
+  // },
 ];
+
+const activePlugin = plugins.find((plugin) => plugin.id === activePluginId);
 
 return (
   <>
-    <Button className="classic" onClick={toggleModal}>
-      {context.accountId === creatorId ? ( // plugin buttons
-        <>
-          <i className="bi bi-save" />
-          save canvas
-        </>
-      ) : (
-        <>
-          <i className="bi bi-sign-merge-right" />
-          request merge
-        </>
-      )}
-    </Button>
+    {plugins.map(
+      (plugin) =>
+        plugin.interface.isVisible && (
+          <Button
+            className="classic"
+            onClick={() => toggleModal(plugin.id)}
+            disabled={plugin.button.disabled}
+          >
+            <>
+              <i className={plugin.button.icon} />
+              {plugin.button.label}
+            </>
+          </Button>
+        )
+    )}
     {isModalOpen && (
       <Modal onClose={toggleModal}>
-        {/* This is hardcoded, need to turn into a plugin */}
         <div className="w-100">
           <Widget
-            src="/*__@appAccount__*//widget/create.hyperfile" // selected plugin
-            props={{
-              data: snapshot,
-              source: "tldraw",
-              type: "canvas",
-              filename: "main",
-              creatorId: creatorId,
-            }}
+            src={activePlugin.interface.src}
+            props={activePlugin.interface.props}
           />
         </div>
-        {/* Attributions should be a plugin */}
         <Widget
           src="miraclx.near/widget/Attribution"
-          props={{ dep: true, authors: ["hack.near", "flowscience.near"] }}
+          props={{ dep: true, authors: activePlugin.interface.attribution }}
         />
       </Modal>
     )}
