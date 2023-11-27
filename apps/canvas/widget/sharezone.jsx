@@ -107,7 +107,8 @@ const plugins = [
         data: snapshot, // vs dynamic
       },
     },
-    plugins: [ // this can be saved in a widget's metadata
+    plugins: [
+      // this can be saved in a widget's metadata
       {
         name: "attribution",
         src: "miraclx.near/widget/Attribution",
@@ -127,8 +128,8 @@ const plugins = [
       src: "james.near/widget/update",
       props: {
         data: snapshot,
-        src: creatorId, 
-        update: "tldraw", 
+        src: creatorId,
+        update: "tldraw",
         type: "canvas",
         filename: "main",
         data: snapshot, // vs dynamic
@@ -149,21 +150,19 @@ const plugins = [
 
 return (
   <>
-    {context.accountId && (
-      <Button className="classic" onClick={toggleModal}>
-        {context.accountId === creatorId ? ( // plugin buttons
-          <>
-            <i className="bi bi-save" />
-            save canvas
-          </>
-        ) : (
-          <>
-            <i className="bi bi-sign-merge-right" />
-            request merge
-          </>
-        )}
-      </Button>
-    )}
+    <Button className="classic" onClick={toggleModal}>
+      {context.accountId === creatorId ? ( // plugin buttons
+        <>
+          <i className="bi bi-save" />
+          save canvas
+        </>
+      ) : (
+        <>
+          <i className="bi bi-sign-merge-right" />
+          request merge
+        </>
+      )}
+    </Button>
     {isModalOpen && (
       <Modal onClose={toggleModal}>
         {/* This is hardcoded, need to turn into a plugin */}

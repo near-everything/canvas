@@ -176,6 +176,10 @@ return (
               disabled={props.source} // disable if source is passed in
             />
           </FormGroup>
+          {/* <Widget
+            src="bozon.near/widget/CodeDiff"
+            props={{ currentCode: update, prevCode: src, ...props }}
+          /> */}
           <textarea
             className="form-control mb-3"
             rows={5}
