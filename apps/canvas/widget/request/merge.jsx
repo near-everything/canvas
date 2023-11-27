@@ -1,16 +1,16 @@
 const Wrapper = styled.div`
   max-width: 400px;
-  margin: 0 auto;
+  margin: 1rem auto;
 `;
 
 const TabContent = styled.div`
-  margin-top: 1rem;
+  margin-top: 20px;
 `;
 
 const Form = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 15px;
   width: 100%;
 `;
 
@@ -29,35 +29,15 @@ const Select = styled.select`
 const FormGroup = styled.div`
   display: flex;
   flex-direction: column;
+  gap: 5px;
 `;
 
 const adapters = [
   // these can come from the user (or app) settings
-  // {
-  //   title: "Local Storage",
-  //   value: "everycanvas.near/widget/adapter.local_storage",
-  //   saveRef: false
-  // },
-  // {
-  //   title: "SocialDB",
-  //   value: "everycanvas.near/widget/adapter.social",
-  // },
   {
     title: "IPFS",
     value: "everycanvas.near/widget/adapter.ipfs",
   },
-  // {
-  //   title: "GitHub",
-  //   value: "hack.near/widget/adapter.github",
-  // },
-  // {
-  //   title: "Obsidian",
-  //   value: "hack.near/widget/adapter.obsidian",
-  // },
-  // {
-  //   title: "Tldraw",
-  //   value: "hack.near/widget/adapter.tldraw",
-  // },
 ];
 
 const defaultAdapter = adapters[0];
@@ -143,7 +123,7 @@ const handleCreate = () => {
 
 return (
   <Wrapper>
-    <h3>{context.accountId === creatorId ? "create" : "request merge"}</h3>
+    <h3>request merge</h3>
     <ul className="nav nav-tabs">
       <li className="nav-item">
         <a
@@ -223,7 +203,7 @@ return (
       )}
     </TabContent>
     <FormGroup>
-      <button className="btn btn-success mb-1" onClick={handleCreate}>
+      <button className="btn btn-success" onClick={handleCreate}>
         Create
       </button>
     </FormGroup>

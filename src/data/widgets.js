@@ -22,6 +22,7 @@ const TestnetWidgets = {
 const MainnetWidgets = {
   image: "mob.near/widget/Image",
   default: "everycanvas.near/widget/index",
+  feed: "everycanvas.near/widget/feed.index",
   viewSource: "mob.near/widget/WidgetSource",
   widgetMetadataEditor: "mob.near/widget/WidgetMetadataEditor",
   widgetMetadata: "mob.near/widget/WidgetMetadata",

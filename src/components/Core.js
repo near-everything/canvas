@@ -1,13 +1,9 @@
-// import React from "react";
-// import styled from "styled-components";
-
-// // Styled div centered within the box
-// const CenteredDiv = styled.div``;
-
-// src/components/Core.js
-import { Widget, useAccount, useNear } from "near-social-vm";
-import { default as React, useCallback, useEffect, useState } from "react";
-import { NavLink } from "react-router-dom/cjs/react-router-dom.min";
+import { Widget, useAccount } from "near-social-vm";
+import React, { useState } from "react";
+import {
+  NavLink,
+  useLocation,
+} from "react-router-dom/cjs/react-router-dom.min";
 import styled from "styled-components";
 import { LogOut } from "./icons/LogOut";
 import { Pretend } from "./icons/Pretend";
@@ -20,26 +16,29 @@ const CoreBackdrop = styled.div`
   left: 0;
   bottom: 20%;
   width: 70px;
-  height: 60px;
+  height: auto;
   display: flex;
   z-index: 50;
 `;
 
 const CoreBox = styled.div`
   background: white;
-  // padding: 20px;
-  // border-radius: 0px 8px 8px 0px;
   box-shadow: 0 10px 5px rgba(0, 0, 0, 0.3);
   z-index: 1002;
 
   &:hover {
     box-shadow: 0px 8px 3px rgba(0, 0, 0, 0.2);
-    transform: scale(0.98) translateY(3px); // scale down slightly and move downward
+    transform: scale(0.98) translateY(3px);
   }
 
   &:active {
     box-shadow: 0px 5px 2px rgba(0, 0, 0, 0.2);
-    transform: scale(0.96) translateY(6px); // more scale down and more downward movement for click
+    transform: scale(0.96) translateY(6px);
+  }
+
+  a {
+    text-decoration: none;
+    color: black;
   }
 `;
 
@@ -120,62 +119,60 @@ const ButtonRow = styled.div`
   display: flex;
   flex-direction: row;
   flex: 1;
-  // justify-content: space-between;
 `;
 
 const ArrowButton = styled.button`
   flex-grow: 1;
 `;
 
+const Button = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  text-transform: lowercase !important;
+  height: 48px;
+  width: 48px;
+  text-align: center;
+  text-decoration: none;
+  border: 2px outset #333;
+  cursor: pointer;
+  color: #333;
+  padding: 20px 20px;
+  margin: 4px;
+
+  &:active {
+    border-style: inset;
+    color: #000;
+  }
+
+  &:hover {
+    color: #111;
+  }
+`;
+
 const Core = (props) => {
-  const near = useNear();
   const account = useAccount();
-  // const [showModal, setShowModal] = useState(false);
-  const [matches, setMatches] = useState(
-    window.matchMedia("(min-width: 992px)").matches
-  );
+  const location = useLocation();
 
-  useEffect(() => {
-    window
-      .matchMedia("(min-width: 992px)")
-      .addEventListener("change", (e) => setMatches(e.matches));
-  }, []);
-
-  const withdrawStorage = useCallback(async () => {
-    await near.contract.storage_withdraw({}, undefined, "1");
-  }, [near]);
-
-  const [showPretendModal, setShowPretendModal] = React.useState(false);
-
-  const Button = styled.button`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    text-transform: lowercase !important;
-    height: 48px;
-    width: 48px;
-    text-align: center;
-    text-decoration: none;
-    border: 2px outset #333;
-    cursor: pointer;
-    color: #333;
-    padding: 20px 20px;
-    margin: 4px;
-
-    &:active {
-      border-style: inset;
-      color: #000;
-    }
-
-    &:hover {
-      color: #111;
-    }
-  `;
+  const [showPretendModal, setShowPretendModal] = useState(false);
 
   return (
-    <CoreBackdrop>
+    <CoreBackdrop className="core__auth">
       <CoreBox className="classic">
+        {location.pathname === "/feed" ? (
+          <NavLink to={"/"}>
+            <Button>
+              <i className="bi bi-house" />
+            </Button>
+          </NavLink>
+        ) : (
+          <NavLink to={"/feed"}>
+            <Button>
+              <i className="bi bi-view-list" />
+            </Button>
+          </NavLink>
+        )}
         <StyledDropdown className="dropdown">
           {props.signedIn ? (
             <div
@@ -200,6 +197,11 @@ const Core = (props) => {
               style={{ width: "48px", padding: 0 }}
             >
               <i className="bi bi-key-fill" />
+              {/* <i className="bi bi-brush" /> */}
+              {/* <i className="bi bi-brush-fill" /> */}
+              {/* <i className="bi bi-hammer" /> */}
+              {/* <i className="bi bi-pen" /> */}
+              {/* <i className="bi bi-vector-pen" /> */}
             </Button>
           )}
           <ul
@@ -232,25 +234,6 @@ const Core = (props) => {
                 my everything
               </NavLink>
             </li>
-            {/* <li>
-              <NavLink
-                className="dropdown-item"
-                type="button"
-                onClick={() => setShowModal(true)}
-              >
-                teleport
-              </NavLink>
-            </li> */}
-            {/* <li>
-            <button
-              className="dropdown-item"
-              type="button"
-              onClick={() => withdrawStorage()}
-            >
-              <Withdraw />
-              Withdraw {props.availableStorage.div(1000).toFixed(2)}kb
-            </button>
-          </li> */}
             {account.pretendAccountId ? (
               <li>
                 <button
@@ -299,17 +282,6 @@ const Core = (props) => {
           onHide={() => setShowPretendModal(false)}
           widgets={props.widgets}
         />
-        {/* {showModal && (
-          <Modal onClose={() => setShowModal(false)}>
-            <input
-              value={destination}
-              onChange={(e) => setDestination(e.target.value)}
-            />
-            <NavLink type="button" to={`/${destination}`}>
-              <i className="bi bi-house"></i>
-            </NavLink>
-          </Modal>
-        )} */}
       </CoreBox>
     </CoreBackdrop>
   );

@@ -27,6 +27,7 @@ import EverythingCanvas from "./components/custom/tldraw/Canvas";
 import { useEthersProviderContext } from "./data/web3";
 import { NetworkId, Widgets } from "./data/widgets";
 import { useBosLoaderInitializer } from "./hooks/useBosLoaderInitializer";
+import FeedPage from "./pages/FeedPage";
 import Flags from "./pages/Flags";
 import ViewPage from "./pages/ViewPage";
 
@@ -162,6 +163,11 @@ function App() {
           <Switch>
             <Route path={"/flags"}>
               <Flags {...passProps} />
+            </Route>
+            <Route path={"/feed/:type*"}>
+              <BosLoaderBanner />
+              <FeedPage {...passProps} />
+              <Core {...passProps} />
             </Route>
             <Route path={"/:path*"}>
               <BosLoaderBanner />

@@ -3,7 +3,7 @@ import { Widget } from "near-social-vm";
 import React, { useCallback } from "react";
 import { useBosLoaderStore } from "../../../stores/bos-loader";
 
-function ShareZone() {
+function ShareZone({ path }) {
   const editor = useEditor();
   const redirectMapStore = useBosLoaderStore();
 
@@ -15,6 +15,10 @@ function ShareZone() {
     return editor.getSelectedShapes();
   }, [editor]);
 
+  const getShapePageBounds = useCallback(() => {
+    return editor.getShapePageBounds();
+  }, [editor]);
+
   const getSnapshot = useCallback(() => {
     return editor.store.getSnapshot();
   });
@@ -23,7 +27,12 @@ function ShareZone() {
     <Widget
       key={JSON.stringify(getSelectedShapeIds)}
       src="everycanvas.near/widget/sharezone"
-      props={{ getSnapshot: getSnapshot }}
+      props={{
+        getSnapshot: getSnapshot,
+        getSelectedShapes: getSelectedShapes,
+        getShapePageBounds: getShapePageBounds,
+        path: path,
+      }}
       config={{
         redirectMap: redirectMapStore.redirectMap,
       }}
