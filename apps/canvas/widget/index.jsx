@@ -2,7 +2,7 @@
  * This should be primary view
  */
 
-const path = props.path || context.accountId || "everycanvas.near";
+const path = props.path || "everycanvas.near";
 
 const parts = path.split("/");
 
