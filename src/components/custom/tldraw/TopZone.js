@@ -6,14 +6,16 @@ function TopZone({ path }) {
   const redirectMapStore = useBosLoaderStore();
 
   return (
-    <Widget
-      key={`${path}-topzone`}
-      src="everycanvas.near/widget/topzone"
-      props={{ path: path }}
-      config={{
-        redirectMap: redirectMapStore.redirectMap,
-      }}
-    />
+    <>
+      <Widget
+        key={`${path}-topzone`}
+        src="everycanvas.near/widget/topzone"
+        props={{ path: path }}
+        config={{
+          redirectMap: redirectMapStore.redirectMap,
+        }}
+      />
+    </>
   );
 }
 

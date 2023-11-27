@@ -12,6 +12,7 @@ return (
         accountId: creatorId,
         tooltip: true,
         hideAccountId: true,
+        hideCheckmark: true
       }}
     />{"/" + thingId}
   </div>

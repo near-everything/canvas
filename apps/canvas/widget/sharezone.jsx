@@ -138,8 +138,12 @@ const plugins = [
   //     src: "everycanvas.near/widget/canvas.post",
   //     props: {
   //       shapes: JSON.stringify(selectedShapes),
+  //       item: {
+  //         type: "social",
+  //         path: path,
+  //       },
   //     },
-  //     attribution: ["james.near"],
+  //     attribution: ["efiz.near"],
   //     isVisible: context.accountId,
   //   },
   // },
