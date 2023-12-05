@@ -49,7 +49,7 @@ export function ActionButton({ path }) {
 
   const getSelectionAsText = useCallback(() => {
     const selectedShapeIds = editor.getSelectedShapeIds();
-    console.log("selectedShapeIds", selectedShapeIds)
+    console.log("selectedShapeIds", selectedShapeIds);
     const selectedShapeDescendantIds =
       editor.getShapeAndDescendantIds(selectedShapeIds);
 
@@ -73,31 +73,77 @@ export function ActionButton({ path }) {
     return texts.join("\n");
   }, [editor]);
 
-  const getMessages = useCallback(
-    async (e) => {
-      const selectedShapes = editor.getSelectedShapes();
-      if (selectedShapes.length === 0) {
-        throw new Error("First select something to make real.");
+  const getSelectionAsImageDataUrl = useCallback(() => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const svg = await editor.getSvg(editor.getSelectedShapes());
+        if (!svg) throw new Error("Could not get SVG");
+
+        const IS_SAFARI = /^((?!chrome|android).)*safari/i.test(
+          navigator.userAgent
+        );
+
+        const blob = await getSvgAsImage(svg, IS_SAFARI, {
+          type: "png",
+          quality: 1,
+          scale: 1,
+        });
+
+        if (!blob) throw new Error("Could not get blob");
+        const base64Data = await blobToBase64(blob);
+
+        resolve(base64Data);
+      } catch (error) {
+        reject(error);
       }
+    });
+  }, [editor]);
 
-      // first, we build the prompt that we'll send to openai.
-      const prompt = await buildPromptForOpenAi(editor);
+  const getContentOfPreviousResponse = useCallback(() => {
+    const previousResponses = editor
+      .getSelectedShapes()
+      .filter((shape) => shape.type === "response");
 
-      // then, we create an empty response shape. we'll put the response from openai in here, but for
-      // now it'll just show a spinner so the user knows we're working on it.
-      const responseShapeId = makeEmptyResponseShape(editor);
-      setRepsonseShapeId(responseShapeId);
+    if (previousResponses.length === 0) {
+      return null;
+    }
 
-      return JSON.stringify(prompt);
-    },
-    [editor]
-  );
+    if (previousResponses.length > 1) {
+      throw new Error("You can only have one previous response selected");
+    }
 
-  const setResponse = (response) => {
-    populateResponseShape(editor, responseShapeId, response);
-  };
+    return previousResponses[0].props.html;
+  }, [editor]);
 
-  // onMount
+  const makeEmptyResponseShape = useCallback(() => {
+    const selectionBounds = editor.getSelectionPageBounds();
+    if (!selectionBounds) throw new Error("No selection bounds");
+
+    const newShapeId = createShapeId();
+    editor.createShape({
+      id: newShapeId,
+      type: "response",
+      x: selectionBounds.maxX + 60,
+      y: selectionBounds.y,
+    });
+
+    return newShapeId;
+  }, [editor]);
+
+  const populateResponseShape = useCallback((responseShapeId, content) => {
+    // extract the html from the response
+    const message = content;
+    const start = message.indexOf("<!DOCTYPE html>");
+    const end = message.indexOf("</html>");
+    const html = message.slice(start, end + "</html>".length);
+  
+    // update the response shape we created earlier with the content
+    editor.updateShape({
+        id: responseShapeId,
+        type: "response",
+        props: { html },
+      });
+  }, [editor]);
 
   return (
     <>
@@ -107,7 +153,11 @@ export function ActionButton({ path }) {
           path,
           getSnapshot: getSnapshot,
           getSelectedShapes: getSelectedShapes,
-          getSelectionAsText: getSelectionAsText
+          getSelectionAsText: getSelectionAsText,
+          getSelectionAsImageDataUrl: getSelectionAsImageDataUrl,
+          getContentOfPreviousResponse: getContentOfPreviousResponse,
+          makeEmptyResponseShape: makeEmptyResponseShape,
+          populateResponseShape: populateResponseShape
         }}
         config={{
           redirectMap: redirectMapStore.redirectMap,
@@ -117,97 +167,7 @@ export function ActionButton({ path }) {
   );
 }
 
-async function buildPromptForOpenAi(editor) {
-  // the user messages describe what the user has done and what they want to do next. they'll get
-  // combined with the system prompt to tell gpt-4 what we'd like it to do.
-  const userMessages = [
-    {
-      type: "image_url",
-      image_url: {
-        // send an image of the current selection to gpt-4 so it can see what we're working with
-        url: await getSelectionAsImageDataUrl(editor),
-        detail: "high",
-      },
-    },
-    {
-      type: "text",
-      text: "Turn this into a single html file using tailwind.",
-    },
-    {
-      // send the text of all selected shapes, so that GPT can use it as a reference (if anything is hard to see)
-      type: "text",
-      text: getSelectionAsText(editor),
-    },
-  ];
 
-  // if the user has selected a previous response from gpt-4, include that too. hopefully gpt-4 will
-  // modify it with any other feedback or annotations the user has left.
-  const previousResponseContent = getContentOfPreviousResponse(editor);
-  if (previousResponseContent) {
-    userMessages.push({
-      type: "text",
-      text: previousResponseContent,
-    });
-  }
-
-  // combine the user prompt with the system prompt
-  return [
-    { role: "system", content: systemPrompt },
-    { role: "user", content: userMessages },
-  ];
-}
-
-function populateResponseShape(editor, responseShapeId, openAiResponse) {
-  if (openAiResponse.error) {
-    throw new Error(openAiResponse.error.message);
-  }
-
-  // extract the html from the response
-  const message = openAiResponse.choices[0].message.content;
-  const start = message.indexOf("<!DOCTYPE html>");
-  const end = message.indexOf("</html>");
-  const html = message.slice(start, end + "</html>".length);
-
-  // update the response shape we created earlier with the content
-  editor.updateShape <
-    ResponseShape >
-    {
-      id: responseShapeId,
-      type: "response",
-      props: { html },
-    };
-}
-
-function makeEmptyResponseShape(editor) {
-  const selectionBounds = editor.getSelectionPageBounds();
-  if (!selectionBounds) throw new Error("No selection bounds");
-
-  const newShapeId = createShapeId();
-  editor.createShape({
-    id: newShapeId,
-    type: "response",
-    x: selectionBounds.maxX + 60,
-    y: selectionBounds.y,
-  });
-
-  return newShapeId;
-}
-
-function getContentOfPreviousResponse(editor) {
-  const previousResponses = editor
-    .getSelectedShapes()
-    .filter((shape) => shape.type === "response");
-
-  if (previousResponses.length === 0) {
-    return null;
-  }
-
-  if (previousResponses.length > 1) {
-    throw new Error("You can only have one previous response selected");
-  }
-
-  return previousResponses[0].props.html;
-}
 
 function blobToBase64(blob) {
   return new Promise((resolve, _) => {
@@ -215,22 +175,6 @@ function blobToBase64(blob) {
     reader.onloadend = () => resolve(reader.result);
     reader.readAsDataURL(blob);
   });
-}
-
-async function getSelectionAsImageDataUrl(editor) {
-  const svg = await editor.getSvg(editor.getSelectedShapes());
-  if (!svg) throw new Error("Could not get SVG");
-
-  const IS_SAFARI = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
-
-  const blob = await getSvgAsImage(svg, IS_SAFARI, {
-    type: "png",
-    quality: 1,
-    scale: 1,
-  });
-
-  if (!blob) throw new Error("Could not get blob");
-  return await blobToBase64(blob);
 }
 
 // const deleteShapes = useCallback((shapes) => {

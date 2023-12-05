@@ -111,7 +111,16 @@ const Button = styled.button`
   padding: 10px 20px;
 `;
 
-const { path, getSelectedShapes, getSnapshot, getSelectionAsText } = props;
+const {
+  path,
+  getSelectedShapes,
+  getSnapshot,
+  getSelectionAsText,
+  getSelectionAsImageDataUrl,
+  getContentOfPreviousResponse,
+  makeEmptyResponseShape,
+  populateResponseShape,
+} = props;
 
 const parts = path.split("/");
 const creatorId = parts[0];
@@ -126,7 +135,11 @@ const plugins = [
       src: "everycanvas.near/widget/magic",
       props: {
         shapes: JSON.stringify(selectedShapes),
-        getSelectionAsText,
+        getSelectionAsText: getSelectionAsText,
+        getSelectionAsImageDataUrl: getSelectionAsImageDataUrl,
+        getContentOfPreviousResponse: getContentOfPreviousResponse,
+        makeEmptyResponseShape: makeEmptyResponseShape,
+        populateResponseShape: populateResponseShape
       },
       attribution: ["petersalomonsen.near"], // this should come from widget metadata
     },
