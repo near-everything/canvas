@@ -32,6 +32,7 @@ const [prompt, setPrompt] = useState(systemPrompt);
 const [model, setModel] = useState("gpt-4-vision-preview");
 const [messages, setMessages] = useState([]);
 const [responseShapeId, setResponseShapeId] = useState([]);
+const [response, setResponse] = useState(null);
 
 const convertToText = () => {
   setText(getSelectionAsText());
@@ -55,23 +56,28 @@ const getPreviousResponse = () => {
 const createMessages = () => {
   const userMessages = [
     {
+      type: "text",
+      text: "Turn this into a single html file using tailwind.",
+    },
+  ];
+
+  if (text) {
+    userMessages.push({
+      type: "text",
+      text: text,
+    });
+  }
+
+  if (dataUrl) {
+    userMessages.push({
       type: "image_url",
       image_url: {
         // send an image of the current selection to gpt-4 so it can see what we're working with
         url: dataUrl,
         detail: "high",
       },
-    },
-    {
-      type: "text",
-      text: "Turn this into a single html file using tailwind.",
-    },
-    {
-      // send the text of all selected shapes, so that GPT can use it as a reference (if anything is hard to see)
-      type: "text",
-      text: text,
-    },
-  ];
+    });
+  }
   if (previousResponse) {
     userMessages.push({
       type: "text",
@@ -91,10 +97,7 @@ const createEmptyShape = () => {
 };
 
 const updateResponseShape = () => {
-  populateResponseShape(
-    responseShapeId,
-    "<!DOCTYPE html><html><head><title>Hello, World!</title></head><body><h1>Hello, World!</h1></body></html>"
-  );
+  populateResponseShape(responseShapeId, response);
 };
 
 return (
@@ -110,7 +113,11 @@ return (
     <Button onClick={getPreviousResponse}>get previous response</Button>
     <textarea style={{ width: "100%" }} value={previousResponse} disabled />
     <h5>prompt</h5>
-    <textarea style={{ width: "100%" }} value={prompt} />
+    <textarea
+      style={{ width: "100%" }}
+      value={prompt}
+      onChange={(e) => setPrompt(e.target.value)}
+    />
     <h5>model</h5>
     <select
       style={{ width: "100%" }}
@@ -128,6 +135,15 @@ return (
       disabled
     />
     <Button onClick={createEmptyShape}>create empty response shape</Button>
+    <Widget
+      src="everycanvas.near/widget/near-openai"
+      props={{ model: model, messages: messages, setResponse: setResponse }}
+    />
+    <textarea
+      style={{ width: "100%" }}
+      value={JSON.stringify(response)}
+      disabled
+    />
     <Button onClick={updateResponseShape}>update response shape</Button>
   </>
 );

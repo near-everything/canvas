@@ -1,4 +1,3 @@
-
 // Sourced from
 // https://github.com/petersalomonsen/near-openai/blob/main/boswidgets/askchatgpt/main.js
 
@@ -141,7 +140,7 @@ window.onmessage = async (msg) => {
             window.parent.postMessage({ command: 'usingaccount', accountId: await useAccount(msg.data.secretKey) }, globalThis.parentOrigin);
             break;
         case 'ask_ai':
-            const response = await create_and_send_ask_ai_request([{ role: 'user', content: msg.data.aiquestion }], msg.data.model);            
+            const response = await create_and_send_ask_ai_request(msg.data.aiquestion, msg.data.model);            
             window.parent.postMessage({ command: 'airesponse', airesponse: response }, globalThis.parentOrigin);
             break;
     }
@@ -257,20 +256,6 @@ const secretKeyToggle = state.showSecretKey ? (
 return (
   <>
     {iframe}
-    <textarea
-      style={{ width: "100%" }}
-      onChange={(e) => State.update({ aiquestion: e.target.value })}
-      value={state.aiquestion}
-    ></textarea>
-    <select
-      style={{ width: "100%" }}
-      onChange={(e) => State.update({ aimodel: e.target.value })}
-      value={state.aimodel}
-    >
-      {/* <option value="gpt-3.5-turbo">gpt-3.5-turbo</option>
-      <option value="gpt-4">gpt-4</option> */}
-      <option value="gpt-4-vision-preview">gpt-4-vision-preview</option>
-    </select>
     {state.progress ? (
       <Progress.Root>
         <Progress.Indicator state="indeterminate" />
@@ -279,24 +264,10 @@ return (
       <button onClick={ask_ai}>Ask ChatGPT</button>
     )}
 
-    <div
-      style={{ marginTop: "20px", padding: "20px", backgroundColor: "#f5f5f5" }}
-    >
-      <Markdown text={state.airesponse} />
-    </div>
-
-    <p>
-      <br />
-    </p>
-
     <p></p>
     <p>
       Spending account ID: <pre>{state.accountId}</pre>
       Copy account Id and fund from your own wallet (I recommend .5 N){" "}
-      {/* How can we improve this? 
-        Button to fund specific account from wallet?
-        Keypom claim?
-      */}
       <button
         className="classic"
         onClick={() => {
