@@ -30,98 +30,48 @@ Use JavaScript modules and unpkg to import any necessary dependencies.
 
 Respond ONLY with the contents of the html file.`;
 
-const StyledActionButton = styled.div`
-  position: fixed;
-  z-index: 290;
-  border-radius: 50%;
-  cursor: pointer;
-  background: radial-gradient(circle at 30% 30%, #4a4949, #000000);
-
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1), 0px 2px 4px rgba(0, 0, 0, 0.06),
-    0px 10px 15px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s ease, box-shadow 0.2s ease; // smooth transition
-
-  &:hover {
-    background: radial-gradient(circle at 70% 30%, #4a4949, #000000);
-    box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.2);
-    transform: scale(0.98) translateY(4px); // scale down slightly and move downward
-  }
-
-  &:active {
-    box-shadow: 0px 2px 14px rgba(0, 0, 0, 0.2);
-    transform: scale(0.96) translateY(6px); // more scale down and more downward movement for click
-  }
-
-  /* Desktop and Tablet */
-  @media (min-width: 768px) {
-    width: 120px;
-    height: 120px;
-    right: 30px;
-    bottom: 50px;
-  }
-
-  /* Mobile */
-  @media (max-width: 767px) {
-    width: 100px;
-    height: 100px;
-    right: 15px;
-    bottom: 110px;
-  }
-`;
-
-const ModalBackdrop = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1001;
-`;
-
-const ModalBox = styled.div`
-  background: white;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-  z-index: 1002;
-  max-width: 100vw;
-`;
-
-const CloseButton = styled.button`
-  background: #f44336;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  padding: 10px 15px;
-  cursor: pointer;
-  float: right;
-`;
-
-// Modal should be part of the widget.
-function Modal({ onClose, children }) {
-  return (
-    <ModalBackdrop>
-      <ModalBox>
-        <CloseButton onClick={onClose}>Close</CloseButton>
-        {children}
-      </ModalBox>
-    </ModalBackdrop>
-  );
-}
-
-export function ActionButton() {
+export function ActionButton({ path }) {
   // This is within the canvas, so we can use the editor
 
-  const [isModalOpen, setModalOpen] = useState(false);
   const redirectMapStore = useBosLoaderStore();
   const [messages, setMessages] = useState("");
   const [responseShapeId, setRepsonseShapeId] = useState("");
 
   const editor = useEditor();
+
+  const getSelectedShapes = useCallback(() => {
+    return editor.getSelectedShapes();
+  }, [editor]);
+
+  const getSnapshot = useCallback(() => {
+    return editor.store.getSnapshot();
+  });
+
+  const getSelectionAsText = useCallback(() => {
+    const selectedShapeIds = editor.getSelectedShapeIds();
+    console.log("selectedShapeIds", selectedShapeIds)
+    const selectedShapeDescendantIds =
+      editor.getShapeAndDescendantIds(selectedShapeIds);
+
+    const texts = Array.from(selectedShapeDescendantIds)
+      .map((id) => {
+        const shape = editor.getShape(id);
+        if (!shape) return null;
+        if (
+          shape.type === "text" ||
+          shape.type === "geo" ||
+          shape.type === "arrow" ||
+          shape.type === "note"
+        ) {
+          // @ts-expect-error
+          return shape.props.text;
+        }
+        return null;
+      })
+      .filter((v) => v !== null && v !== "");
+
+    return texts.join("\n");
+  }, [editor]);
 
   const getMessages = useCallback(
     async (e) => {
@@ -147,44 +97,22 @@ export function ActionButton() {
     populateResponseShape(editor, responseShapeId, response);
   };
 
-  useEffect(() => {
-    if (isModalOpen) {
-      getMessages().then((messages) => {
-        setMessages(messages);
-      });
-    }
-  }, [isModalOpen]);
-
   // onMount
 
   return (
     <>
-      <StyledActionButton onClick={() => setModalOpen(true)} />
-      {isModalOpen && (
-        <Modal
-          onClose={() => {
-            // onClone function
-            editor.deleteShapes([responseShapeId]);
-            setModalOpen(false);
-          }}
-        >
-          <Widget // this is the widget that will send the prompt to openai and display the response
-            src="everycanvas.near/widget/magic"
-            props={{
-              model: "gpt-4-vision-preview",
-              messages: messages,
-              setResponse: setResponse,
-            }}
-            config={{
-              redirectMap: redirectMapStore.redirectMap,
-            }}
-          />
-          <Widget
-            src="miraclx.near/widget/Attribution"
-            props={{ dep: true, authors: ["petersalomonsen.near"] }}
-          />
-        </Modal>
-      )}
+      <Widget // this is the widget that will send the prompt to openai and display the response
+        src="everycanvas.near/widget/tldraw.Action"
+        props={{
+          path,
+          getSnapshot: getSnapshot,
+          getSelectedShapes: getSelectedShapes,
+          getSelectionAsText: getSelectionAsText
+        }}
+        config={{
+          redirectMap: redirectMapStore.redirectMap,
+        }}
+      />
     </>
   );
 }
@@ -279,31 +207,6 @@ function getContentOfPreviousResponse(editor) {
   }
 
   return previousResponses[0].props.html;
-}
-
-function getSelectionAsText(editor) {
-  const selectedShapeIds = editor.getSelectedShapeIds();
-  const selectedShapeDescendantIds =
-    editor.getShapeAndDescendantIds(selectedShapeIds);
-
-  const texts = Array.from(selectedShapeDescendantIds)
-    .map((id) => {
-      const shape = editor.getShape(id);
-      if (!shape) return null;
-      if (
-        shape.type === "text" ||
-        shape.type === "geo" ||
-        shape.type === "arrow" ||
-        shape.type === "note"
-      ) {
-        // @ts-expect-error
-        return shape.props.text;
-      }
-      return null;
-    })
-    .filter((v) => v !== null && v !== "");
-
-  return texts.join("\n");
 }
 
 function blobToBase64(blob) {
