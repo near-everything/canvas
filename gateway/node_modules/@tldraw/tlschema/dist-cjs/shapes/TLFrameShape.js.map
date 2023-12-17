@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../src/shapes/TLFrameShape.ts"],
+  "sourcesContent": ["import { defineMigrations } from '@tldraw/store'\nimport { T } from '@tldraw/validate'\nimport { ShapePropsType, TLBaseShape } from './TLBaseShape'\n\n/** @public */\nexport const frameShapeProps = {\n\tw: T.nonZeroNumber,\n\th: T.nonZeroNumber,\n\tname: T.string,\n}\n\ntype TLFrameShapeProps = ShapePropsType<typeof frameShapeProps>\n\n/** @public */\nexport type TLFrameShape = TLBaseShape<'frame', TLFrameShapeProps>\n\n/** @internal */\nexport const frameShapeMigrations = defineMigrations({})\n"],
+  "mappings": ";;;;;;;;;;;;;;;;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA,mBAAiC;AACjC,sBAAkB;AAIX,MAAM,kBAAkB;AAAA,EAC9B,GAAG,kBAAE;AAAA,EACL,GAAG,kBAAE;AAAA,EACL,MAAM,kBAAE;AACT;AAQO,MAAM,2BAAuB,+BAAiB,CAAC,CAAC;",
+  "names": []
+}

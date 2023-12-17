@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../../src/lib/utils/normalizeWheel.ts"],
+  "sourcesContent": ["// Reasonable defaults\nconst MAX_ZOOM_STEP = 10\nconst IS_DARWIN = /Mac|iPod|iPhone|iPad/.test(\n\ttypeof window === 'undefined' ? 'node' : window.navigator.platform\n)\n\n// Adapted from https://stackoverflow.com/a/13650579\n/** @internal */\nexport function normalizeWheel(event: WheelEvent | React.WheelEvent<HTMLElement>) {\n\tlet { deltaY, deltaX } = event\n\tlet deltaZ = 0\n\n\tif (event.ctrlKey || event.altKey || event.metaKey) {\n\t\tconst signY = Math.sign(event.deltaY)\n\t\tconst absDeltaY = Math.abs(event.deltaY)\n\n\t\tlet dy = deltaY\n\n\t\tif (absDeltaY > MAX_ZOOM_STEP) {\n\t\t\tdy = MAX_ZOOM_STEP * signY\n\t\t}\n\n\t\tdeltaZ = dy / 100\n\t} else {\n\t\tif (event.shiftKey && !IS_DARWIN) {\n\t\t\tdeltaX = deltaY\n\t\t\tdeltaY = 0\n\t\t}\n\t}\n\n\treturn { x: -deltaX, y: -deltaY, z: -deltaZ }\n}\n"],
+  "mappings": ";;;;;;;;;;;;;;;;;;AAAA;AAAA;AAAA;AAAA;AAAA;AACA,MAAM,gBAAgB;AACtB,MAAM,YAAY,uBAAuB;AAAA,EACxC,OAAO,WAAW,cAAc,SAAS,OAAO,UAAU;AAC3D;AAIO,SAAS,eAAe,OAAmD;AACjF,MAAI,EAAE,QAAQ,OAAO,IAAI;AACzB,MAAI,SAAS;AAEb,MAAI,MAAM,WAAW,MAAM,UAAU,MAAM,SAAS;AACnD,UAAM,QAAQ,KAAK,KAAK,MAAM,MAAM;AACpC,UAAM,YAAY,KAAK,IAAI,MAAM,MAAM;AAEvC,QAAI,KAAK;AAET,QAAI,YAAY,eAAe;AAC9B,WAAK,gBAAgB;AAAA,IACtB;AAEA,aAAS,KAAK;AAAA,EACf,OAAO;AACN,QAAI,MAAM,YAAY,CAAC,WAAW;AACjC,eAAS;AACT,eAAS;AAAA,IACV;AAAA,EACD;AAEA,SAAO,EAAE,GAAG,CAAC,QAAQ,GAAG,CAAC,QAAQ,GAAG,CAAC,OAAO;AAC7C;",
+  "names": []
+}

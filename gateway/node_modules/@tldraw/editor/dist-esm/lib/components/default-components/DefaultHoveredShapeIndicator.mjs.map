@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../../../src/lib/components/default-components/DefaultHoveredShapeIndicator.tsx"],
+  "sourcesContent": ["import { TLShapeId } from '@tldraw/tlschema'\nimport { ComponentType } from 'react'\nimport { ShapeIndicator } from '../ShapeIndicator'\n\n/** @public */\nexport type TLHoveredShapeIndicatorComponent = ComponentType<{\n\tshapeId: TLShapeId\n}>\n\n/** @public */\nexport const DefaultHoveredShapeIndicator: TLHoveredShapeIndicatorComponent = ({ shapeId }) => {\n\treturn <ShapeIndicator className=\"tl-user-indicator__hovered\" id={shapeId} />\n}\n"],
+  "mappings": "AAWQ;AATR,SAAS,sBAAsB;AAQxB,MAAM,+BAAiE,CAAC,EAAE,QAAQ,MAAM;AAC9F,SAAO,oBAAC,kBAAe,WAAU,8BAA6B,IAAI,SAAS;AAC5E;",
+  "names": []
+}

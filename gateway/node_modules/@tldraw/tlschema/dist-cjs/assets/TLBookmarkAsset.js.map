@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../src/assets/TLBookmarkAsset.ts"],
+  "sourcesContent": ["import { defineMigrations } from '@tldraw/store'\nimport { T } from '@tldraw/validate'\nimport { createAssetValidator, TLBaseAsset } from './TLBaseAsset'\n\n/**\n * An asset used for URL bookmarks, used by the TLBookmarkShape.\n *\n *  @public */\nexport type TLBookmarkAsset = TLBaseAsset<\n\t'bookmark',\n\t{\n\t\ttitle: string\n\t\tdescription: string\n\t\timage: string\n\t\tsrc: string | null\n\t}\n>\n\n/** @internal */\nexport const bookmarkAssetValidator: T.Validator<TLBookmarkAsset> = createAssetValidator(\n\t'bookmark',\n\tT.object({\n\t\ttitle: T.string,\n\t\tdescription: T.string,\n\t\timage: T.string,\n\t\tsrc: T.string.nullable(),\n\t})\n)\n\n/** @internal */\nexport const bookmarkAssetMigrations = defineMigrations({})\n"],
+  "mappings": ";;;;;;;;;;;;;;;;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA,mBAAiC;AACjC,sBAAkB;AAClB,yBAAkD;AAiB3C,MAAM,6BAAuD;AAAA,EACnE;AAAA,EACA,kBAAE,OAAO;AAAA,IACR,OAAO,kBAAE;AAAA,IACT,aAAa,kBAAE;AAAA,IACf,OAAO,kBAAE;AAAA,IACT,KAAK,kBAAE,OAAO,SAAS;AAAA,EACxB,CAAC;AACF;AAGO,MAAM,8BAA0B,+BAAiB,CAAC,CAAC;",
+  "names": []
+}

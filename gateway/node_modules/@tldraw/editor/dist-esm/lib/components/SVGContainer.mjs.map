@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../../src/lib/components/SVGContainer.tsx"],
+  "sourcesContent": ["import * as React from 'react'\n\n/** @public */\nexport type SVGContainerProps = React.HTMLAttributes<SVGElement>\n\n/** @public */\nexport function SVGContainer({ children, className = '', ...rest }: SVGContainerProps) {\n\treturn (\n\t\t<svg {...rest} className={`tl-svg-container ${className}`}>\n\t\t\t{children}\n\t\t</svg>\n\t)\n}\n"],
+  "mappings": "AAQE;AAFK,SAAS,aAAa,EAAE,UAAU,YAAY,IAAI,GAAG,KAAK,GAAsB;AACtF,SACC,oBAAC,SAAK,GAAG,MAAM,WAAW,oBAAoB,SAAS,IACrD,UACF;AAEF;",
+  "names": []
+}

@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../../src/lib/hooks/useEditor.ts"],
+  "sourcesContent": ["import React from 'react'\nimport { Editor } from '../editor/Editor'\n\nexport const EditorContext = React.createContext({} as Editor)\n\n/** @public */\nexport const useEditor = (): Editor => {\n\treturn React.useContext(EditorContext)\n}\n"],
+  "mappings": "AAAA,OAAO,WAAW;AAGX,MAAM,gBAAgB,MAAM,cAAc,CAAC,CAAW;AAGtD,MAAM,YAAY,MAAc;AACtC,SAAO,MAAM,WAAW,aAAa;AACtC;",
+  "names": []
+}

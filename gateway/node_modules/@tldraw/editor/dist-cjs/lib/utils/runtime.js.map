@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../../src/lib/utils/runtime.ts"],
+  "sourcesContent": ["/** @public */\nexport const runtime: {\n\topenWindow: (url: string, target: string) => void\n\trefreshPage: () => void\n\thardReset: () => void\n} = {\n\topenWindow: (url, target) => window.open(url, target, 'noopener noreferrer'),\n\trefreshPage: () => window.location.reload(),\n\thardReset: async () => await (window as any).__tldraw__hardReset?.(),\n}\n\n/** @public */\nexport function setRuntimeOverrides(input: Partial<typeof runtime>) {\n\tObject.assign(runtime, input)\n}\n"],
+  "mappings": ";;;;;;;;;;;;;;;;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AACO,MAAM,UAIT;AAAA,EACH,YAAY,CAAC,KAAK,WAAW,OAAO,KAAK,KAAK,QAAQ,qBAAqB;AAAA,EAC3E,aAAa,MAAM,OAAO,SAAS,OAAO;AAAA,EAC1C,WAAW,YAAY,MAAO,OAAe,sBAAsB;AACpE;AAGO,SAAS,oBAAoB,OAAgC;AACnE,SAAO,OAAO,SAAS,KAAK;AAC7B;",
+  "names": []
+}

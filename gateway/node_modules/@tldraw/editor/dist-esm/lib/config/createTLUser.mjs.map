@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../../src/lib/config/createTLUser.ts"],
+  "sourcesContent": ["import { Signal, computed } from '@tldraw/state'\nimport { TLInstancePresence, TLStore } from '@tldraw/tlschema'\nimport { TLUserPreferences, getUserPreferences, setUserPreferences } from './TLUserPreferences'\n\n/** @public */\nexport interface TLUser {\n\treadonly derivePresenceState: (store: TLStore) => Signal<TLInstancePresence | null>\n\treadonly userPreferences: Signal<TLUserPreferences>\n\treadonly setUserPreferences: (userPreferences: TLUserPreferences) => void\n}\n\n/** @public */\nexport function createTLUser(\n\topts = {} as {\n\t\t/** @internal */\n\t\tderivePresenceState?: (store: TLStore) => Signal<TLInstancePresence | null>\n\t\tuserPreferences?: Signal<TLUserPreferences>\n\t\tsetUserPreferences?: (userPreferences: TLUserPreferences) => void\n\t}\n): TLUser {\n\treturn {\n\t\tderivePresenceState: opts.derivePresenceState ?? (() => computed('presence', () => null)),\n\t\tuserPreferences:\n\t\t\topts.userPreferences ?? computed('userPreferences', () => getUserPreferences()),\n\t\tsetUserPreferences: opts.setUserPreferences ?? setUserPreferences,\n\t}\n}\n"],
+  "mappings": "AAAA,SAAiB,gBAAgB;AAEjC,SAA4B,oBAAoB,0BAA0B;AAUnE,SAAS,aACf,OAAO,CAAC,GAMC;AACT,SAAO;AAAA,IACN,qBAAqB,KAAK,wBAAwB,MAAM,SAAS,YAAY,MAAM,IAAI;AAAA,IACvF,iBACC,KAAK,mBAAmB,SAAS,mBAAmB,MAAM,mBAAmB,CAAC;AAAA,IAC/E,oBAAoB,KAAK,sBAAsB;AAAA,EAChD;AACD;",
+  "names": []
+}

@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../src/lib/type-utils.ts"],
+  "sourcesContent": ["import { RecordType } from './RecordType'\nimport { Store } from './Store'\n\ntype ExtractRecordType<T extends Store<any>> = T extends Store<infer R> ? R : never\n\ntype ExtractR<T extends RecordType<any, any>> = T extends RecordType<infer S, any> ? S : never\n\n/**\n * Get the type of all records in a record store.\n *\n * @public\n */\nexport type AllRecords<T extends Store<any>> = ExtractR<ExtractRecordType<T>>\n"],
+  "mappings": ";;;;;;;;;;;;;;AAAA;AAAA;",
+  "names": []
+}

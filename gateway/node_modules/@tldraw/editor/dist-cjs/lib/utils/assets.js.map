@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../../src/lib/utils/assets.ts"],
+  "sourcesContent": ["/** @public */\nexport function dataUrlToFile(url: string, filename: string, mimeType: string) {\n\treturn fetch(url)\n\t\t.then(function (res) {\n\t\t\treturn res.arrayBuffer()\n\t\t})\n\t\t.then(function (buf) {\n\t\t\treturn new File([buf], filename, { type: mimeType })\n\t\t})\n}\n"],
+  "mappings": ";;;;;;;;;;;;;;;;;;AAAA;AAAA;AAAA;AAAA;AAAA;AACO,SAAS,cAAc,KAAa,UAAkB,UAAkB;AAC9E,SAAO,MAAM,GAAG,EACd,KAAK,SAAU,KAAK;AACpB,WAAO,IAAI,YAAY;AAAA,EACxB,CAAC,EACA,KAAK,SAAU,KAAK;AACpB,WAAO,IAAI,KAAK,CAAC,GAAG,GAAG,UAAU,EAAE,MAAM,SAAS,CAAC;AAAA,EACpD,CAAC;AACH;",
+  "names": []
+}

@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../../../src/lib/shapes/shared/getBrowserCanvasMaxSize.tsx"],
+  "sourcesContent": ["import canvasSize from 'canvas-size'\n\nexport type CanvasMaxSize = {\n\tmaxWidth: number\n\tmaxHeight: number\n\tmaxArea: number\n}\n\nlet maxSizePromise: Promise<CanvasMaxSize> | null = null\n\nexport function getBrowserCanvasMaxSize() {\n\tif (!maxSizePromise) {\n\t\tmaxSizePromise = calculateBrowserCanvasMaxSize()\n\t}\n\n\treturn maxSizePromise\n}\n\nasync function calculateBrowserCanvasMaxSize(): Promise<CanvasMaxSize> {\n\tconst maxWidth = await canvasSize.maxWidth({ usePromise: true })\n\tconst maxHeight = await canvasSize.maxHeight({ usePromise: true })\n\tconst maxArea = await canvasSize.maxArea({ usePromise: true })\n\treturn {\n\t\tmaxWidth: maxWidth.width,\n\t\tmaxHeight: maxHeight.height,\n\t\tmaxArea: maxArea.width * maxArea.height,\n\t}\n}\n"],
+  "mappings": ";;;;;;;;;;;;;;;;;;;;;;;;;;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA,yBAAuB;AAQvB,IAAI,iBAAgD;AAE7C,SAAS,0BAA0B;AACzC,MAAI,CAAC,gBAAgB;AACpB,qBAAiB,8BAA8B;AAAA,EAChD;AAEA,SAAO;AACR;AAEA,eAAe,gCAAwD;AACtE,QAAM,WAAW,MAAM,mBAAAA,QAAW,SAAS,EAAE,YAAY,KAAK,CAAC;AAC/D,QAAM,YAAY,MAAM,mBAAAA,QAAW,UAAU,EAAE,YAAY,KAAK,CAAC;AACjE,QAAM,UAAU,MAAM,mBAAAA,QAAW,QAAQ,EAAE,YAAY,KAAK,CAAC;AAC7D,SAAO;AAAA,IACN,UAAU,SAAS;AAAA,IACnB,WAAW,UAAU;AAAA,IACrB,SAAS,QAAQ,QAAQ,QAAQ;AAAA,EAClC;AACD;",
+  "names": ["canvasSize"]
+}

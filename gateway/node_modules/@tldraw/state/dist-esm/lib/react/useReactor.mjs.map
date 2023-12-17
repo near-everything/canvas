@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../../src/lib/react/useReactor.ts"],
+  "sourcesContent": ["import { useEffect, useMemo } from 'react'\nimport { EffectScheduler } from '../core'\n\n/** @public */\nexport function useReactor(name: string, reactFn: () => void, deps: undefined | any[] = []) {\n\tconst scheduler = useMemo(\n\t\t() => new EffectScheduler(name, reactFn, { scheduleEffect: (cb) => requestAnimationFrame(cb) }),\n\t\t// eslint-disable-next-line react-hooks/exhaustive-deps\n\t\tdeps\n\t)\n\n\tuseEffect(() => {\n\t\tscheduler.attach()\n\t\tscheduler.execute()\n\t\treturn () => {\n\t\t\tscheduler.detach()\n\t\t}\n\t}, [scheduler])\n}\n"],
+  "mappings": "AAAA,SAAS,WAAW,eAAe;AACnC,SAAS,uBAAuB;AAGzB,SAAS,WAAW,MAAc,SAAqB,OAA0B,CAAC,GAAG;AAC3F,QAAM,YAAY;AAAA,IACjB,MAAM,IAAI,gBAAgB,MAAM,SAAS,EAAE,gBAAgB,CAAC,OAAO,sBAAsB,EAAE,EAAE,CAAC;AAAA;AAAA,IAE9F;AAAA,EACD;AAEA,YAAU,MAAM;AACf,cAAU,OAAO;AACjB,cAAU,QAAQ;AAClB,WAAO,MAAM;AACZ,gBAAU,OAAO;AAAA,IAClB;AAAA,EACD,GAAG,CAAC,SAAS,CAAC;AACf;",
+  "names": []
+}

@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../../../src/lib/editor/types/SvgExportContext.tsx"],
+  "sourcesContent": ["/** @public */\nexport interface SvgExportDef {\n\tkey: string\n\tgetElement: () => Promise<SVGElement | SVGElement[] | null> | SVGElement | SVGElement[] | null\n}\n\n/** @public */\nexport interface SvgExportContext {\n\t/**\n\t * Add contents to the `<defs>` section of the export SVG. Each export def should have a unique\n\t * key. If multiple defs come with the same key, only one will be added.\n\t */\n\taddExportDef(def: SvgExportDef): void\n}\n"],
+  "mappings": ";;;;;;;;;;;;;;AAAA;AAAA;",
+  "names": []
+}

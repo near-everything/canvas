@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../src/shapes/TLGroupShape.ts"],
+  "sourcesContent": ["import { defineMigrations } from '@tldraw/store'\nimport { ShapeProps, TLBaseShape } from './TLBaseShape'\n\n/** @public */\nexport type TLGroupShapeProps = { [key in never]: undefined }\n\n/** @public */\nexport type TLGroupShape = TLBaseShape<'group', TLGroupShapeProps>\n\n/** @internal */\nexport const groupShapeProps: ShapeProps<TLGroupShape> = {}\n\n/** @internal */\nexport const groupShapeMigrations = defineMigrations({})\n"],
+  "mappings": ";;;;;;;;;;;;;;;;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA,mBAAiC;AAU1B,MAAM,kBAA4C,CAAC;AAGnD,MAAM,2BAAuB,+BAAiB,CAAC,CAAC;",
+  "names": []
+}

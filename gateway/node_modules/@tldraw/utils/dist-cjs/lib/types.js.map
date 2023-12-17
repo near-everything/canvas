@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../src/lib/types.ts"],
+  "sourcesContent": ["/** @public */\nexport type RecursivePartial<T> = {\n\t[P in keyof T]?: RecursivePartial<T[P]>\n}\n\n/** @public */\nexport type Expand<T> = T extends infer O ? { [K in keyof O]: O[K] } : never\n\ntype _Required<T> = { [K in keyof T]-?: T[K] }\n\n/** @internal */\nexport type Required<T, K extends keyof T> = Expand<Omit<T, K> & _Required<Pick<T, K>>>\n"],
+  "mappings": ";;;;;;;;;;;;;;AAAA;AAAA;",
+  "names": []
+}

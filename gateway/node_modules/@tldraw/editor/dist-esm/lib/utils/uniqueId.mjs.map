@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../../src/lib/utils/uniqueId.ts"],
+  "sourcesContent": ["import { nanoid } from 'nanoid'\n\n/**\n * Generate a unique id.\n *\n * @example\n *\n * ```ts\n * const id = uniqueId()\n * ```\n *\n * @public\n */\nexport function uniqueId() {\n\treturn nanoid()\n}\n"],
+  "mappings": "AAAA,SAAS,cAAc;AAahB,SAAS,WAAW;AAC1B,SAAO,OAAO;AACf;",
+  "names": []
+}

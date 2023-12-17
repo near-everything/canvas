@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../../src/lib/react/index.ts"],
+  "sourcesContent": ["export { track } from './track'\nexport { useAtom } from './useAtom'\nexport { useComputed } from './useComputed'\nexport { useQuickReactor } from './useQuickReactor'\nexport { useReactor } from './useReactor'\nexport { useStateTracking } from './useStateTracking'\nexport { useValue } from './useValue'\n"],
+  "mappings": ";;;;;;;;;;;;;;;;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA,mBAAsB;AACtB,qBAAwB;AACxB,yBAA4B;AAC5B,6BAAgC;AAChC,wBAA2B;AAC3B,8BAAiC;AACjC,sBAAyB;",
+  "names": []
+}

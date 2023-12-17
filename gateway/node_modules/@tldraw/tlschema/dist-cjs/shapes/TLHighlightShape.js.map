@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../src/shapes/TLHighlightShape.ts"],
+  "sourcesContent": ["import { defineMigrations } from '@tldraw/store'\nimport { T } from '@tldraw/validate'\nimport { DefaultColorStyle } from '../styles/TLColorStyle'\nimport { DefaultSizeStyle } from '../styles/TLSizeStyle'\nimport { ShapePropsType, TLBaseShape } from './TLBaseShape'\nimport { DrawShapeSegment } from './TLDrawShape'\n\n/** @public */\nexport const highlightShapeProps = {\n\tcolor: DefaultColorStyle,\n\tsize: DefaultSizeStyle,\n\tsegments: T.arrayOf(DrawShapeSegment),\n\tisComplete: T.boolean,\n\tisPen: T.boolean,\n}\n\n/** @public */\nexport type TLHighlightShapeProps = ShapePropsType<typeof highlightShapeProps>\n\n/** @public */\nexport type TLHighlightShape = TLBaseShape<'highlight', TLHighlightShapeProps>\n\n/** @internal */\nexport const highlightShapeMigrations = defineMigrations({})\n"],
+  "mappings": ";;;;;;;;;;;;;;;;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA,mBAAiC;AACjC,sBAAkB;AAClB,0BAAkC;AAClC,yBAAiC;AAEjC,yBAAiC;AAG1B,MAAM,sBAAsB;AAAA,EAClC,OAAO;AAAA,EACP,MAAM;AAAA,EACN,UAAU,kBAAE,QAAQ,mCAAgB;AAAA,EACpC,YAAY,kBAAE;AAAA,EACd,OAAO,kBAAE;AACV;AASO,MAAM,+BAA2B,+BAAiB,CAAC,CAAC;",
+  "names": []
+}

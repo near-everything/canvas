@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../src/index.ts"],
+  "sourcesContent": ["import * as T from './lib/validation'\n\nexport {\n\tArrayOfValidator,\n\tDictValidator,\n\tObjectValidator,\n\tUnionValidator,\n\tValidator,\n} from './lib/validation'\nexport { T }\n"],
+  "mappings": ";;;;;;;;;;;;;;;;;;;;;;;;;;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA,QAAmB;AAEnB,wBAMO;",
+  "names": []
+}

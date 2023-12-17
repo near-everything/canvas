@@ -36,15 +36,39 @@ const Statistics = styled.div`
   border-radius: 5px;
 `;
 
+// {
+//   "efiz.near": {
+//     "update": { vs thing
+//       "4324124": {
+//         "": JSON.stringify({
+//             content: "// Template"
+//         })
+//         metadata: {
+//             type: "update"
+//         }
+//     }, 
+//     "post": {
+//       "main": "{\"type\":\"md\",\"text\":\"[+EMBED](efiz.near/update/4324124) \"}"
+//     },
+//     "index": {
+//       "post": "[{\"key\":\"main\",\"value\":{\"type\":\"md\"}}, {\"key\":\"update\",\"value\":{\"type\":\"md\"}}]"
+//     }
+//   }
+// }
+
 const handlePost = () => {
   Social.set({
     // save for embedding a canvas
     post: {
       main: JSON.stringify({
-        content:
+        type: "md",
+        text:
           "[!EMBED](everycanvas.near/widget/p.view?path=...blockHeight=)",
-        shapes: selectedShapes,
       }),
+      canvas: JSON.stringify({
+        type: "shapes",
+        shapes: selectedShapes,
+      })
     },
     index: {
       post: JSON.stringify({

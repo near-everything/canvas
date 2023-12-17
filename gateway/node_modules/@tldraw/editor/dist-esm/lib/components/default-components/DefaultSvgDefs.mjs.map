@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../../../src/lib/components/default-components/DefaultSvgDefs.tsx"],
+  "sourcesContent": ["/** @public */\nexport type TLSvgDefsComponent = React.ComponentType\n\n/** @public */\nexport const DefaultSvgDefs = () => {\n\treturn null\n}\n"],
+  "mappings": "AAIO,MAAM,iBAAiB,MAAM;AACnC,SAAO;AACR;",
+  "names": []
+}

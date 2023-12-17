@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../../../src/lib/components/default-components/DefaultHandle.tsx"],
+  "sourcesContent": ["import { TLHandle, TLShapeId } from '@tldraw/tlschema'\nimport classNames from 'classnames'\nimport { ComponentType } from 'react'\n\n/** @public */\nexport type TLHandleComponent = ComponentType<{\n\tshapeId: TLShapeId\n\thandle: TLHandle\n\tzoom: number\n\tisCoarse: boolean\n\tclassName?: string\n}>\n\n/** @public */\nexport const DefaultHandle: TLHandleComponent = ({ handle, isCoarse, className, zoom }) => {\n\tconst bgRadius = (isCoarse ? 20 : 12) / zoom\n\tconst fgRadius = (handle.type === 'create' && isCoarse ? 3 : 4) / zoom\n\n\treturn (\n\t\t<g\n\t\t\tclassName={classNames(\n\t\t\t\t'tl-handle',\n\t\t\t\t{\n\t\t\t\t\t'tl-handle__virtual': handle.type === 'virtual',\n\t\t\t\t\t'tl-handle__create': handle.type === 'create',\n\t\t\t\t},\n\t\t\t\tclassName\n\t\t\t)}\n\t\t>\n\t\t\t<circle className=\"tl-handle__bg\" r={bgRadius} />\n\t\t\t<circle className=\"tl-handle__fg\" r={fgRadius} />\n\t\t</g>\n\t)\n}\n"],
+  "mappings": ";;;;;;;;;;;;;;;;;;;;;;;;;;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAmBE;AAlBF,wBAAuB;AAahB,MAAM,gBAAmC,CAAC,EAAE,QAAQ,UAAU,WAAW,KAAK,MAAM;AAC1F,QAAM,YAAY,WAAW,KAAK,MAAM;AACxC,QAAM,YAAY,OAAO,SAAS,YAAY,WAAW,IAAI,KAAK;AAElE,SACC;AAAA,IAAC;AAAA;AAAA,MACA,eAAW,kBAAAA;AAAA,QACV;AAAA,QACA;AAAA,UACC,sBAAsB,OAAO,SAAS;AAAA,UACtC,qBAAqB,OAAO,SAAS;AAAA,QACtC;AAAA,QACA;AAAA,MACD;AAAA,MAEA;AAAA,oDAAC,YAAO,WAAU,iBAAgB,GAAG,UAAU;AAAA,QAC/C,4CAAC,YAAO,WAAU,iBAAgB,GAAG,UAAU;AAAA;AAAA;AAAA,EAChD;AAEF;",
+  "names": ["classNames"]
+}

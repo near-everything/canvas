@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../../src/lib/react/index.ts"],
+  "sourcesContent": ["export { track } from './track'\nexport { useAtom } from './useAtom'\nexport { useComputed } from './useComputed'\nexport { useQuickReactor } from './useQuickReactor'\nexport { useReactor } from './useReactor'\nexport { useStateTracking } from './useStateTracking'\nexport { useValue } from './useValue'\n"],
+  "mappings": "AAAA,SAAS,aAAa;AACtB,SAAS,eAAe;AACxB,SAAS,mBAAmB;AAC5B,SAAS,uBAAuB;AAChC,SAAS,kBAAkB;AAC3B,SAAS,wBAAwB;AACjC,SAAS,gBAAgB;",
+  "names": []
+}

@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../src/index.ts"],
+  "sourcesContent": ["/* eslint-disable local/no-export-star */\nexport * from './lib/core'\nexport * from './lib/react'\n"],
+  "mappings": ";;;;;;;;;;;;;;;AAAA;AAAA;AACA,wBAAc,uBADd;AAEA,wBAAc,wBAFd;",
+  "names": []
+}

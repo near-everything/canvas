@@ -1,0 +1,13 @@
+{
+  "name": "near-social-vm-types",
+  "version": "1.0.0",
+  "description": "This repository includes types for Near social VM",
+  "main": "src/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/shelegdmitriy/near-social-vm-types.git"
+  },
+  "keywords": ["typescript", "module"],
+  "author": "Dmitriy Sheleg",
+  "license": "MIT"
+}

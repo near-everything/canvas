@@ -1,0 +1,1 @@
+export declare const InterVar = "\n@font-face {\n  font-family: 'Inter';\n  font-style:  normal;\n  font-weight: 300 600;\n  font-display: swap;\n  src: url(\"https://rsms.me/inter/font-files/Inter-roman.var.woff2?v=3.19\") format(\"woff2\");\n}\n";

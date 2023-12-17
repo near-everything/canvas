@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../../../src/lib/components/default-components/DefaultHandles.tsx"],
+  "sourcesContent": ["import { ComponentType } from 'react'\n\n/** @public */\nexport type TLHandlesComponent = ComponentType<{\n\tclassName?: string\n\tchildren: any\n}>\n\n/** @public */\nexport const DefaultHandles: TLHandlesComponent = ({ children }) => {\n\treturn <svg className=\"tl-user-handles tl-overlays__item\">{children}</svg>\n}\n"],
+  "mappings": ";;;;;;;;;;;;;;;;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAUQ;AADD,MAAM,iBAAqC,CAAC,EAAE,SAAS,MAAM;AACnE,SAAO,4CAAC,SAAI,WAAU,qCAAqC,UAAS;AACrE;",
+  "names": []
+}

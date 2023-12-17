@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../../../src/lib/primitives/geometry/Point2d.ts"],
+  "sourcesContent": ["import { Vec2d } from '../Vec2d'\nimport { Geometry2d, Geometry2dOptions } from './Geometry2d'\n\n/** @public */\nexport class Point2d extends Geometry2d {\n\tpoint: Vec2d\n\n\tconstructor(\n\t\tconfig: Omit<Geometry2dOptions, 'isClosed' | 'isFilled'> & { margin: number; point: Vec2d }\n\t) {\n\t\tsuper({ ...config, isClosed: true, isFilled: true })\n\t\tconst { point } = config\n\n\t\tthis.point = point\n\t}\n\n\tgetVertices() {\n\t\treturn [this.point]\n\t}\n\n\tnearestPoint(): Vec2d {\n\t\treturn this.point\n\t}\n\n\thitTestLineSegment(A: Vec2d, B: Vec2d, margin: number): boolean {\n\t\treturn Vec2d.DistanceToLineSegment(A, B, this.point) < margin\n\t}\n}\n"],
+  "mappings": "AAAA,SAAS,aAAa;AACtB,SAAS,kBAAqC;AAGvC,MAAM,gBAAgB,WAAW;AAAA,EACvC;AAAA,EAEA,YACC,QACC;AACD,UAAM,EAAE,GAAG,QAAQ,UAAU,MAAM,UAAU,KAAK,CAAC;AACnD,UAAM,EAAE,MAAM,IAAI;AAElB,SAAK,QAAQ;AAAA,EACd;AAAA,EAEA,cAAc;AACb,WAAO,CAAC,KAAK,KAAK;AAAA,EACnB;AAAA,EAEA,eAAsB;AACrB,WAAO,KAAK;AAAA,EACb;AAAA,EAEA,mBAAmB,GAAU,GAAU,QAAyB;AAC/D,WAAO,MAAM,sBAAsB,GAAG,GAAG,KAAK,KAAK,IAAI;AAAA,EACxD;AACD;",
+  "names": []
+}
