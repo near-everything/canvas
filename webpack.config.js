@@ -83,7 +83,6 @@ module.exports = function (env) {
           favicon: `${paths.publicPath}/favicon.png`,
           publicPath: "/",
         }),
-        new webpack.ProgressPlugin(),
         new webpack.ProvidePlugin({
           process: "process/browser",
           Buffer: [require.resolve("buffer/"), "Buffer"],
