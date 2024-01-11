@@ -1,310 +1,149 @@
-// Sourced from
-// https://github.com/petersalomonsen/near-openai/blob/main/boswidgets/askchatgpt/main.js
+const systemPrompt = `You are an expert web developer who specializes in inline bootstrap css classes.
+A user will provide you with a low-fidelity wireframe of an application. 
+You will return a single html file that uses HTML, tailwind css, and JavaScript to create a high fidelity website.
+Include any extra CSS and JavaScript in the html file.
+If you have any images, load them from Unsplash or use solid colored rectangles.
+The user will provide you with notes in blue or red text, arrows, or drawings.
+The user may also include images of other websites as style references. Transfer the styles as best as you can, matching fonts / colors / layouts.
+They may also provide you with the html of a previous design that they want you to iterate from.
+Carry out any changes they request from you.
+In the wireframe, the previous design's html will appear as a white rectangle.
+For your reference, all text from the image will also be provided to you as a list of strings, separated by newlines. Use them as a reference if any text is hard to read.
+Use creative license to make the application more fleshed out.
+Use JavaScript modules and unpkg to import any necessary dependencies.
 
-// TODO: Separate out into its own SDK
+Respond ONLY with the contents of the html file.`;
 
-const NETWORK_ID = "mainnet";
+const {
+  shapes,
+  getSelectionAsText,
+  getSelectionAsImageDataUrl,
+  getContentOfPreviousResponse,
+  makeEmptyResponseShape,
+  populateResponseShape,
+} = props;
 
-// what does near-api-js use these for?
-// and how can people discover other options
-const NODE_URL = "https://rpc.mainnet.near.org";
-const WALLET_URL = `https://wallet.${NETWORK_ID}.near.org`; // what should this be defaulting to?
-const HELPER_URL = `https://helper.${NETWORK_ID}.near.org`;
-const EXPLORER_URL = `https://explorer.${NETWORK_ID}.near.org`; // and this?
+const Button = styled.button``;
 
-const API_URL = "https://near-openai.vercel.app/api/openai";
+const [text, setText] = useState("");
+const [dataUrl, setDataUrl] = useState(null);
+const [previousResponse, setPreviousResponse] = useState(null);
+const [prompt, setPrompt] = useState(systemPrompt);
+const [model, setModel] = useState("gpt-4-vision-preview");
+const [messages, setMessages] = useState([]);
+const [responseShapeId, setResponseShapeId] = useState([]);
+const [response, setResponse] = useState(null);
 
-const code = `
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta charset="UTF-8">
-    </head>
-    <body>
-    </body>
-    <script type="module">
-
-import 'https://cdn.jsdelivr.net/npm/near-api-js@2.1.3/dist/near-api-js.min.js';
-import 'https://cdn.jsdelivr.net/npm/js-sha256@0.9.0/src/sha256.min.js';
-
-const keyStore = new nearApi.keyStores.InMemoryKeyStore();
-let account;
-const networkId = "mainnet";
-
-const config = {
-    keyStore, // instance of UnencryptedFileSystemKeyStore
-    networkId: networkId,
-    nodeUrl:  "https://rpc.mainnet.near.org",
-    walletUrl: "https://wallet.mainnet.near.org",
-    helperUrl: "https://helper.mainnet.near.org",
-    explorerUrl: "https://explorer.mainnet.near.org"
+const convertToText = () => {
+  setText(getSelectionAsText());
 };
 
-
-async function createAccount() {
-    const keypair = nearApi.utils.KeyPairEd25519.fromRandom();
-    const accountId = Buffer.from(keypair.publicKey.data).toString('hex');
-    await keyStore.setKey(networkId, accountId, keypair);
-    const near = await nearApi.connect(config);
-    account = await near.account(accountId);
-    return { secretKey: keypair.secretKey, accountId };
-}
-
-async function useAccount(secretKey) {
-    const keypair = nearApi.utils.KeyPair.fromString(secretKey);
-    const accountId = Buffer.from(keypair.publicKey.data).toString('hex');
-    await keyStore.setKey(networkId, accountId, keypair);
-    const near = await nearApi.connect(config);
-    account = await near.account(accountId);
-    return accountId;
-}
-
-async function create_ask_ai_request_body(messages, model) {
-    const accountId = account.accountId;
-
-    const messagesStringified = JSON.stringify(messages);
-    const deposit = 50_00000_00000_00000_00000n;
-
-    const message_hash = sha256(messagesStringified);
-
-    const receiverId = 'jsinrust.near';
-    const method_name = 'ask_ai';
-    const gas = '30000000000000';
-    const publicKey = await account.connection.signer.getPublicKey(account.accountId, account.connection.networkId);
-
-    let accessKey;
-    
-    try {
-      accessKey = (await account.findAccessKey()).accessKey;
-    } catch (e) {
-      throw new Error(JSON.stringify("Balance is empty.", null, 1));
-    }
-
-    const nonce = ++accessKey.nonce;
-    const recentBlockHash = nearApi.utils.serialize.base_decode(
-        accessKey.block_hash
-    );
-
-    const transaction = nearApi.transactions.createTransaction(
-        account.accountId,
-        publicKey,
-        receiverId,
-        nonce,
-        [nearApi.transactions.functionCall(method_name, {
-            message_hash
-        }, gas, deposit)],
-        recentBlockHash
-    );
-    const [txHash, signedTx] = await nearApi.transactions.signTransaction(transaction, account.connection.signer, account.accountId, account.connection.networkId);
-
-    return JSON.stringify({
-        signed_transaction: Buffer.from(signedTx.encode()).toString('base64'),
-        transaction_hash: nearApi.utils.serialize.base_encode(txHash),
-        sender_account_id: accountId,
-        messages: messages,
-        model: model
+const convertToDataUrl = () => {
+  getSelectionAsImageDataUrl()
+    .then((data) => {
+      console.log(data);
+      setDataUrl(data);
+    })
+    .catch((error) => {
+      console.error(error);
     });
-}
-
-async function create_and_send_ask_ai_request(messages, model) {
-    console.log("model", model);
-    try {
-        const requestbody = await create_ask_ai_request_body(messages, model);
-        const airesponse = await fetch(
-            "https://near-openai-50jjawxtf-petersalomonsen.vercel.app/api/openai",
-            {
-                method: 'POST',
-                body: requestbody
-            }).then(r => r.json());
-        if (airesponse.error) {
-            throw new Error(JSON.stringify(airesponse.error, null, 1));
-        }
-        return airesponse.choices[0].message.content;
-    } catch (e) {
-        console.log(e.message)
-        window.parent.postMessage({ command: "error", error: e.message }, '*');
-    }
-}
-
-window.onmessage = async (msg) => {
-    globalThis.parentOrigin = msg.origin;
-
-    console.log('iframe got message', msg.data);
-    switch (msg.data.command) {
-        case 'createaccount':
-            const { secretKey, accountId } = await createAccount();
-            window.parent.postMessage({ command: 'accountcreated', secretKey, accountId }, globalThis.parentOrigin);
-            break;
-        case 'useaccount':
-            window.parent.postMessage({ command: 'usingaccount', accountId: await useAccount(msg.data.secretKey) }, globalThis.parentOrigin);
-            break;
-        case 'ask_ai':
-            const response = await create_and_send_ask_ai_request([{ role: 'user', content: msg.data.aiquestion }], msg.data.model);            
-            window.parent.postMessage({ command: 'airesponse', airesponse: response }, globalThis.parentOrigin);
-            break;
-    }
 };
 
-window.parent.postMessage({ command: 'ready' }, '*');
-    </script>
-</html>
-`;
+const getPreviousResponse = () => {
+  setText(getContentOfPreviousResponse());
+};
 
-const { model, messages, setResponse } = props;
-
-const SECRET_KEY_STORAGE_KEY = "secretKey";
-Storage.privateGet(SECRET_KEY_STORAGE_KEY);
-
-State.init({
-  secretKey: null,
-  airesponse: "",
-  aiquestion: messages ?? "What is the meaning of life?",
-  aimodel: model ?? "gpt-3.5-turbo",
-  accountId: "",
-  iframeMessage: null,
-  usingAccount: false,
-});
-
-function init_iframe() {
-  const secretKey = Storage.privateGet(SECRET_KEY_STORAGE_KEY);
-
-  State.update({
-    secretKey,
-    iframeMessage: secretKey
-      ? {
-          command: "useaccount",
-          secretKey: secretKey,
-        }
-      : {
-          command: "createaccount",
-        },
-  });
-}
-
-function tldrawStart() {}
-
-function ask_ai() {
-  State.update({
-    iframeMessage: {
-      command: "ask_ai",
-      aiquestion: props.messages,
-      model: state.aimodel,
-      ts: new Date().getTime(),
+const createMessages = () => {
+  const userMessages = [
+    {
+      type: "text",
+      text: "Turn this into a single html file using tailwind.",
     },
-    progress: true,
-  });
-  console.log("state updated", state.iframeMessage);
-}
+  ];
 
-function changeSecretKey(secretKey) {
-  State.update({ secretKey });
-  Storage.privateSet(SECRET_KEY_STORAGE_KEY, secretKey);
-  init_iframe();
-}
-
-function handleMessage(msg) {
-  switch (msg.command) {
-    case "accountcreated":
-      Storage.privateSet(SECRET_KEY_STORAGE_KEY, msg.secretKey);
-      State.update({
-        accountId: msg.accountId,
-        secretKey: msg.secretKey,
-      });
-      break;
-    case "airesponse":
-      if (setResponse) {
-        setResponse(msg.airesponse);
-      }
-      State.update({ airesponse: msg.airesponse, progress: false });
-      break;
-    case "usingaccount":
-      State.update({ accountId: msg.accountId });
-      break;
-    case "error":
-      console.log("error received in parent", msg.error);
-      break;
-    case "ready":
-      console.log("ready");
-      init_iframe();
-      break;
+  if (text) {
+    userMessages.push({
+      type: "text",
+      text: text,
+    });
   }
-}
 
-const iframe = (
-  <iframe
-    message={state.iframeMessage}
-    onMessage={handleMessage}
-    srcDoc={code}
-    style={{ width: "0px", height: "0px", border: "none" }}
-  ></iframe>
-);
+  if (dataUrl) {
+    userMessages.push({
+      type: "image_url",
+      image_url: {
+        // send an image of the current selection to gpt-4 so it can see what we're working with
+        url: dataUrl,
+        detail: "high",
+      },
+    });
+  }
+  if (previousResponse) {
+    userMessages.push({
+      type: "text",
+      text: previousResponse,
+    });
+  }
 
-const secretKeyToggle = state.showSecretKey ? (
-  <>
-    <button onClick={() => State.update({ showSecretKey: false })}>Hide</button>
-    <input
-      type="text"
-      value={state.secretKey}
-      onChange={(e) => changeSecretKey(e.target.value)}
-    ></input>
-  </>
-) : (
-  <button onClick={() => State.update({ showSecretKey: true })}>Show</button>
-);
+  // combine the user prompt with the system prompt
+  setMessages([
+    { role: "system", content: prompt },
+    { role: "user", content: userMessages },
+  ]);
+};
+
+const createEmptyShape = () => {
+  setResponseShapeId(makeEmptyResponseShape());
+};
+
+const updateResponseShape = () => {
+  populateResponseShape(responseShapeId, response);
+};
 
 return (
   <>
-    {iframe}
+    <h5>selected shapes</h5>
+    <textarea style={{ width: "100%" }} value={shapes} disabled />
+    <Button onClick={convertToText}>convert to text</Button>
+    <textarea style={{ width: "100%" }} value={text} disabled />
+    <Button onClick={convertToDataUrl}>convert to image</Button>
+    <div className="d-flex">
+      {dataUrl && <img src={dataUrl} height={100} width={200} />}
+    </div>
+    <Button onClick={getPreviousResponse}>get previous response</Button>
+    <textarea style={{ width: "100%" }} value={previousResponse} disabled />
+    <h5>prompt</h5>
     <textarea
       style={{ width: "100%" }}
-      onChange={(e) => State.update({ aiquestion: e.target.value })}
-      value={state.aiquestion}
-    ></textarea>
+      value={prompt}
+      onChange={(e) => setPrompt(e.target.value)}
+    />
+    <h5>model</h5>
     <select
       style={{ width: "100%" }}
-      onChange={(e) => State.update({ aimodel: e.target.value })}
-      value={state.aimodel}
+      onChange={(e) => setModel(e.target.value)}
+      value={model}
     >
-      {/* <option value="gpt-3.5-turbo">gpt-3.5-turbo</option>
-      <option value="gpt-4">gpt-4</option> */}
+      <option value="gpt-3.5-turbo">gpt-3.5-turbo</option>
+      <option value="gpt-4">gpt-4</option>
       <option value="gpt-4-vision-preview">gpt-4-vision-preview</option>
     </select>
-    {state.progress ? (
-      <Progress.Root>
-        <Progress.Indicator state="indeterminate" />
-      </Progress.Root>
-    ) : (
-      <button onClick={ask_ai}>Ask ChatGPT</button>
-    )}
-
-    <div
-      style={{ marginTop: "20px", padding: "20px", backgroundColor: "#f5f5f5" }}
-    >
-      <Markdown text={state.airesponse} />
-    </div>
-
-    <p>
-      <br />
-    </p>
-
-    <p></p>
-    <p>
-      Spending account ID: <pre>{state.accountId}</pre>
-      Copy account Id and fund from your own wallet (I recommend .5 N){" "}
-      {/* How can we improve this? 
-        Button to fund specific account from wallet?
-        Keypom claim?
-      */}
-      <button
-        className="classic"
-        onClick={() => {
-          clipboard.writeText(state.accountId);
-        }}
-      >
-        <i className="bi bi-clipboard" />
-      </button>
-    </p>
-    <p>Spending account secret key: {secretKeyToggle}</p>
+    <Button onClick={createMessages}>create messages</Button>
+    <textarea
+      style={{ width: "100%" }}
+      value={JSON.stringify(messages)}
+      disabled
+    />
+    <Button onClick={createEmptyShape}>create empty response shape</Button>
+    <Widget
+      src="everycanvas.near/widget/near-openai"
+      props={{ model: model, messages: messages, setResponse: setResponse }}
+    />
+    <textarea
+      style={{ width: "100%" }}
+      value={JSON.stringify(response)}
+      disabled
+    />
+    <Button onClick={updateResponseShape}>update response shape</Button>
   </>
 );

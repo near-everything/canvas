@@ -1,4 +1,3 @@
-import { sanitizeUrl } from "@braintree/sanitize-url";
 import { setupWalletSelector } from "@near-wallet-selector/core";
 import { setupHereWallet } from "@near-wallet-selector/here-wallet";
 import { setupMeteorWallet } from "@near-wallet-selector/meteor-wallet";
@@ -9,6 +8,7 @@ import "App.scss";
 import Big from "big.js";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import "bootstrap/dist/js/bootstrap.bundle";
+import { isValidAttribute } from "dompurify";
 import "error-polyfill";
 import {
   EthersProviderContext,
@@ -71,7 +71,9 @@ function App() {
               delete props.href;
             }
             if (props.to) {
-              props.to = sanitizeUrl(props.to);
+              props.to = isValidAttribute("a", "href", props.to)
+                ? props.to
+                : "about:blank";
             }
             return <Link {...props} />;
           },
