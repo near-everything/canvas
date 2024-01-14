@@ -23,6 +23,11 @@ function ShareZone({ path }) {
     return editor.store.getSnapshot();
   });
 
+  const loadSnapshot = useCallback((snapshot) => { 
+    snapshot = typeof snapshot === "string" ? JSON.parse(snapshot) : snapshot; 
+    editor.store.loadSnapshot(snapshot);
+  });
+
   return (
     <Widget
       key={JSON.stringify(getSelectedShapeIds)}
@@ -32,6 +37,7 @@ function ShareZone({ path }) {
         getSelectedShapes: getSelectedShapes,
         getShapePageBounds: getShapePageBounds,
         path: path,
+        loadSnapshot: loadSnapshot,
       }}
       config={{
         redirectMap: redirectMapStore.redirectMap,
