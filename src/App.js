@@ -23,13 +23,13 @@ import "react-bootstrap-typeahead/css/Typeahead.css";
 import { Link, Route, BrowserRouter as Router, Switch } from "react-router-dom";
 import { BosLoaderBanner } from "./components/BosLoaderBanner";
 import Core from "./components/Core";
-import EverythingCanvas from "./components/custom/tldraw/Canvas";
 import { useEthersProviderContext } from "./data/web3";
 import { NetworkId, Widgets } from "./data/widgets";
 import { useBosLoaderInitializer } from "./hooks/useBosLoaderInitializer";
 import FeedPage from "./pages/FeedPage";
 import Flags from "./pages/Flags";
 import ViewPage from "./pages/ViewPage";
+import TldrawCanvas from "./components/custom/tldraw/Canvas";
 
 export const refreshAllowanceObj = {};
 const documentationHref = "https://github.com/NearBuilders/docs";
@@ -78,7 +78,7 @@ function App() {
             return <Link {...props} />;
           },
           Canvas: (props) => {
-            return <EverythingCanvas {...props} />;
+            return <TldrawCanvas {...props} />;
           },
         },
         config: {

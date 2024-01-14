@@ -13,7 +13,7 @@ import TopZone from "./TopZone";
 
 const shapeUtils = [ResponseShapeUtil];
 
-function EverythingCanvas({ persistance, autoFocus, hideUi, initialSnapshot }) {
+function TldrawCanvas({ persistance, autoFocus, hideUi, initialSnapshot }) {
   const parts = persistance.split("/");
   const creatorId = parts[0];
 
@@ -89,4 +89,4 @@ function EverythingCanvas({ persistance, autoFocus, hideUi, initialSnapshot }) {
   );
 }
 
-export default EverythingCanvas;
+export default TldrawCanvas;
