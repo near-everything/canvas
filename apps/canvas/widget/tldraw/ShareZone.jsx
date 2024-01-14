@@ -85,6 +85,7 @@ const {
   asPng,
   asDataUrl,
   path,
+  loadSnapshot,
 } = props;
 
 const parts = path.split("/");
@@ -94,6 +95,27 @@ const snapshot = getSnapshot();
 const selectedShapes = getSelectedShapes();
 
 const plugins = [
+  {
+    id: "canvas.load",
+    button: {
+      icon: "bi bi-load",
+      label: "load canvas",
+    },
+    interface: {
+      src: "everycanvas.near/widget/load.hyperfile",
+      props: {
+        // Prop hydration (?)
+        creatorId: creatorId, // requester?
+        source: "tldraw", // hardcoded Props
+        type: "canvas",
+        filename: "main",
+        path: path,
+        loadSnapshot: loadSnapshot
+      },
+      attribution: ["bozon.near", "near", "james.near"], // this should come from widget metadata
+      isVisible: context.accountId === creatorId,
+    },
+  },
   {
     id: "canvas.save",
     button: {
@@ -109,6 +131,7 @@ const plugins = [
         type: "canvas",
         filename: "main",
         data: JSON.stringify(snapshot), // vs dynamic
+        loadSnapshot: loadSnapshot
       },
       attribution: ["hack.near", "flowscience.near"], // this should come from widget metadata
       isVisible: context.accountId === creatorId,
