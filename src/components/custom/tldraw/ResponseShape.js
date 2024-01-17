@@ -40,13 +40,18 @@ export class ResponseShapeUtil extends BaseBoxShapeUtil {
   }
 
   component(shape) {
+    console.log(
+      `shapeId: ${shape.id} of size x: ${toDomPrecision(
+        shape.props.w
+      )}, and y: ${toDomPrecision(shape.props.h)}`
+    );
     const isEditing = useIsEditing(shape.id);
-    console.log("isEditing", isEditing);
     const toast = useToasts();
     return (
       <HTMLContainer className="tl-embed-container" id={shape.id}>
         {shape.props.html ? (
           <iframe
+            id={`iframe-${shape.id}`}
             className="tl-embed"
             srcDoc={shape.props.html}
             width={toDomPrecision(shape.props.w)}
@@ -54,7 +59,7 @@ export class ResponseShapeUtil extends BaseBoxShapeUtil {
             draggable={false}
             style={{
               border: 0,
-              pointerEvents: isEditing ? "auto" : "none",
+              pointerEvents: "auto",
             }}
           />
         ) : (

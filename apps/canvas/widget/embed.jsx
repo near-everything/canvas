@@ -39,6 +39,7 @@ const [path, setPath] = useState("");
 
 const handleEmbed = () => {
   const responseShapeId = makeEmptyResponseShape();
+  console.log("created response shape", responseShapeId);
   populateResponseShape(responseShapeId, path);
 };
 

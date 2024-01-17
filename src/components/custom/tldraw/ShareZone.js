@@ -39,13 +39,21 @@ function ShareZone({ path }) {
       type: "response",
       x: selectionBounds.maxX + 60,
       y: selectionBounds.y,
+      props: { html: "" },
     });
+
+    console.log(
+      `created shape: ${newShapeId} of size x:${
+        selectionBounds.maxX + 60
+      }, y: ${selectionBounds.y}`
+    );
 
     return newShapeId;
   }, [editor]);
 
   const populateResponseShape = useCallback(
     (responseShapeId, path) => {
+      console.log("updating shape:", responseShapeId);
       // extract the html from the response
       const html = `
       <!DOCTYPE html>
