@@ -86,6 +86,11 @@ const {
   asDataUrl,
   path,
   loadSnapshot,
+  getSelectionAsText,
+  getSelectionAsImageDataUrl,
+  getContentOfPreviousResponse,
+  makeEmptyResponseShape,
+  populateResponseShape,
 } = props;
 
 const parts = path.split("/");
@@ -96,10 +101,26 @@ const selectedShapes = getSelectedShapes();
 
 const plugins = [
   {
+    id: "embed",
+    button: {
+      icon: "bi bi-code",
+      label: "embed",
+    },
+    interface: {
+      src: "everycanvas.near/widget/embed",
+      props: {
+        makeEmptyResponseShape: makeEmptyResponseShape,
+        populateResponseShape: populateResponseShape
+      },
+      attribution: ["efiz.near"], // this should come from widget metadata
+      isVisible: context.accountId === creatorId,
+    },
+  },
+  {
     id: "canvas.load",
     button: {
-      icon: "bi bi-load",
-      label: "load canvas",
+      icon: "bi bi-clock-history",
+      label: "history",
     },
     interface: {
       src: "everycanvas.near/widget/hyperfile.load",
@@ -120,7 +141,7 @@ const plugins = [
     id: "canvas.save",
     button: {
       icon: "bi bi-save",
-      label: "save canvas",
+      label: "publish",
     },
     interface: {
       src: "everycanvas.near/widget/hyperfile.create",
@@ -150,26 +171,26 @@ const plugins = [
   //     isVisible: context.accountId !== creatorId,
   //   },
   // },
-  // {
-  //   id: "canvas.post",
-  //   button: {
-  //     icon: "bi bi-send",
-  //     label: "post",
-  //     // disabled: selectedShapes.length === 0,
-  //   },
-  //   interface: {
-  //     src: "everycanvas.near/widget/canvas.post",
-  //     props: {
-  //       shapes: JSON.stringify(selectedShapes),
-  //       item: {
-  //         type: "social",
-  //         path: path,
-  //       },
-  //     },
-  //     attribution: ["efiz.near"],
-  //     isVisible: context.accountId,
-  //   },
-  // },
+  {
+    id: "canvas.post",
+    button: {
+      icon: "bi bi-send",
+      label: "post",
+      // disabled: selectedShapes.length === 0,
+    },
+    interface: {
+      src: "everycanvas.near/widget/canvas.post",
+      props: {
+        shapes: JSON.stringify(selectedShapes),
+        item: {
+          type: "social",
+          path: path,
+        },
+      },
+      attribution: ["efiz.near"],
+      isVisible: context.accountId,
+    },
+  },
 ];
 
 const activePlugin = plugins.find((plugin) => plugin.id === activePluginId);

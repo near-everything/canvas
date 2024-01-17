@@ -41,6 +41,7 @@ export class ResponseShapeUtil extends BaseBoxShapeUtil {
 
   component(shape) {
     const isEditing = useIsEditing(shape.id);
+    console.log("isEditing", isEditing);
     const toast = useToasts();
     return (
       <HTMLContainer className="tl-embed-container" id={shape.id}>
