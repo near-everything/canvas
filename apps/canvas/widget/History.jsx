@@ -6,8 +6,7 @@ count(count: number)?: function,
 
 */
 
-if (typeof props.path !== "string")
-  return "send {path} as string in props";
+if (typeof props.path !== "string") return "send {path} as string in props";
 
 State.init({
   selectedTab: "code",
@@ -22,8 +21,7 @@ if (historyBlocksRequest === null) return "loading...";
 
 const [accountId, type, name] = props.path.split("/");
 
-let blocksChanges =
-  historyBlocksRequest[accountId]?.[type]?.[name];
+let blocksChanges = historyBlocksRequest[accountId]?.[type]?.[name];
 
 if (props.count) props.count(blocksChanges.length);
 
@@ -36,6 +34,19 @@ function getDatastringFromBlockHeight(blockHeight) {
   const date = new Date(block.header.timestamp_nanosec / 1e6);
   return date.toDateString() + " " + date.toLocaleTimeString();
 }
+
+const oldVersion = useMemo(() => {
+  const current = Social.get(props.path, state.selectedBlockHeight);
+  return {
+    [name]: {
+      [type]: current,
+    },
+  };
+}, [state.selectedBlockHeight]);
+
+const handleRevert = () => {
+  Social.set(oldVersion);
+};
 
 const renderBlockChangesLink = (blockHeight) => {
   return (
@@ -60,7 +71,7 @@ function blockHeightToCode(blockHeight) {
     <div class="mb-3">
       <Widget
         key={blockHeight}
-        src={"bozon.near/widget/WidgetHistory.CodeHistoryCard"}
+        src={"everycanvas.near/widget/History.CodeHistoryCard"}
         props={{
           pathToWidget: props.path,
           currentBlockHeight: blockHeight,
@@ -79,7 +90,7 @@ function blockHeightToRender(blockHeight) {
       src={"every.near/widget/thing"}
       props={{
         path: props.path,
-        blockHeight: blockHeight
+        blockHeight: blockHeight,
       }}
     />
   );
@@ -90,7 +101,7 @@ const Tabs = styled.div`
   display: flex;
   padding: 0 12px;
   height: 48px;
-  border-bottom: 1px solid #ECEEF0;
+  border-bottom: 1px solid #eceef0;
 `;
 
 const TabsButton = styled.button`
@@ -105,18 +116,18 @@ const TabsButton = styled.button`
   outline: none;
 
   &:hover {
-    color: #11181C;
+    color: #11181c;
   }
 
   &::after {
-    content: '';
+    content: "";
     display: ${(p) => (p.selected ? "block" : "none")};
     position: absolute;
     bottom: 0;
     left: 12px;
     right: 12px;
     height: 3px;
-    background: #0091FF;
+    background: #0091ff;
   }
 `;
 
@@ -127,7 +138,17 @@ return (
     ) : (
       <div>
         <div div class="card mb-3">
-          <h3 class="card-header">{blocksChanges.length} Commits</h3>
+          <div className="card-header">
+            <div class="d-flex justify-content-between align-items-center">
+              <h3>{blocksChanges.length} Commits </h3>
+              {state.selectedBlockHeight &&
+                blocksChanges[0] !== state.selectedBlockHeight && (
+                  <button type="button" onClick={handleRevert}>
+                    Revert
+                  </button>
+                )}
+            </div>
+          </div>
 
           <div class="list-group">
             {blocksChanges
