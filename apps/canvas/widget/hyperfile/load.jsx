@@ -1,9 +1,23 @@
-
 const { loadSnapshot, path } = props;
 
 State.init({
-  src: path ?? "", 
+  src: path ?? "",
 });
+
+function onRevert(v) {
+  console.log("reverting", v)
+  if (v.adapter) {
+    console.log("adapter", v.adapter);
+    const { get } = VM.require(v.adapter) || {
+      get: (v) => console.log("no get: ", v),
+    };
+    if (get) {
+      loadSnapshot(get(v.reference));
+    }
+  } else {
+    console.log("no adapter", v.adapter);
+  }
+}
 
 return (
   <div>
@@ -26,9 +40,8 @@ return (
       src={"everycanvas.near/widget/History"}
       props={{
         path: state.src,
+        onRevert: onRevert,
       }}
     />
   </div>
 );
-
-return <button onClick={loadSnapshot} />

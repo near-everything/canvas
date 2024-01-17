@@ -24,6 +24,7 @@ function ShareZone({ path }) {
   });
 
   const loadSnapshot = useCallback((snapshot) => { 
+    console.log("loading snapshot", snapshot);
     snapshot = typeof snapshot === "string" ? JSON.parse(snapshot) : snapshot; 
     editor.store.loadSnapshot(snapshot);
   });

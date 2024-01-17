@@ -37,15 +37,19 @@ function getDatastringFromBlockHeight(blockHeight) {
 
 const oldVersion = useMemo(() => {
   const current = Social.get(props.path, state.selectedBlockHeight);
-  return {
-    [name]: {
-      [type]: current,
-    },
-  };
+  return current;
 }, [state.selectedBlockHeight]);
 
 const handleRevert = () => {
-  Social.set(oldVersion);
+  if (props.onRevert) {
+    props.onRevert(oldVersion);
+  } else {
+    Social.set({
+      [name]: {
+        [type]: oldVersion,
+      },
+    });
+  }
 };
 
 const renderBlockChangesLink = (blockHeight) => {
@@ -68,7 +72,7 @@ const renderBlockChangesLink = (blockHeight) => {
 function blockHeightToCode(blockHeight) {
   const index = blocksChanges.findIndex((el) => el == blockHeight);
   return (
-    <div class="mb-3">
+    <div className="mb-3">
       <Widget
         key={blockHeight}
         src={"everycanvas.near/widget/History.CodeHistoryCard"}
@@ -137,9 +141,9 @@ return (
       <div>incorrent path</div>
     ) : (
       <div>
-        <div div class="card mb-3">
+        <div div className="card mb-3">
           <div className="card-header">
-            <div class="d-flex justify-content-between align-items-center">
+            <div className="d-flex justify-content-between align-items-center">
               <h3>{blocksChanges.length} Commits </h3>
               {state.selectedBlockHeight &&
                 blocksChanges[0] !== state.selectedBlockHeight && (
@@ -150,12 +154,12 @@ return (
             </div>
           </div>
 
-          <div class="list-group">
+          <div className="list-group">
             {blocksChanges
               .slice(0, 5)
               .map((height) => renderBlockChangesLink(height))}
 
-            <div class="collapse" id="collapseExample">
+            <div className="collapse" id="collapseExample">
               {blocksChanges
                 .slice(5)
                 .map((height) => renderBlockChangesLink(height))}
@@ -163,7 +167,7 @@ return (
 
             {blocksChanges.length > 5 && (
               <button
-                class="list-group-item active"
+                className="list-group-item active"
                 type="button"
                 data-bs-toggle="collapse"
                 data-bs-target="#collapseExample"

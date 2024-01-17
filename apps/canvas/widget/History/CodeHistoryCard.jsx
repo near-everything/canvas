@@ -20,16 +20,16 @@ let CodeWrapper = styled.div`
 return (
   <div className="card border-primary">
     <div className="card-header">
-      <small class="text-muted">
-        <div class="row justify-content-between">
-          <div class="col-4 d-flex frex-row justify-content-start align-items-center">
-            <div class="p-2">changes in block #{props.currentBlockHeight}</div>
+      <small className="text-muted">
+        <div className="row justify-content-between">
+          <div className="col-4 d-flex frex-row justify-content-start align-items-center">
+            <div className="p-2">changes in block #{props.currentBlockHeight}</div>
 
             <OverlayTrigger
               placement="auto"
               overlay={<Tooltip>count inserted lines</Tooltip>}
             >
-              <span class="badge text-bg-success p-2 me-1 align-self-center">
+              <span className="badge text-bg-success p-2 me-1 align-self-center">
                 {state.lineCountInserted}
               </span>
             </OverlayTrigger>
@@ -38,13 +38,13 @@ return (
               placement="auto"
               overlay={<Tooltip>count deleted lines</Tooltip>}
             >
-              <span class="badge text-bg-danger p-2 me-1 align-self-center">
+              <span className="badge text-bg-danger p-2 me-1 align-self-center">
                 {state.lineCountDeleted}
               </span>
             </OverlayTrigger>
           </div>
 
-          <div class="col-7 d-flex justify-content-end align-items-center">
+          <div className="col-7 d-flex justify-content-end align-items-center">
             {getDatastringFromBlockHeight(props.currentBlockHeight)}
           </div>
         </div>
