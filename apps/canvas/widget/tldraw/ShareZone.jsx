@@ -102,7 +102,7 @@ const plugins = [
       label: "load canvas",
     },
     interface: {
-      src: "everycanvas.near/widget/load.hyperfile",
+      src: "everycanvas.near/widget/hyperfile.load",
       props: {
         // Prop hydration (?)
         creatorId: creatorId, // requester?
@@ -123,7 +123,7 @@ const plugins = [
       label: "save canvas",
     },
     interface: {
-      src: "everycanvas.near/widget/create.hyperfile",
+      src: "everycanvas.near/widget/hyperfile.create",
       props: {
         // Prop hydration (?)
         creatorId: creatorId, // requester?
