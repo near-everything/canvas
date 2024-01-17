@@ -17,34 +17,37 @@ const Container = styled.div`
   width: 100%;
 `;
 
-// what about when an account doesn't have this?
-// const hyperfile = JSON.parse(Social.get(path, "final") || "null");
-// let data; // what is an empty snapshot?
+const hyperfile = JSON.parse(Social.get(path, "final") || "null");
+let data;
 
-// if (hyperfile.adapter) {
-//   const { get } = VM.require(hyperfile.adapter) || (() => {}); // this is like getting data from the remote
-//   if (get) {
-//     data = get(hyperfile.reference) || null;
-//     // get ref from local storage
-//     // if ref in local storage is !== to current, then we want to merge
-//     // old and new snapshot
-//   } else {
-//     return <p>{`Loading or adapter not found : ${hyperfile.adapter}`}</p>;
-//   }
-// } else {
+if (hyperfile.adapter) {
+  const { get } = VM.require(hyperfile.adapter) || (() => {});
+  if (get) {
+    data = get(hyperfile.reference) || null;
+  } else {
+    return (
+      <p>{`Data not found from reference: ${hyperfile.reference} and adapter: ${hyperfile.adapter}`}</p>
+    );
+  }
+} else {
+  return <p>{`Invalid data: ${hyperfile}`}</p>;
+}
+
+if (creatorId === context.accountId) {
+  // use local persistance
   return (
     <Container key={path}>
       <Canvas persistance={path} autoFocus={true} />
     </Container>
   );
-// }
+}
 
-// if (!data) {
-//   return <p>{`Loading or canvas not found : ${hyperfile.adapter}`}</p>;
-// }
+if (!data) {
+  return <p>{`Loading or canvas not found : ${hyperfile.adapter}`}</p>;
+}
 
-// return (
-//   <Container key={path}>
-//     <Canvas initialSnapshot={data} persistance={path} autoFocus={true} />
-//   </Container>
-// );
+return (
+  <Container key={path}>
+    <Canvas initialSnapshot={data} persistance={path} autoFocus={true} />
+  </Container>
+);
