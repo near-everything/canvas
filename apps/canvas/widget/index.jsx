@@ -30,7 +30,12 @@ if (hyperfile.adapter) {
     );
   }
 } else {
-  return <p>{`Invalid data: ${hyperfile}`}</p>;
+  console.log(`Invalid data: ${hyperfile}`);
+  return (
+    <Container key={path}>
+      <Canvas persistance={path} autoFocus={true} />
+    </Container>
+  );
 }
 
 if (creatorId === context.accountId) {
