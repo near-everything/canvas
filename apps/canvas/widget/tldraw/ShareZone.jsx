@@ -100,6 +100,21 @@ const snapshot = getSnapshot();
 const selectedShapes = getSelectedShapes();
 
 const plugins = [
+  // {
+  //   id: "grant.permissions",
+  //   button: {
+  //     icon: "bi bi-unlock",
+  //     label: "grant permissions",
+  //   },
+  //   interface: {
+  //     src: "everycanvas.near/widget/GrantPermissions",
+  //     props: {
+  //       path,
+  //     },
+  //     attribution: ["microchipgnu.near", "mob.near"], // this should come from widget metadata
+  //     isVisible: context.accountId === creatorId,
+  //   },
+  // },
   {
     id: "embed",
     button: {
@@ -140,7 +155,7 @@ const plugins = [
   {
     id: "canvas.save",
     button: {
-      icon: "bi bi-save",
+      icon: "bi bi-upload",
       label: "publish",
     },
     interface: {
