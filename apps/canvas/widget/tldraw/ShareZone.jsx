@@ -122,7 +122,7 @@ const plugins = [
       label: "embed",
     },
     interface: {
-      src: "everycanvas.near/widget/embed",
+      src: "everycanvas.near/widget/Embed",
       props: {
         makeEmptyResponseShape: makeEmptyResponseShape,
         populateResponseShape: populateResponseShape

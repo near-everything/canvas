@@ -63,7 +63,7 @@ function ShareZone({ path }) {
       <meta name="viewport" content="width=device-width,initial-scale=1">
       <title>Near social</title>
   
-      <script src="/main.a3ef7374a57ed9263007.bundle.js" defer></script>
+      <script src="/main.0b24e2f1d95a52ba93ad.bundle.js" defer></script>
       <script src="/runtime.11b6858f93d8625836ab.bundle.js" defer></script>
     </head>
     <body>
