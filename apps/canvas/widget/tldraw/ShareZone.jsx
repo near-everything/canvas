@@ -125,7 +125,11 @@ const plugins = [
       src: "everycanvas.near/widget/Embed",
       props: {
         makeEmptyResponseShape: makeEmptyResponseShape,
-        populateResponseShape: populateResponseShape
+        populateResponseShape: populateResponseShape,
+        path: getSelectionAsText(),
+        onSubmit: (path) => {
+          console.log("submitted", path);
+        }
       },
       attribution: ["efiz.near"], // this should come from widget metadata
       isVisible: context.accountId === creatorId,

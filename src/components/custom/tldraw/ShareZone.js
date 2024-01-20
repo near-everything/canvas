@@ -23,6 +23,32 @@ function ShareZone({ path }) {
     return editor.store.getSnapshot();
   });
 
+  const getSelectionAsText = useCallback(() => {
+    const selectedShapeIds = editor.getSelectedShapeIds();
+    console.log("selectedShapeIds", selectedShapeIds);
+    const selectedShapeDescendantIds =
+      editor.getShapeAndDescendantIds(selectedShapeIds);
+
+    const texts = Array.from(selectedShapeDescendantIds)
+      .map((id) => {
+        const shape = editor.getShape(id);
+        if (!shape) return null;
+        if (
+          shape.type === "text" ||
+          shape.type === "geo" ||
+          shape.type === "arrow" ||
+          shape.type === "note"
+        ) {
+          // @ts-expect-error
+          return shape.props.text;
+        }
+        return null;
+      })
+      .filter((v) => v !== null && v !== "");
+
+    return texts.join("\n");
+  }, [editor]);
+
   const loadSnapshot = useCallback((snapshot) => {
     console.log("loading snapshot", snapshot);
     snapshot = typeof snapshot === "string" ? JSON.parse(snapshot) : snapshot;
@@ -90,6 +116,7 @@ function ShareZone({ path }) {
         getSnapshot: getSnapshot,
         getSelectedShapes: getSelectedShapes,
         getShapePageBounds: getShapePageBounds,
+        getSelectionAsText: getSelectionAsText,
         makeEmptyResponseShape: makeEmptyResponseShape,
         populateResponseShape: populateResponseShape,
         path: path,

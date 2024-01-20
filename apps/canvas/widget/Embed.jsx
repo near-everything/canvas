@@ -35,7 +35,7 @@ const { makeEmptyResponseShape, populateResponseShape } = props;
 
 const Button = styled.button``;
 
-const [path, setPath] = useState("");
+const [path, setPath] = useState(props.path ?? "");
 
 const handleEmbed = () => {
   const responseShapeId = makeEmptyResponseShape();
