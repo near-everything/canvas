@@ -42,17 +42,25 @@ const handlePost = () => {
     post: {
       main: JSON.stringify({
         content:
-          "[!EMBED](everycanvas.near/widget/p.view?path=...blockHeight=)",
+          "[EMBED](everycanvas.near/widget/p.view?path=...blockHeight=)",
         shapes: selectedShapes,
       }),
     },
     index: {
-      post: JSON.stringify({
-        key: props.item, // the canvas you're on
-        value: {
-          type: "canvas",
+      post: JSON.stringify([
+        {
+          key: "main",
+          value: {
+            type: "md",
+          },
         },
-      }),
+        {
+          key: props.item, // the canvas you're on
+          value: {
+            type: "canvas",
+          },
+        },
+      ]),
     },
   });
 };

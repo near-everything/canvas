@@ -186,26 +186,26 @@ const plugins = [
   //     isVisible: context.accountId !== creatorId,
   //   },
   // },
-  {
-    id: "canvas.post",
-    button: {
-      icon: "bi bi-send",
-      label: "post",
-      // disabled: selectedShapes.length === 0,
-    },
-    interface: {
-      src: "everycanvas.near/widget/canvas.post",
-      props: {
-        shapes: JSON.stringify(selectedShapes),
-        item: {
-          type: "social",
-          path: path,
-        },
-      },
-      attribution: ["efiz.near"],
-      isVisible: context.accountId,
-    },
-  },
+  // {
+  //   id: "canvas.post",
+  //   button: {
+  //     icon: "bi bi-send",
+  //     label: "post",
+  //     // disabled: selectedShapes.length === 0,
+  //   },
+  //   interface: {
+  //     src: "everycanvas.near/widget/canvas.post",
+  //     props: {
+  //       shapes: JSON.stringify(selectedShapes),
+  //       item: {
+  //         type: "social",
+  //         path: path,
+  //       },
+  //     },
+  //     attribution: ["efiz.near"],
+  //     isVisible: context.accountId,
+  //   },
+  // },
 ];
 
 const activePlugin = plugins.find((plugin) => plugin.id === activePluginId);
