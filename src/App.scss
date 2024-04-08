@@ -53,12 +53,11 @@ a {
 
 .classic {
   color: #333;
-  border: none;
-  background: hsl(204, 16%, 94%);
-  box-shadow: none;
-  border: 4px solid rgb(249, 250, 251);
-  padding: 0.5rem;
-  border-radius: 0px 13px 13px 0px;
+  background: hsl(204, 16%, 94%) !important;
+  box-shadow: none !important;
+  border: 4px solid rgb(249, 250, 251) !important;
+  padding: 0.5rem !important;
+  border-radius: 0px 13px 13px 0px !important;
 }
 
 .core__profile-image {
