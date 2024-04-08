@@ -129,7 +129,7 @@ const plugins = [
         path: getSelectionAsText(),
         onSubmit: (path) => {
           console.log("submitted", path);
-        }
+        },
       },
       attribution: ["efiz.near"], // this should come from widget metadata
       isVisible: context.accountId === creatorId,
@@ -150,7 +150,7 @@ const plugins = [
         type: "canvas",
         filename: "main",
         path: path,
-        loadSnapshot: loadSnapshot
+        loadSnapshot: loadSnapshot,
       },
       attribution: ["bozon.near", "near", "james.near"], // this should come from widget metadata
       isVisible: context.accountId === creatorId,
@@ -171,7 +171,7 @@ const plugins = [
         type: "canvas",
         filename: "main",
         data: JSON.stringify(snapshot), // vs dynamic
-        loadSnapshot: loadSnapshot
+        loadSnapshot: loadSnapshot,
       },
       attribution: ["hack.near", "flowscience.near"], // this should come from widget metadata
       isVisible: context.accountId === creatorId,
