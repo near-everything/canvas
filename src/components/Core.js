@@ -171,17 +171,7 @@ const Core = (props) => {
 
   return (
     <CoreBackdrop className="core__auth">
-      <CoreBox
-        className="classic"
-        style={{
-          border: "none",
-          background: "hsl(204, 16%, 94%)",
-          boxShadow: "none",
-          border: "4px solid rgb(249, 250, 251)",
-          padding: "0.5rem",
-          borderRadius: "0px 13px 13px 0px",
-        }}
-      >
+      <CoreBox className="classic">
         {location.pathname === "/feed" ? (
           <NavLink to={"/"}>
             <Button>
@@ -207,13 +197,8 @@ const Core = (props) => {
                 src={"mob.near/widget/ProfileImage"}
                 props={{
                   accountId: account.accountId,
-                  className: "d-inline-block",
+                  className: "d-inline-block core__profile-image",
                   imageClassName: "w-100 h-100 ",
-                  style: {
-                    width: "38px",
-                    height: "38px",
-                    borderRadius: "6px",
-                  },
                 }}
               />
             </Button>
