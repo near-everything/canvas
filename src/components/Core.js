@@ -197,7 +197,7 @@ const Core = (props) => {
         )}
         <StyledDropdown className="dropdown">
           {props.signedIn ? (
-            <div
+            <Button
               type="button"
               id="dropdownMenu2222"
               data-bs-toggle="dropdown"
@@ -208,11 +208,15 @@ const Core = (props) => {
                 props={{
                   accountId: account.accountId,
                   className: "d-inline-block",
-                  imageClassName: "rounded-circle w-100 h-100 border ",
-                  style: { width: "38px", height: "38px" },
+                  imageClassName: "w-100 h-100 ",
+                  style: {
+                    width: "38px",
+                    height: "38px",
+                    borderRadius: "6px",
+                  },
                 }}
               />
-            </div>
+            </Button>
           ) : (
             <Button onClick={props.requestSignIn} style={{ padding: 0 }}>
               <i className="bi bi-key-fill" />
