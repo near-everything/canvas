@@ -35,6 +35,15 @@ a {
   }
 }
 
+.text-muted{
+  display: flex;
+  flex-direction: column;
+  .me-1{
+      margin: 0.125rem;
+  }
+
+}
+
 .sidebar-items {
   & > div {
     border-right: 1px solid #e5e5e5;
@@ -116,7 +125,7 @@ a {
   border-right: 0;
   button {
     color: #2d2d2d;
-
+    border: none !important;
     padding: 6px;
     display: flex;
     align-items: center;
@@ -127,7 +136,7 @@ a {
     gap: 8px;
     text-shadow: 1px 1px #fff;
 
-    border-radius: 13px;
+    border-radius: 13px !important;
 
     &:active {
       border-style: inset;
@@ -136,11 +145,13 @@ a {
     }
 
     &:hover {
-      background-color: #e5e5e5;
-      color: #111;
+      background-color: #e5e5e5 !important;
+      color: #111 !important;
     }
   }
 }
+
+
 
 .tldraw__topZone {
   pointer-events: all;
