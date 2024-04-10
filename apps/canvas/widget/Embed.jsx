@@ -1,6 +1,19 @@
 const Wrapper = styled.div`
   max-width: 400px;
   margin: 0 auto;
+  font-size: 1rem;
+
+  h3 {
+    text-transform: capitalize;
+  }
+
+  button {
+    background: #2f80ed;
+    text-shadow: none !important;
+    color: white;
+    border-radius: 8px !important;
+    margin: 1rem 0;
+  }
 `;
 
 const TabContent = styled.div`
@@ -16,10 +29,6 @@ const Form = styled.div`
 
 const Label = styled.label`
   font-weight: bold;
-`;
-
-const Input = styled.input`
-  padding: 5px;
 `;
 
 const Select = styled.select`
@@ -47,17 +56,16 @@ return (
   <Wrapper>
     <h3>embed</h3>
     <Form>
-      <FormGroup>
-        <Label>path</Label>
-        <Input
+      <div className="form-group">
+        <input placeholder="Path"
           type="text"
           value={path}
           onChange={(e) => setPath(e.target.value)}
         />
-      </FormGroup>
+      </div>
     </Form>
     <FormGroup>
-      <button className="btn btn-success m-2" onClick={handleEmbed}>
+      <button className="btn btn-success border" onClick={handleEmbed}>
         Submit
       </button>
     </FormGroup>

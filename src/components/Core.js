@@ -22,18 +22,20 @@ const CoreBackdrop = styled.div`
 `;
 
 const CoreBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
   background: white;
   box-shadow: 0 10px 5px rgba(0, 0, 0, 0.3);
   z-index: 1002;
 
   &:hover {
     box-shadow: 0px 8px 3px rgba(0, 0, 0, 0.2);
-    transform: scale(0.98) translateY(3px);
   }
 
   &:active {
     box-shadow: 0px 5px 2px rgba(0, 0, 0, 0.2);
-    transform: scale(0.96) translateY(6px);
   }
 
   a {
@@ -76,26 +78,33 @@ const StyledDropdown = styled.div`
 
   ul {
     width: 100%;
-
+    padding: 0;
+    border: 1px solid rgb(249, 250, 251);
+    border-radius: 13px;
+    box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
     li {
-      padding: 0 6px;
+      padding: 6px;
     }
 
     button,
     a {
-      font-weight: var(--font-weight-medium);
-      text-transform: lowercase !important;
-      display: inline-block;
-      text-align: center;
-      text-decoration: none;
-      border: 2px outset #333;
-      background-color: #f5f5f5;
-      cursor: pointer;
-      color: #333;
-      padding: 12px;
+      color: #2d2d2d;
+      min-height: 52px;
+      min-width: 52px;
+      padding: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: transparent;
+      border: transparent;
+      font-size: 18px;
+      gap: 0px;
+      text-shadow: 1px 1px #fff;
+
+      border: 1px solid #e5e5e5;
+      border-radius: 13px;
 
       &:active {
-        border-style: inset;
         background-color: #d5d5d5;
         color: #000;
       }
@@ -113,12 +122,14 @@ const StyledDropdown = styled.div`
         }
       }
     }
+  }
 `;
 
 const ButtonRow = styled.div`
   display: flex;
   flex-direction: row;
   flex: 1;
+  gap: 6px;
 `;
 
 const ArrowButton = styled.button`
@@ -126,28 +137,29 @@ const ArrowButton = styled.button`
 `;
 
 const Button = styled.button`
+  all: unset;
+  color: #2d2d2d;
+  height: 52px;
+  width: 52px;
+  min-height: 52px;
+  min-width: 52px;
+  padding: 0px;
   display: flex;
-  justify-content: center;
   align-items: center;
-
-  text-transform: lowercase !important;
-  height: 48px;
-  width: 48px;
-  text-align: center;
-  text-decoration: none;
-  border: 2px outset #333;
-  cursor: pointer;
-  color: #333;
-  padding: 20px 20px;
-  margin: 4px;
+  justify-content: center;
+  background-color: transparent;
+  border: transparent;
+  font-size: 18px;
+  gap: 0px;
+  text-shadow: 1px 1px #fff;
 
   &:active {
-    border-style: inset;
     color: #000;
   }
 
   &:hover {
-    color: #111;
+    background-color: rgba(0, 0, 0, 0.042);
+    border-radius: 6px;
   }
 `;
 
@@ -175,7 +187,7 @@ const Core = (props) => {
         )}
         <StyledDropdown className="dropdown">
           {props.signedIn ? (
-            <div
+            <Button
               type="button"
               id="dropdownMenu2222"
               data-bs-toggle="dropdown"
@@ -185,17 +197,13 @@ const Core = (props) => {
                 src={"mob.near/widget/ProfileImage"}
                 props={{
                   accountId: account.accountId,
-                  className: "d-inline-block m-2",
-                  imageClassName: "rounded-circle w-100 h-100",
-                  style: { width: "42px", height: "42px" },
+                  className: "d-inline-block core__profile-image",
+                  imageClassName: "w-100 h-100 ",
                 }}
               />
-            </div>
+            </Button>
           ) : (
-            <Button
-              onClick={props.requestSignIn}
-              style={{ width: "48px", padding: 0 }}
-            >
+            <Button onClick={props.requestSignIn} style={{ padding: 0 }}>
               <i className="bi bi-key-fill" />
               {/* <i className="bi bi-brush" /> */}
               {/* <i className="bi bi-brush-fill" /> */}
