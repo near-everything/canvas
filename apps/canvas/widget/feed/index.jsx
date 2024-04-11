@@ -10,10 +10,11 @@ if (!things) {
 }
 
 const Container = styled.div`
-  margin: 0 auto;
-  padding: 20px;
+  margin: 23px;
+  padding: 19px;
   width: 100%;
   max-width: 1200px;
+  margin: 0 auto;
 `;
 
 const Grid = styled.div`
@@ -30,10 +31,10 @@ const Grid = styled.div`
   }
 
   > * {
-    transition: transform 0.3s ease; // Smooth transition for hover effect
+    transition: transform 0.3s ease;
 
     &:hover {
-      transform: scale(1.03); // Subtle scale effect on hover
+      transform: scale(1.03);
     }
   }
 `;
@@ -59,7 +60,6 @@ const processData = useCallback(
       })
       .flat();
 
-    // sort by latest
     allItems.sort((a, b) => b.blockHeight - a.blockHeight);
     return allItems;
   },
@@ -77,97 +77,111 @@ if (items.length === 0) {
 }
 
 function Item({ accountId, name, type, metadata }) {
-  // Use metadata.name if it exists, otherwise use the passed name
   const displayName = metadata.name || name;
   const defaultImage =
     "https://ipfs.near.social/ipfs/bafkreihi3qh72njb3ejg7t2mbxuho2vk447kzkvpjtmulsb2njd6m2cfgi";
 
+  const profile = Social.getr(`${accountId}/profile`);
   return (
-    <div
-      className="card"
-      style={{
-        maxWidth: "100%",
-        height: "200px",
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "space-between",
-        overflow: "hidden",
-      }}
-    >
+    <Link style={{ textDecoration: "none" }} to={`/${accountId}`}>
       <div
-        className="card-img-top"
+        className="card"
         style={{
-          backgroundImage: `url(${metadata.backgroundImage || defaultImage})`,
-          height: "80px",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
+          maxWidth: "100%",
+          height: "200px",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-between",
+          overflow: "hidden",
         }}
-      />
-
-      <div className="card-body">
-        <Link
-          to={`/${accountId}/${type}/${name}`}
-          style={{ textDecoration: "none" }}
-        >
-          <h5 className="card-title">
-            {accountId}/{displayName}
-          </h5>
-        </Link>
-        {metadata.description && (
-          <p
-            className="card-text"
-            style={{ overflow: "hidden", textOverflow: "ellipsis" }}
-          >
-            {metadata.description}
-          </p>
+      >
+        {profile.backgroundImage ? (
+          <Widget
+            src="mob.near/widget/Image"
+            props={{
+              image: profile.backgroundImage || defaultImage,
+              className: "card-img-top",
+              style: {
+                backgroundImage: `url(${defaultImage})`,
+                height: "56px",
+                backgroundSize: "cover",
+                objectFit: "cover",
+                backgroundPosition: "center",
+              },
+            }}
+          />
+        ) : (
+          <div
+            className="card-img-top"
+            style={{
+              backgroundImage: `url(${defaultImage})`,
+              height: "80px",
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+            }}
+          />
         )}
-      </div>
-      {context.accountId && (
-        <div
-          className="pb-2"
-          style={{ display: "flex", justifyContent: "flex-end", gap: "4px" }}
-        >
+
+        <div className="card-body">
           <Widget
-            src="mob.near/widget/N.StarButton"
-            props={{
-              notifyAccountId: accountId,
-              item: {
-                type: "social",
-                path: `${accountId}/${type}/${name}`,
-              },
-            }}
+            src="hack.near/widget/profile.builder"
+            props={{ accountId }}
           />
-          <Widget
-            src="mob.near/widget/N.LikeButton"
-            props={{
-              notifyAccountId: accountId,
-              item: {
-                type: "social",
-                path: `${accountId}/${type}/${name}`,
-              },
-            }}
-          />
+          {metadata.description && (
+            <p
+              className="card-text"
+              style={{ overflow: "hidden", textOverflow: "ellipsis" }}
+            >
+              {metadata.description}
+            </p>
+          )}
         </div>
-      )}
-    </div>
+        <div className="d-flex flex-row justify-content-between">
+          <div className="p-3">
+            <Link to={`/${accountId}`}>{displayName}</Link>
+          </div>
+          {context.accountId && (
+            <div className="p-3">
+              <Widget
+                src="mob.near/widget/N.StarButton"
+                props={{
+                  notifyAccountId: accountId,
+                  item: {
+                    type: "social",
+                    path: `${accountId}/${type}/${name}`,
+                  },
+                }}
+              />
+              <Widget
+                src="mob.near/widget/N.LikeButton"
+                props={{
+                  notifyAccountId: accountId,
+                  item: {
+                    type: "social",
+                    path: `${accountId}/${type}/${name}`,
+                  },
+                }}
+              />
+            </div>
+          )}
+        </div>
+      </div>
+    </Link>
   );
 }
 
 return (
   <Container>
-    <div className="d-flex justify-content-between align-items-center mb-3">
-      <h3>every {type}</h3>
-      {/* <div>
-        <button className="classic me-2">
-          <i className="bi bi-upload" />
-        </button>
-        <button className="classic">
-          <i className="bi bi-gear" />
-        </button>
-      </div> */}
+    <div className="d-flex justify-content-between align-items-center m-1">
+      <h3 className="mb-3">every {type}</h3>
+      <div className="mb-2">
+        <Link to={"/"} className="btn btn-sm btn-warning">
+          <i className="bi bi-stars" /> <b>ideate</b>
+        </Link>
+      </div>
     </div>
     <Widget
-      src="/*__@appAccount__*//widget/ItemFeed"
+      src="everycanvas.near/widget/ItemFeed"
       props={{
         items: items,
         renderItem: Item,

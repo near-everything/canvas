@@ -35,14 +35,13 @@ a {
   }
 }
 
-.text-muted{
+.text-muted {
   display: inline-block;
   width: 180px;
   white-space: nowrap;
-  .me-1{
-      margin: 0.125rem;
+  .me-1 {
+    margin: 0.125rem;
   }
-
 }
 
 .sidebar-items {
@@ -152,7 +151,14 @@ a {
   }
 }
 
+.tlui-menu {
+  z-index: 500;
+}
 
+kbd {
+  color: white !important;
+  text-shadow: none !important;
+}
 
 .tldraw__topZone {
   pointer-events: all;
