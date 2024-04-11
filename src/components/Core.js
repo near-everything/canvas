@@ -27,7 +27,6 @@ const CoreBox = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-
   background: white;
   box-shadow: 0 10px 5px rgba(0, 0, 0, 0.3);
   z-index: 1002;
@@ -177,7 +176,6 @@ const Core = (props) => {
         <CoreBox className="classic">
           <div className="d-flex align-items-center">
             <div>
-              {" "}
               {location.pathname === "/feed" ? (
                 <NavLink to={"/"}>
                   <Button>
