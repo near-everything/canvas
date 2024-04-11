@@ -13,7 +13,13 @@ import TopZone from "./TopZone";
 
 const shapeUtils = [ResponseShapeUtil];
 
-function TldrawCanvas({ persistance, autoFocus, hideUi, initialSnapshot }) {
+function TldrawCanvas({
+  page,
+  persistance,
+  autoFocus,
+  hideUi,
+  initialSnapshot,
+}) {
   const parts = persistance.split("/");
   const creatorId = parts[0];
 
@@ -43,6 +49,20 @@ function TldrawCanvas({ persistance, autoFocus, hideUi, initialSnapshot }) {
           updatedAt: Date.now(),
         };
       };
+
+      if (page) {
+        const pages = editor.getPages().map((item) => {
+          return {
+            id: item.id,
+            name: item.name.toLowerCase().split(" ").join("-"),
+          };
+        });
+        const selectedPage = pages.find((item) => item.name === page);
+        if (selectedPage) {
+          editor.setCurrentPage(selectedPage.id);
+        }
+      }
+
       // We can also use the sideEffects API to modify a shape before
       // its change is committed to the database. This will run for
       // all shapes whenever they are updated.
