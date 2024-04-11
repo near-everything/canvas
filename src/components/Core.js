@@ -171,7 +171,7 @@ const Core = (props) => {
   const [showPretendModal, setShowPretendModal] = useState(false);
 
   return (
-    <Draggable position={null} axis="y">
+    <Draggable position={null} axis="y" bounds="parent">
       <CoreBackdrop className="core__auth">
         <CoreBox className="classic">
           <div className="d-flex align-items-center">
