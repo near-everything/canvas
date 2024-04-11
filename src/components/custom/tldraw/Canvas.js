@@ -1,5 +1,6 @@
 import { Tldraw, createTLStore, defaultShapeUtils } from "@tldraw/tldraw";
 import { useEditor, useValue } from "@tldraw/editor";
+import { MAX_ZOOM, MIN_ZOOM } from "@tldraw/tldraw";
 import React, { useCallback, useEffect, useState } from "react";
 import { ActionButton } from "../../ActionButton";
 import { ResponseShapeUtil } from "./ResponseShape";
@@ -86,21 +87,39 @@ const ZoomIn = () => {
 
 const Test = () => {
   const editor = useEditor();
-  const currentPage = useValue("currentPage", () => editor.getCurrentPage(), [
-    editor,
-  ]);
   const location = useLocation();
   const history = useHistory();
   const accountId = useAccountId();
 
+  const currentPage = useValue("currentPage", () => editor.getCurrentPage(), [
+    editor,
+  ]);
+
+  const viewportPageBounds = useValue(
+    "viewportPageBounds",
+    () => editor.getViewportPageBounds(),
+    [editor]
+  );
+
   useEffect(() => {
-    console.log("editor", editor);
-    const newLocation = {
-      pathname: location.pathname === "/" ? `/${accountId}` : location.pathname,
-      search: `page=${currentPage.name.toLowerCase().split(" ").join("-")}`,
-    };
-    history.push(newLocation);
-  }, [currentPage]);
+    const updatePage = setTimeout(() => {
+      const newLocation = {
+        pathname:
+          location.pathname === "/" ? `/${accountId}` : location.pathname,
+        search: `page=${currentPage.name
+          .toLowerCase()
+          .split(" ")
+          .join("-")}&v=${viewportPageBounds.x.toFixed(
+          2
+        )},${viewportPageBounds.y.toFixed(2)},${viewportPageBounds.w},${
+          viewportPageBounds.h
+        }`,
+      };
+      history.push(newLocation);
+    }, 1000);
+
+    return () => clearTimeout(updatePage);
+  }, [currentPage, viewportPageBounds]);
 
   return <></>;
 };
@@ -109,6 +128,7 @@ function TldrawCanvas({
   page,
   persistance,
   autoFocus,
+  viewport,
   hideUi,
   initialSnapshot,
 }) {
@@ -153,6 +173,22 @@ function TldrawCanvas({
         if (selectedPage) {
           editor.setCurrentPage(selectedPage.id);
         }
+      }
+
+      if (viewport) {
+        const [x, y, w, h] = viewport.split(",");
+        const { w: sw, h: sh } = editor.getViewportScreenBounds();
+
+        const zoom = Math.min(
+          Math.max(Math.min(sw / w, sh / h), MIN_ZOOM),
+          MAX_ZOOM
+        );
+
+        editor.setCamera({
+          x: -x + (sw - w * zoom) / 2 / zoom,
+          y: -y + (sh - h * zoom) / 2 / zoom,
+          z: zoom,
+        });
       }
 
       // We can also use the sideEffects API to modify a shape before

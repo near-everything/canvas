@@ -56,6 +56,7 @@ return (
     <Canvas
       initialSnapshot={data}
       page={props.page}
+      viewport={props.viewport}
       persistance={path}
       autoFocus={true}
     />

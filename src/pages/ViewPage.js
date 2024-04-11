@@ -24,6 +24,7 @@ export default function ViewPage(props) {
   const { path } = useParams();
   const query = useQuery();
   const page = query.get("page");
+  const viewport = query.get("v");
 
   const redirectMapStore = useBosLoaderStore();
 
@@ -34,7 +35,7 @@ export default function ViewPage(props) {
       <Widget
         key={src}
         src={src}
-        props={{ path: path, page: page }}
+        props={{ path: path, page: page, viewport: viewport }}
         config={{
           redirectMap: redirectMapStore.redirectMap,
         }}
