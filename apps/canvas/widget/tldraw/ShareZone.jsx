@@ -96,6 +96,9 @@ const {
 const parts = path.split("/");
 const creatorId = parts[0];
 
+console.log("creator", creatorId);
+console.log("context", context.accountId);
+
 const snapshot = getSnapshot();
 const selectedShapes = getSelectedShapes();
 

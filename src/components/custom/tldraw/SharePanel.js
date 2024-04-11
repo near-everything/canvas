@@ -3,7 +3,7 @@ import { Widget } from "near-social-vm";
 import React, { useCallback } from "react";
 import { useBosLoaderStore } from "../../../stores/bos-loader";
 
-function ShareZone({ path }) {
+function SharePanel({ path }) {
   const editor = useEditor();
   const redirectMapStore = useBosLoaderStore();
 
@@ -129,4 +129,4 @@ function ShareZone({ path }) {
   );
 }
 
-export default ShareZone;
+export default SharePanel;

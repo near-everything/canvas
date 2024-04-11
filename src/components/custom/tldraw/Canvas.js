@@ -4,7 +4,7 @@ import { MAX_ZOOM, MIN_ZOOM } from "@tldraw/tldraw";
 import React, { useCallback, useEffect, useState } from "react";
 import { ActionButton } from "../../ActionButton";
 import { ResponseShapeUtil } from "./ResponseShape";
-import ShareZone from "./ShareZone";
+import SharePanel from "./SharePanel";
 import { TldrawLogo } from "./TldrawLogo";
 import TopZone from "./TopZone";
 import styled from "styled-components";
@@ -210,21 +210,47 @@ function TldrawCanvas({
     [creatorId]
   );
 
+  function loadComponents(c = {}) {
+    return Object.keys(c).reduce((acc, key) => {
+      if (!c[key]) {
+        acc[key] = null;
+      } else {
+        const { src, props } = c[key];
+        acc[key] = () => (
+          <div
+            key={key}
+            className={`tldraw__${key}`}
+            style={{ pointerEvents: "all", display: "flex" }}
+          >
+            <Widget
+              src={plugin.src}
+              props={{ ...plugin.props, color, name, id }}
+            />
+          </div>
+        );
+      }
+      return acc;
+    }, {});
+  }
+
   return (
     <div className={"tldraw__editor"}>
       <Tldraw
         persistenceKey={persistance || "everyone"}
         shapeUtils={shapeUtils}
-        topZone={
-          <div className={"tldraw__topZone"}>
-            <TopZone path={persistance} />
-          </div>
-        }
-        shareZone={
-          <div className={"tldraw__shareZone"}>
-            <ShareZone path={persistance} />
-          </div>
-        }
+        // loadComponents(props.components)
+        components={{
+          TopPanel: () => (
+            <div key={"TopPanel"} className="tldraw__TopPanel" style={{ pointerEvents: "all", display: "flex" }}>
+              <TopZone path={persistance} />
+            </div>
+          ),
+          SharePanel: () => (
+            <div key={"SharePanel"} className="tldraw__SharePanel" style={{ pointerEvents: "all", display: "flex" }}>
+              <SharePanel path={persistance} />
+            </div>
+          ),
+        }}
         store={store}
         onMount={setAppToState}
         autoFocus={autoFocus ?? true}
