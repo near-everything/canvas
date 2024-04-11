@@ -10,11 +10,13 @@ import { Pretend } from "./icons/Pretend";
 import { StopPretending } from "./icons/StopPretending";
 import { User } from "./icons/User";
 import PretendModal from "./navigation/PretendModal";
+import Draggable from "react-draggable";
 
 const CoreBackdrop = styled.div`
   position: fixed;
   left: 0;
-  bottom: 20%;
+  bottom: 30%;
+  transform: translateY(-50);
   width: 70px;
   height: auto;
   display: flex;
@@ -25,7 +27,6 @@ const CoreBox = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-
   background: white;
   box-shadow: 0 10px 5px rgba(0, 0, 0, 0.3);
   z-index: 1002;
@@ -170,128 +171,143 @@ const Core = (props) => {
   const [showPretendModal, setShowPretendModal] = useState(false);
 
   return (
-    <CoreBackdrop className="core__auth">
-      <CoreBox className="classic">
-        {location.pathname === "/feed" ? (
-          <NavLink to={"/"}>
-            <Button>
-              <i className="bi bi-house" />
-            </Button>
-          </NavLink>
-        ) : (
-          <NavLink to={"/feed"}>
-            <Button>
-              <i className="bi bi-view-list" />
-            </Button>
-          </NavLink>
-        )}
-        <StyledDropdown className="dropdown">
-          {props.signedIn ? (
-            <Button
-              type="button"
-              id="dropdownMenu2222"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-            >
-              <Widget
-                src={"mob.near/widget/ProfileImage"}
-                props={{
-                  accountId: account.accountId,
-                  className: "d-inline-block core__profile-image",
-                  imageClassName: "w-100 h-100 ",
-                }}
-              />
-            </Button>
-          ) : (
-            <Button onClick={props.requestSignIn} style={{ padding: 0 }}>
-              <i className="bi bi-key-fill" />
-              {/* <i className="bi bi-brush" /> */}
-              {/* <i className="bi bi-brush-fill" /> */}
-              {/* <i className="bi bi-hammer" /> */}
-              {/* <i className="bi bi-pen" /> */}
-              {/* <i className="bi bi-vector-pen" /> */}
-            </Button>
-          )}
-          <ul
-            className="dropdown-menu"
-            aria-labelledby="dropdownMenu2222"
-            style={{ minWidth: "fit-content" }}
-          >
-            <li>
-              <a
-                className="dropdown-item"
-                style={{ maxWidth: "300px" }}
-                type="button"
-                href={`https://${account.accountId}.social`}
-              >
-                <Widget
-                  src={"mob.near/widget/Profile.InlineBlock"}
-                  props={{
-                    accountId: account.accountId,
-                  }}
-                />
-              </a>
-            </li>
-            <li>
-              <NavLink
-                className="dropdown-item"
-                type="button"
-                to={`/${account.accountId}`}
-              >
-                <User />
-                my everything
-              </NavLink>
-            </li>
-            {account.pretendAccountId ? (
-              <li>
-                <button
-                  className="dropdown-item"
-                  disabled={!account.startPretending}
-                  onClick={() => account.startPretending(undefined)}
-                >
-                  <StopPretending />
-                  Stop pretending
-                </button>
-              </li>
-            ) : (
-              <li>
-                <button
-                  className="dropdown-item"
-                  onClick={() => setShowPretendModal(true)}
-                >
-                  <Pretend />
-                  Pretend to be another account
-                </button>
-              </li>
-            )}
-            <li>
-              <button className="dropdown-item" onClick={() => props.logOut()}>
-                <LogOut />
-                Sign Out
-              </button>
-            </li>
-            <li>
-              <ButtonRow>
-                <ArrowButton>
-                  <i className="bi bi-arrow-left"></i>
-                </ArrowButton>
-                <NavLink type="button" to={"/"}>
-                  <i className="bi bi-house"></i>
+    <Draggable position={null} axis="y" bounds="parent">
+      <CoreBackdrop className="core__auth">
+        <CoreBox className="classic">
+          <div className="d-flex align-items-center">
+            <div>
+              {location.pathname === "/feed" ? (
+                <NavLink to={"/"}>
+                  <Button>
+                    <i className="bi bi-house" />
+                  </Button>
                 </NavLink>
-                <ArrowButton>
-                  <i className="bi bi-arrow-right"></i>
-                </ArrowButton>
-              </ButtonRow>
-            </li>
-          </ul>
-        </StyledDropdown>
-        <PretendModal
-          show={showPretendModal}
-          onHide={() => setShowPretendModal(false)}
-          widgets={props.widgets}
-        />
-      </CoreBox>
-    </CoreBackdrop>
+              ) : (
+                <NavLink to={"/feed"}>
+                  <Button>
+                    <i className="bi bi-view-list" />
+                  </Button>
+                </NavLink>
+              )}
+              <StyledDropdown className="dropdown">
+                {props.signedIn ? (
+                  <Button
+                    type="button"
+                    id="dropdownMenu2222"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                  >
+                    <Widget
+                      src={"mob.near/widget/ProfileImage"}
+                      props={{
+                        accountId: account.accountId,
+                        className: "d-inline-block core__profile-image",
+                        imageClassName: "w-100 h-100 ",
+                      }}
+                    />
+                  </Button>
+                ) : (
+                  <Button onClick={props.requestSignIn} style={{ padding: 0 }}>
+                    <i className="bi bi-key-fill" />
+                    {/* <i className="bi bi-brush" /> */}
+                    {/* <i className="bi bi-brush-fill" /> */}
+                    {/* <i className="bi bi-hammer" /> */}
+                    {/* <i className="bi bi-pen" /> */}
+                    {/* <i className="bi bi-vector-pen" /> */}
+                  </Button>
+                )}
+                <ul
+                  className="dropdown-menu"
+                  aria-labelledby="dropdownMenu2222"
+                  style={{ minWidth: "fit-content" }}
+                >
+                  <li>
+                    <a
+                      className="dropdown-item"
+                      style={{ maxWidth: "300px" }}
+                      type="button"
+                      href={`https://${account.accountId}.social`}
+                    >
+                      <Widget
+                        src={"mob.near/widget/Profile.InlineBlock"}
+                        props={{
+                          accountId: account.accountId,
+                        }}
+                      />
+                    </a>
+                  </li>
+                  <li>
+                    <NavLink
+                      className="dropdown-item"
+                      type="button"
+                      to={`/${account.accountId}`}
+                    >
+                      <User />
+                      my everything
+                    </NavLink>
+                  </li>
+                  {account.pretendAccountId ? (
+                    <li>
+                      <button
+                        className="dropdown-item"
+                        disabled={!account.startPretending}
+                        onClick={() => account.startPretending(undefined)}
+                      >
+                        <StopPretending />
+                        Stop pretending
+                      </button>
+                    </li>
+                  ) : (
+                    <li>
+                      <button
+                        className="dropdown-item"
+                        onClick={() => setShowPretendModal(true)}
+                      >
+                        <Pretend />
+                        Pretend to be another account
+                      </button>
+                    </li>
+                  )}
+                  <li>
+                    <button
+                      className="dropdown-item"
+                      onClick={() => props.logOut()}
+                    >
+                      <LogOut />
+                      Sign Out
+                    </button>
+                  </li>
+                  <li>
+                    <ButtonRow>
+                      <ArrowButton>
+                        <i className="bi bi-arrow-left"></i>
+                      </ArrowButton>
+                      <NavLink type="button" to={"/"}>
+                        <i className="bi bi-house"></i>
+                      </NavLink>
+                      <ArrowButton>
+                        <i className="bi bi-arrow-right"></i>
+                      </ArrowButton>
+                    </ButtonRow>
+                  </li>
+                </ul>
+              </StyledDropdown>
+            </div>
+            <div>
+              <i
+                className="bi bi-grip-vertical"
+                style={{ marginLeft: "4px", marginRight: "-4px" }}
+              ></i>
+            </div>
+          </div>
+          <PretendModal
+            show={showPretendModal}
+            onHide={() => setShowPretendModal(false)}
+            widgets={props.widgets}
+          />
+        </CoreBox>
+      </CoreBackdrop>
+    </Draggable>
   );
 };
 
