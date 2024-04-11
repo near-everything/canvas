@@ -1,17 +1,14 @@
-import {
-  OfflineIndicator,
-  Tldraw,
-  createTLStore,
-  defaultShapeUtils,
-} from "@tldraw/tldraw";
-import { useEditor } from "@tldraw/editor";
-import React, { useCallback, useState } from "react";
+import { Tldraw, createTLStore, defaultShapeUtils } from "@tldraw/tldraw";
+import { useEditor, useValue } from "@tldraw/editor";
+import React, { useCallback, useEffect, useState } from "react";
 import { ActionButton } from "../../ActionButton";
 import { ResponseShapeUtil } from "./ResponseShape";
 import ShareZone from "./ShareZone";
 import { TldrawLogo } from "./TldrawLogo";
 import TopZone from "./TopZone";
 import styled from "styled-components";
+import { useAccountId } from "near-social-vm";
+import { useHistory, useLocation } from "react-router-dom";
 
 const shapeUtils = [ResponseShapeUtil];
 
@@ -85,6 +82,27 @@ const ZoomIn = () => {
       </button>
     </ZoomUI>
   );
+};
+
+const Test = () => {
+  const editor = useEditor();
+  const currentPage = useValue("currentPage", () => editor.getCurrentPage(), [
+    editor,
+  ]);
+  const location = useLocation();
+  const history = useHistory();
+  const accountId = useAccountId();
+
+  useEffect(() => {
+    console.log("editor", editor);
+    const newLocation = {
+      pathname: location.pathname === "/" ? `/${accountId}` : location.pathname,
+      search: `page=${currentPage.name.toLowerCase().split(" ").join("-")}`,
+    };
+    history.push(newLocation);
+  }, [currentPage]);
+
+  return <></>;
 };
 
 function TldrawCanvas({
@@ -179,6 +197,7 @@ function TldrawCanvas({
         <ActionButton path={persistance} />
         <TldrawLogo />
         <ZoomIn />
+        <Test />
       </Tldraw>
     </div>
   );

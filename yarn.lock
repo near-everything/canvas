@@ -2412,19 +2412,6 @@
     "@radix-ui/react-primitive" "1.0.2"
     "@radix-ui/react-use-controllable-state" "1.0.0"
 
-"@radix-ui/react-alert-dialog@^1.0.0":
-  version "1.0.5"
-  resolved "https://registry.yarnpkg.com/@radix-ui/react-alert-dialog/-/react-alert-dialog-1.0.5.tgz#70dd529cbf1e4bff386814d3776901fcaa131b8c"
-  integrity sha512-OrVIOcZL0tl6xibeuGt5/+UxoT2N27KCFOPjFyfXMnchxSHZ/OW7cCX2nGlIYJrbHK/fczPcFzAwvNBB6XBNMA==
-  dependencies:
-    "@babel/runtime" "^7.13.10"
-    "@radix-ui/primitive" "1.0.1"
-    "@radix-ui/react-compose-refs" "1.0.1"
-    "@radix-ui/react-context" "1.0.1"
-    "@radix-ui/react-dialog" "1.0.5"
-    "@radix-ui/react-primitive" "1.0.3"
-    "@radix-ui/react-slot" "1.0.2"
-
 "@radix-ui/react-alert-dialog@^1.0.3":
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/@radix-ui/react-alert-dialog/-/react-alert-dialog-1.0.3.tgz#892726f4e4441622535e68a632ec833211b46988"
@@ -2437,6 +2424,19 @@
     "@radix-ui/react-dialog" "1.0.3"
     "@radix-ui/react-primitive" "1.0.2"
     "@radix-ui/react-slot" "1.0.1"
+
+"@radix-ui/react-alert-dialog@^1.0.5":
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/@radix-ui/react-alert-dialog/-/react-alert-dialog-1.0.5.tgz#70dd529cbf1e4bff386814d3776901fcaa131b8c"
+  integrity sha512-OrVIOcZL0tl6xibeuGt5/+UxoT2N27KCFOPjFyfXMnchxSHZ/OW7cCX2nGlIYJrbHK/fczPcFzAwvNBB6XBNMA==
+  dependencies:
+    "@babel/runtime" "^7.13.10"
+    "@radix-ui/primitive" "1.0.1"
+    "@radix-ui/react-compose-refs" "1.0.1"
+    "@radix-ui/react-context" "1.0.1"
+    "@radix-ui/react-dialog" "1.0.5"
+    "@radix-ui/react-primitive" "1.0.3"
+    "@radix-ui/react-slot" "1.0.2"
 
 "@radix-ui/react-arrow@1.0.2":
   version "1.0.2"
@@ -3682,16 +3682,16 @@
   dependencies:
     tslib "^2.4.0"
 
-"@tldraw/editor@2.0.0-canary.81f6fae070ad":
-  version "2.0.0-canary.81f6fae070ad"
-  resolved "https://registry.yarnpkg.com/@tldraw/editor/-/editor-2.0.0-canary.81f6fae070ad.tgz#4b4ebc899d9ed02e24f7a15059adb69ae669bd40"
-  integrity sha512-TTfckOh34EaqtjewGlILMgnKVDrKqX/tGk8ZBwDgER+X1SvIHQJ4zR3exZqzFDC98mvKMd4jmFSZ1HunHFCraQ==
+"@tldraw/editor@2.0.2":
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/@tldraw/editor/-/editor-2.0.2.tgz#2e4fd3c14fd2d079554d7d111531ab4bbc4861cc"
+  integrity sha512-ik7JvBQv9AsvkGhBfNkPdM0m+cBiarfPLrzlgyB2dec4lWQOIIL/p9J+28FUWQ4bzDvD6JN0eGXnsGj754ypQg==
   dependencies:
-    "@tldraw/state" "2.0.0-canary.81f6fae070ad"
-    "@tldraw/store" "2.0.0-canary.81f6fae070ad"
-    "@tldraw/tlschema" "2.0.0-canary.81f6fae070ad"
-    "@tldraw/utils" "2.0.0-canary.81f6fae070ad"
-    "@tldraw/validate" "2.0.0-canary.81f6fae070ad"
+    "@tldraw/state" "2.0.2"
+    "@tldraw/store" "2.0.2"
+    "@tldraw/tlschema" "2.0.2"
+    "@tldraw/utils" "2.0.2"
+    "@tldraw/validate" "2.0.2"
     "@types/core-js" "^2.5.5"
     "@use-gesture/react" "^10.2.27"
     classnames "^2.3.2"
@@ -3703,63 +3703,50 @@
     lodash.uniq "^4.5.0"
     nanoid "4.0.2"
 
-"@tldraw/state@2.0.0-canary.81f6fae070ad":
-  version "2.0.0-canary.81f6fae070ad"
-  resolved "https://registry.yarnpkg.com/@tldraw/state/-/state-2.0.0-canary.81f6fae070ad.tgz#b7508649da033848b103267b589cc01e42a855e4"
-  integrity sha512-fbEbDqPS32jpbgwXx31nXDfP7fkB/p7OzR4Msf5GzoZSRIIJ5td8AlBtDAbnJjspJzDtNAxgjNZynAiBq6wAUw==
+"@tldraw/state@2.0.2":
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/@tldraw/state/-/state-2.0.2.tgz#f23c724476c6d954d4f3f3e3b71e0bd33407f1c0"
+  integrity sha512-8736faV/vTDipYa6xpTG2l3XJgwu1lR4wAwobW/AdiflWBoxiejK4GZyVhb1HtSvcb9EV/ZDOG9SAwG2cKUw9A==
 
-"@tldraw/store@2.0.0-canary.81f6fae070ad":
-  version "2.0.0-canary.81f6fae070ad"
-  resolved "https://registry.yarnpkg.com/@tldraw/store/-/store-2.0.0-canary.81f6fae070ad.tgz#bda08945cb3610d4c4793251a3da0564fdf0c9a9"
-  integrity sha512-qhJLASCDmDKkRRyaEyYn2Mq6ZBDiybGp9LJOeyFU9L2LtScpoL3yxLvTxE5RceXanVw4JXhGeT/1JKlDOjnZBg==
+"@tldraw/store@2.0.2":
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/@tldraw/store/-/store-2.0.2.tgz#36090dfefa6945d3002668e19761665cf8db9e5f"
+  integrity sha512-02Wg37GiVGoUXxpcyLaoyOMUXn62OxuwcN3Ij7nVxHs7XGJmeMdWKodFMSss1Jh7lzJJMS5r8BJ3knB/ENdcWA==
   dependencies:
-    "@tldraw/state" "2.0.0-canary.81f6fae070ad"
-    "@tldraw/utils" "2.0.0-canary.81f6fae070ad"
+    "@tldraw/state" "2.0.2"
+    "@tldraw/utils" "2.0.2"
     lodash.isequal "^4.5.0"
     nanoid "4.0.2"
 
-"@tldraw/tldraw@2.0.0-canary.81f6fae070ad":
-  version "2.0.0-canary.81f6fae070ad"
-  resolved "https://registry.yarnpkg.com/@tldraw/tldraw/-/tldraw-2.0.0-canary.81f6fae070ad.tgz#057c9ac6376cd0f783e468b6c966644f27f5a17a"
-  integrity sha512-qNYJ1xtVgdETShffF5gn8abfiCJ8awvLQMB/zMEzn/DZzz99QhwZR7r5ctrSI9JZbREBIzLqor8+QxMqGhjt8g==
+"@tldraw/tldraw@^2.0.0":
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/@tldraw/tldraw/-/tldraw-2.0.2.tgz#b53be55b0a8e727ccaaf0fa171d4b97f7dbdf179"
+  integrity sha512-34GK/SjYMyvPSrO7D0DR0sg3qi0XtFhyNKS4ls4PNGNa24Ov4Etm3MVEmbOe+stqAi8FC4hlfSDd7eE/vIsU5w==
   dependencies:
-    "@radix-ui/react-alert-dialog" "^1.0.0"
-    "@radix-ui/react-context-menu" "^2.1.5"
-    "@radix-ui/react-dialog" "^1.0.5"
-    "@radix-ui/react-dropdown-menu" "^2.0.6"
-    "@radix-ui/react-popover" "^1.0.7"
-    "@radix-ui/react-select" "^1.2.0"
-    "@radix-ui/react-slider" "^1.1.0"
-    "@radix-ui/react-toast" "^1.1.1"
-    "@tldraw/editor" "2.0.0-canary.81f6fae070ad"
-    canvas-size "^1.2.6"
-    classnames "^2.3.2"
-    downscale "^1.0.6"
-    hotkeys-js "^3.11.2"
-    lz-string "^1.4.4"
+    tldraw "2.0.2"
 
-"@tldraw/tlschema@2.0.0-canary.81f6fae070ad":
-  version "2.0.0-canary.81f6fae070ad"
-  resolved "https://registry.yarnpkg.com/@tldraw/tlschema/-/tlschema-2.0.0-canary.81f6fae070ad.tgz#e6c3bd4da1b1caa906714e930909065e313eadaa"
-  integrity sha512-KGYZkNF6HG+hOUZgakwP0dyJGfh6Kzt9dqLWOWH6u3JaZs+vwvA7XX86fk1h5CufnmXxLp7tqxHZH2/QIuQ8/A==
+"@tldraw/tlschema@2.0.2":
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/@tldraw/tlschema/-/tlschema-2.0.2.tgz#b4925a9155d74354b0b3608276f3fdf2e78d8b76"
+  integrity sha512-gpSdyl7n5vMutgSX7+1dvZj6DGxQhCyDMhOmuWQGkTuQrbp/RmOIRwxAfLRIZCJstKKohy/skc3XzAhL5wEbHQ==
   dependencies:
-    "@tldraw/state" "2.0.0-canary.81f6fae070ad"
-    "@tldraw/store" "2.0.0-canary.81f6fae070ad"
-    "@tldraw/utils" "2.0.0-canary.81f6fae070ad"
-    "@tldraw/validate" "2.0.0-canary.81f6fae070ad"
+    "@tldraw/state" "2.0.2"
+    "@tldraw/store" "2.0.2"
+    "@tldraw/utils" "2.0.2"
+    "@tldraw/validate" "2.0.2"
     nanoid "4.0.2"
 
-"@tldraw/utils@2.0.0-canary.81f6fae070ad":
-  version "2.0.0-canary.81f6fae070ad"
-  resolved "https://registry.yarnpkg.com/@tldraw/utils/-/utils-2.0.0-canary.81f6fae070ad.tgz#5d7c03594b8c6005d610b14f85fca4fc18c29812"
-  integrity sha512-JFd/wRZTYPLsiqK7kh9I6rRikWRxGwD0WH7trAa+1Xm2XsPV0QYklmq64U0CXNlspV9CAZ1cKyyQbFQ334oPbQ==
+"@tldraw/utils@2.0.2":
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/@tldraw/utils/-/utils-2.0.2.tgz#692e7a937efbb6e26575a9c258ccc2eec91cdd33"
+  integrity sha512-oXqCF2fERXG7e30npML/zMGtyRWIfgUXVvgdXtWR/S7/mwVU0MeY9YJ7eAuY+iIFshpV9MM99tQxqUZKVJ6NNw==
 
-"@tldraw/validate@2.0.0-canary.81f6fae070ad":
-  version "2.0.0-canary.81f6fae070ad"
-  resolved "https://registry.yarnpkg.com/@tldraw/validate/-/validate-2.0.0-canary.81f6fae070ad.tgz#f65de62eb8d3409b52992c66f4da3788fbe8af7d"
-  integrity sha512-7kQhDiVKyiEeuoG/oyBbGbfzYWM690FpM7zOzqkAcxY4j7VVcThNBnyrtRdY2LlAK5KRGeYNISAuVJ79bf9qhg==
+"@tldraw/validate@2.0.2":
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/@tldraw/validate/-/validate-2.0.2.tgz#e03948a25d581f87167af7ffcdcc4d9cff937471"
+  integrity sha512-dc2WxVwDf4HKP0/5AXukv/gqjrEg2fNCbKTRrxGDgvXfsRe1Gg8o9cVYlzZLRmbvj1DL8ggw4DAvbyL1FZh5Gg==
   dependencies:
-    "@tldraw/utils" "2.0.0-canary.81f6fae070ad"
+    "@tldraw/utils" "2.0.2"
 
 "@trysound/sax@0.2.0":
   version "0.2.0"
@@ -6456,11 +6443,6 @@ dot-case@^3.0.4:
   dependencies:
     no-case "^3.0.4"
     tslib "^2.0.3"
-
-downscale@^1.0.6:
-  version "1.0.6"
-  resolved "https://registry.yarnpkg.com/downscale/-/downscale-1.0.6.tgz#f1a1cb4d64c5831f1ba65341369131b5a73d2f2c"
-  integrity sha512-Arh9ftj+wo3CkFoT48SgT/crMyqmgZtNaaV/etjzHaUqNAaS36GS38ECURnfl7X/XvXN5uZNigGF7Vhffrm/pg==
 
 duplexer@^0.1.2:
   version "0.1.2"
@@ -11597,7 +11579,7 @@ strict-uri-encode@^2.0.0:
   resolved "https://registry.yarnpkg.com/strict-uri-encode/-/strict-uri-encode-2.0.0.tgz#b9c7330c7042862f6b142dc274bbcc5866ce3546"
   integrity sha512-QwiXZgpRcKkhTj2Scnn++4PKtWsH0kpzZ62L2R6c/LUVYv7hVnZqcg2+sMuT6R7Jusu1vviK/MFsu6kNJfWlEQ==
 
-"string-width-cjs@npm:string-width@^4.2.0", string-width@^4.1.0, string-width@^4.2.0, string-width@^4.2.3:
+"string-width-cjs@npm:string-width@^4.2.0":
   version "4.2.3"
   resolved "https://registry.yarnpkg.com/string-width/-/string-width-4.2.3.tgz#269c7117d27b05ad2e536830a8ec895ef9c6d010"
   integrity sha512-wKyQRQpjJ0sIp62ErSZdGsjMJWsap5oRNihHhu6G7JVO/9jIB6UyevL+tXuOqrng8j/cxKTWyWUwvSTriiZz/g==
@@ -11614,6 +11596,15 @@ string-width@^3.0.0, string-width@^3.1.0:
     emoji-regex "^7.0.1"
     is-fullwidth-code-point "^2.0.0"
     strip-ansi "^5.1.0"
+
+string-width@^4.1.0, string-width@^4.2.0, string-width@^4.2.3:
+  version "4.2.3"
+  resolved "https://registry.yarnpkg.com/string-width/-/string-width-4.2.3.tgz#269c7117d27b05ad2e536830a8ec895ef9c6d010"
+  integrity sha512-wKyQRQpjJ0sIp62ErSZdGsjMJWsap5oRNihHhu6G7JVO/9jIB6UyevL+tXuOqrng8j/cxKTWyWUwvSTriiZz/g==
+  dependencies:
+    emoji-regex "^8.0.0"
+    is-fullwidth-code-point "^3.0.0"
+    strip-ansi "^6.0.1"
 
 string-width@^5.0.1, string-width@^5.1.2:
   version "5.1.2"
@@ -11680,7 +11671,7 @@ string_decoder@~1.1.1:
   dependencies:
     safe-buffer "~5.1.0"
 
-"strip-ansi-cjs@npm:strip-ansi@^6.0.1", strip-ansi@^6.0.0, strip-ansi@^6.0.1:
+"strip-ansi-cjs@npm:strip-ansi@^6.0.1":
   version "6.0.1"
   resolved "https://registry.yarnpkg.com/strip-ansi/-/strip-ansi-6.0.1.tgz#9e26c63d30f53443e9489495b2105d37b67a85d9"
   integrity sha512-Y38VPSHcqkFrCpFnQ9vuSXmquuv5oXOKpGeT6aGrr3o3Gc9AlVa6JBfUSOCnbxGGZF+/0ooI7KrPuUSztUdU5A==
@@ -11693,6 +11684,13 @@ strip-ansi@^5.0.0, strip-ansi@^5.1.0, strip-ansi@^5.2.0:
   integrity sha512-DuRs1gKbBqsMKIZlrffwlug8MHkcnpjs5VPmL1PAh+mA30U0DTotfDZ0d2UUsXpPmPmMMJ6W773MaA3J+lbiWA==
   dependencies:
     ansi-regex "^4.1.0"
+
+strip-ansi@^6.0.0, strip-ansi@^6.0.1:
+  version "6.0.1"
+  resolved "https://registry.yarnpkg.com/strip-ansi/-/strip-ansi-6.0.1.tgz#9e26c63d30f53443e9489495b2105d37b67a85d9"
+  integrity sha512-Y38VPSHcqkFrCpFnQ9vuSXmquuv5oXOKpGeT6aGrr3o3Gc9AlVa6JBfUSOCnbxGGZF+/0ooI7KrPuUSztUdU5A==
+  dependencies:
+    ansi-regex "^5.0.1"
 
 strip-ansi@^7.0.1:
   version "7.1.0"
@@ -11922,6 +11920,25 @@ tiny-warning@^1.0.0:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/tiny-warning/-/tiny-warning-1.0.3.tgz#94a30db453df4c643d0fd566060d60a875d84754"
   integrity sha512-lBN9zLN/oAf68o3zNXYrdCt1kP8WsiGW8Oo2ka41b2IM5JL/S1CTyX1rW0mb/zSuJun0ZUrDxx4sqvYS2FWzPA==
+
+tldraw@2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/tldraw/-/tldraw-2.0.2.tgz#2d4efd6671c363ceec53d1ea57b872fbd90c1f1d"
+  integrity sha512-qWIbsZkbCVcexGHtUBBjT28+upgzwSu3yImtQXRbfwDj8wbVadxxczAK9Uh6gSsRqlEx8WaQRu3Nkv/3QJSTQQ==
+  dependencies:
+    "@radix-ui/react-alert-dialog" "^1.0.5"
+    "@radix-ui/react-context-menu" "^2.1.5"
+    "@radix-ui/react-dialog" "^1.0.5"
+    "@radix-ui/react-dropdown-menu" "^2.0.6"
+    "@radix-ui/react-popover" "^1.0.7"
+    "@radix-ui/react-select" "^1.2.0"
+    "@radix-ui/react-slider" "^1.1.0"
+    "@radix-ui/react-toast" "^1.1.1"
+    "@tldraw/editor" "2.0.2"
+    canvas-size "^1.2.6"
+    classnames "^2.3.2"
+    hotkeys-js "^3.11.2"
+    lz-string "^1.4.4"
 
 to-fast-properties@^2.0.0:
   version "2.0.0"
@@ -12640,7 +12657,7 @@ workerpool@6.2.1:
   resolved "https://registry.yarnpkg.com/workerpool/-/workerpool-6.2.1.tgz#46fc150c17d826b86a008e5a4508656777e9c343"
   integrity sha512-ILEIE97kDZvF9Wb9f6h5aXK4swSlKGUcOEGiIYb2OOu/IrDU9iwj0fD//SsA6E5ibwJxpEvhullJY4Sl4GcpAw==
 
-"wrap-ansi-cjs@npm:wrap-ansi@^7.0.0", wrap-ansi@^7.0.0:
+"wrap-ansi-cjs@npm:wrap-ansi@^7.0.0":
   version "7.0.0"
   resolved "https://registry.yarnpkg.com/wrap-ansi/-/wrap-ansi-7.0.0.tgz#67e145cff510a6a6984bdf1152911d69d2eb9e43"
   integrity sha512-YVGIj2kamLSTxw6NsZjoBxfSwsn0ycdesmc4p+Q21c5zPuZ1pl+NfxVdxPtdHvmNVOQ6XSYG4AUtyt/Fi7D16Q==
@@ -12662,6 +12679,15 @@ wrap-ansi@^6.2.0:
   version "6.2.0"
   resolved "https://registry.yarnpkg.com/wrap-ansi/-/wrap-ansi-6.2.0.tgz#e9393ba07102e6c91a3b221478f0257cd2856e53"
   integrity sha512-r6lPcBGxZXlIcymEu7InxDMhdW0KDxpLgoFLcguasxCaJ/SOIZwINatK9KY/tf+ZrlywOKU0UDj3ATXUBfxJXA==
+  dependencies:
+    ansi-styles "^4.0.0"
+    string-width "^4.1.0"
+    strip-ansi "^6.0.0"
+
+wrap-ansi@^7.0.0:
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/wrap-ansi/-/wrap-ansi-7.0.0.tgz#67e145cff510a6a6984bdf1152911d69d2eb9e43"
+  integrity sha512-YVGIj2kamLSTxw6NsZjoBxfSwsn0ycdesmc4p+Q21c5zPuZ1pl+NfxVdxPtdHvmNVOQ6XSYG4AUtyt/Fi7D16Q==
   dependencies:
     ansi-styles "^4.0.0"
     string-width "^4.1.0"
