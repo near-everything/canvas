@@ -16,7 +16,7 @@
     "@near-wallet-selector/sender": "^8.5.0",
     "@splinetool/react-spline": "^2.2.6",
     "@splinetool/runtime": "^0.9.494",
-    "@tldraw/tldraw": "2.0.0-canary.81f6fae070ad",
+    "@tldraw/tldraw": "^2.0.0",
     "@web3-onboard/core": "^2.16.2",
     "@web3-onboard/injected-wallets": "^2.8.4",
     "@web3-onboard/ledger": "^2.4.4",

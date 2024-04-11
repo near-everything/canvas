@@ -1,19 +1,137 @@
-import {
-  OfflineIndicator,
-  Tldraw,
-  createTLStore,
-  defaultShapeUtils,
-} from "@tldraw/tldraw";
-import React, { useCallback, useState } from "react";
+import { Tldraw, createTLStore, defaultShapeUtils } from "@tldraw/tldraw";
+import { useEditor, useValue } from "@tldraw/editor";
+import { MAX_ZOOM, MIN_ZOOM } from "@tldraw/tldraw";
+import React, { useCallback, useEffect, useState } from "react";
 import { ActionButton } from "../../ActionButton";
 import { ResponseShapeUtil } from "./ResponseShape";
 import ShareZone from "./ShareZone";
 import { TldrawLogo } from "./TldrawLogo";
 import TopZone from "./TopZone";
+import styled from "styled-components";
+import { useAccountId } from "near-social-vm";
+import { useHistory, useLocation } from "react-router-dom";
 
 const shapeUtils = [ResponseShapeUtil];
 
-function TldrawCanvas({ persistance, autoFocus, hideUi, initialSnapshot }) {
+const ZoomUI = styled.div`
+  position: fixed;
+  left: 100px;
+  bottom: 0;
+  z-index: 599;
+  pointer-events: all;
+  display: flex;
+  flex-direction: row;
+  background: hsl(204, 16%, 94%);
+  gap: 0.5rem;
+  padding: 5px;
+  border-radius: 13px 13px 0 0;
+  border: 4px solid rgb(249, 250, 251);
+  border-bottom: 0;
+  button {
+    color: #2d2d2d;
+    border: none !important;
+    padding: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent;
+    border: transparent;
+    font-size: 12px;
+    gap: 8px;
+    text-shadow: 1px 1px #fff;
+
+    border-radius: 8px !important;
+
+    &:active {
+      border-style: inset;
+      background-color: #d5d5d5;
+      color: #000;
+    }
+
+    &:hover {
+      background-color: #e5e5e5 !important;
+      color: #111 !important;
+    }
+  }
+
+  @media (max-width: 840px) {
+    left: 55px;
+  }
+  @media (max-width: 690px) {
+    display: none;
+  }
+`;
+
+const ZoomIn = () => {
+  const editor = useEditor();
+
+  return (
+    <ZoomUI>
+      <button
+        onClick={() => {
+          editor.zoomIn();
+        }}
+      >
+        <i className="bi bi-plus-lg"></i>
+      </button>
+      <button
+        onClick={() => {
+          editor.zoomOut();
+        }}
+      >
+        <i className="bi bi-dash"></i>
+      </button>
+    </ZoomUI>
+  );
+};
+
+const Test = () => {
+  const editor = useEditor();
+  const location = useLocation();
+  const history = useHistory();
+  const accountId = useAccountId();
+
+  const currentPage = useValue("currentPage", () => editor.getCurrentPage(), [
+    editor,
+  ]);
+
+  const viewportPageBounds = useValue(
+    "viewportPageBounds",
+    () => editor.getViewportPageBounds(),
+    [editor]
+  );
+
+  useEffect(() => {
+    const updatePage = setTimeout(() => {
+      const newLocation = {
+        pathname:
+          location.pathname === "/" ? `/${accountId}` : location.pathname,
+        search: `page=${currentPage.name
+          .toLowerCase()
+          .split(" ")
+          .join("-")}&v=${viewportPageBounds.x.toFixed(
+          2
+        )},${viewportPageBounds.y.toFixed(2)},${viewportPageBounds.w},${
+          viewportPageBounds.h
+        }`,
+      };
+      history.push(newLocation);
+    }, 1000);
+
+    return () => clearTimeout(updatePage);
+  }, [currentPage, viewportPageBounds]);
+
+  return <></>;
+};
+
+function TldrawCanvas({
+  page,
+  persistance,
+  autoFocus,
+  viewport,
+  hideUi,
+  initialSnapshot,
+}) {
   const parts = persistance.split("/");
   const creatorId = parts[0];
 
@@ -43,6 +161,36 @@ function TldrawCanvas({ persistance, autoFocus, hideUi, initialSnapshot }) {
           updatedAt: Date.now(),
         };
       };
+
+      if (page) {
+        const pages = editor.getPages().map((item) => {
+          return {
+            id: item.id,
+            name: item.name.toLowerCase().split(" ").join("-"),
+          };
+        });
+        const selectedPage = pages.find((item) => item.name === page);
+        if (selectedPage) {
+          editor.setCurrentPage(selectedPage.id);
+        }
+      }
+
+      if (viewport) {
+        const [x, y, w, h] = viewport.split(",");
+        const { w: sw, h: sh } = editor.getViewportScreenBounds();
+
+        const zoom = Math.min(
+          Math.max(Math.min(sw / w, sh / h), MIN_ZOOM),
+          MAX_ZOOM
+        );
+
+        editor.setCamera({
+          x: -x + (sw - w * zoom) / 2 / zoom,
+          y: -y + (sh - h * zoom) / 2 / zoom,
+          z: zoom,
+        });
+      }
+
       // We can also use the sideEffects API to modify a shape before
       // its change is committed to the database. This will run for
       // all shapes whenever they are updated.
@@ -84,6 +232,8 @@ function TldrawCanvas({ persistance, autoFocus, hideUi, initialSnapshot }) {
       >
         <ActionButton path={persistance} />
         <TldrawLogo />
+        <ZoomIn />
+        <Test />
       </Tldraw>
     </div>
   );

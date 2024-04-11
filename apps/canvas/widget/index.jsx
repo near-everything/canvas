@@ -53,6 +53,12 @@ if (!data) {
 
 return (
   <Container key={path}>
-    <Canvas initialSnapshot={data} persistance={path} autoFocus={true} />
+    <Canvas
+      initialSnapshot={data}
+      page={props.page}
+      viewport={props.viewport}
+      persistance={path}
+      autoFocus={true}
+    />
   </Container>
 );

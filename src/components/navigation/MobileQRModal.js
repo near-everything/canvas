@@ -34,7 +34,7 @@ export default function MobileQRModal(props) {
           <QRCodeSVG value={url} size="100%" />
         </div>
         <div>
-          <small className="text-muted">
+          <small className="text-muted-2">
             Don't share this QR with other people. It's only for you.
           </small>
         </div>

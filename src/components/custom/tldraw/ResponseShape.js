@@ -101,7 +101,7 @@ export class ResponseShapeUtil extends BaseBoxShapeUtil {
           }}
           onPointerDown={stopEventPropagation}
         >
-          <Icon icon="duplicate" />
+          {/* <Icon icon="duplicate" /> */}
         </div>
       </HTMLContainer>
     );

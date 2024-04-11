@@ -1,6 +1,6 @@
 import { Widget } from "near-social-vm";
 import React from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 import styled from "styled-components";
 import { useHashRouterLegacy } from "../hooks/useHashRouterLegacy";
 import { useBosLoaderStore } from "../stores/bos-loader";
@@ -13,10 +13,19 @@ const Container = styled.div`
   align-items: stretch;
 `;
 
+function useQuery() {
+  const { search } = useLocation();
+  return React.useMemo(() => new URLSearchParams(search), [search]);
+}
+
 export default function ViewPage(props) {
   useHashRouterLegacy();
 
   const { path } = useParams();
+  const query = useQuery();
+  const page = query.get("page");
+  const viewport = query.get("v");
+
   const redirectMapStore = useBosLoaderStore();
 
   const src = props.widgets.default;
@@ -26,7 +35,7 @@ export default function ViewPage(props) {
       <Widget
         key={src}
         src={src}
-        props={{ path: path }}
+        props={{ path: path, page: page, viewport: viewport }}
         config={{
           redirectMap: redirectMapStore.redirectMap,
         }}
