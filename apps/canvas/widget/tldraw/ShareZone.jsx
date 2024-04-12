@@ -239,7 +239,7 @@ return (
         <div className="w-100">
           <Widget
             src={activePlugin.interface.src}
-            props={activePlugin.interface.props}
+            props={{ ...activePlugin.interface.props, toggleModal }}
           />
         </div>
         <Widget
