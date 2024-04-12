@@ -136,7 +136,13 @@ const handleCreate = () => {
       }
 
       // sometimes we're not logged in, so it doesn't do anything!
-      Social.set(hyperfile, { force: true });
+      Social.set(hyperfile, {
+        force: true,
+        onCommit: () => {
+          // close modal
+          props.toggleModal();
+        },
+      });
     });
   }
 };
