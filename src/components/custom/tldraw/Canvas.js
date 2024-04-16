@@ -241,12 +241,20 @@ function TldrawCanvas({
         // loadComponents(props.components)
         components={{
           TopPanel: () => (
-            <div key={"TopPanel"} className="tldraw__TopPanel" style={{ pointerEvents: "all", display: "flex" }}>
+            <div
+              key={"TopPanel"}
+              className="tldraw__TopPanel"
+              style={{ pointerEvents: "all", display: "flex" }}
+            >
               <TopZone path={persistance} />
             </div>
           ),
           SharePanel: () => (
-            <div key={"SharePanel"} className="tldraw__SharePanel" style={{ pointerEvents: "all", display: "flex" }}>
+            <div
+              key={"SharePanel"}
+              className="tldraw__SharePanel"
+              style={{ pointerEvents: "all", display: "flex" }}
+            >
               <SharePanel path={persistance} />
             </div>
           ),

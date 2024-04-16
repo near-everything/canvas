@@ -23,6 +23,7 @@ import "react-bootstrap-typeahead/css/Typeahead.css";
 import { Link, Route, BrowserRouter as Router, Switch } from "react-router-dom";
 import { BosLoaderBanner } from "./components/BosLoaderBanner";
 import Core from "./components/Core";
+import MobileCore from "./components/MobileCore";
 import { useEthersProviderContext } from "./data/web3";
 import { NetworkId, Widgets } from "./data/widgets";
 import { useBosLoaderInitializer } from "./hooks/useBosLoaderInitializer";
@@ -170,11 +171,13 @@ function App() {
               <BosLoaderBanner />
               <FeedPage {...passProps} />
               <Core {...passProps} />
+              {/* <MobileCore {...passProps} /> */}
             </Route>
             <Route path={"/:path*"}>
               <BosLoaderBanner />
               <ViewPage {...passProps} />
               <Core {...passProps} />
+              {/* <MobileCore {...passProps} /> */}
             </Route>
           </Switch>
         </Router>
