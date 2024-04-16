@@ -259,11 +259,6 @@ const Core = (props) => {
               ) : (
                 <Button onClick={props.requestSignIn} style={{ padding: 0 }}>
                   <i className="bi bi-key-fill" />
-                  {/* <i className="bi bi-brush" /> */}
-                  {/* <i className="bi bi-brush-fill" /> */}
-                  {/* <i className="bi bi-hammer" /> */}
-                  {/* <i className="bi bi-pen" /> */}
-                  {/* <i className="bi bi-vector-pen" /> */}
                 </Button>
               )}
 
