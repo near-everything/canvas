@@ -170,13 +170,11 @@ function App() {
               <BosLoaderBanner />
               <FeedPage {...passProps} />
               <Core {...passProps} />
-              {/* <MobileCore {...passProps} /> */}
             </Route>
             <Route path={"/:path*"}>
               <BosLoaderBanner />
               <ViewPage {...passProps} />
               <Core {...passProps} />
-              {/* <MobileCore {...passProps} /> */}
             </Route>
           </Switch>
         </Router>
