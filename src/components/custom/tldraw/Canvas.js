@@ -94,33 +94,11 @@ const Test = () => {
   const currentPage = useValue("currentPage", () => editor.getCurrentPage(), [
     editor,
   ]);
-
   const viewportPageBounds = useValue(
     "viewportPageBounds",
     () => editor.getViewportPageBounds(),
     [editor]
   );
-
-  // useEffect(() => {
-  //   const updatePage = setTimeout(() => {
-  //     const newLocation = {
-  //       pathname:
-  //         location.pathname === "/" ? `/${accountId}` : location.pathname,
-  //       search: `page=${currentPage.name
-  //         .toLowerCase()
-  //         .split(" ")
-  //         .join("-")}&v=${viewportPageBounds.x.toFixed(
-  //         2
-  //       )},${viewportPageBounds.y.toFixed(2)},${viewportPageBounds.w},${
-  //         viewportPageBounds.h
-  //       }`,
-  //     };
-
-  //     history.push(newLocation);
-  //   }, 1000);
-
-  //   return () => clearTimeout(updatePage);
-  // }, [currentPage, viewportPageBounds]);
 
   useEffect(() => {
     const updatePage = setTimeout(() => {
@@ -131,7 +109,7 @@ const Test = () => {
             location.pathname === "/everything.near"
               ? `/${accountId}`
               : location.pathname,
-          search: `page=${currentPage.name
+          search: `?page=${currentPage.name
             .toLowerCase()
             .split(" ")
             .join("-")}&v=${viewportPageBounds.x.toFixed(
@@ -149,7 +127,7 @@ const Test = () => {
     }, 1000);
 
     return () => clearTimeout(updatePage);
-  }, [accountId, location.pathname, history]);
+  }, [accountId, location.pathname, currentPage, viewportPageBounds, history]);
 
   return <></>;
 };
