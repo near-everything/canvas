@@ -14,8 +14,6 @@ import PretendModal from "./navigation/PretendModal";
 import Draggable from "react-draggable";
 import context from "react-bootstrap/esm/AccordionContext";
 
-import { useAccountId } from "near-social-vm";
-
 const CoreBackdrop = styled.div`
   position: fixed;
   left: 0;
@@ -181,7 +179,6 @@ const Button = styled.button`
 const Core = (props) => {
   const account = useAccount();
   const location = useLocation();
-  const accountId = useAccountId();
 
   const [showPretendModal, setShowPretendModal] = useState(false);
 
