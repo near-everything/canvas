@@ -101,25 +101,55 @@ const Test = () => {
     [editor]
   );
 
+  // useEffect(() => {
+  //   const updatePage = setTimeout(() => {
+  //     const newLocation = {
+  //       pathname:
+  //         location.pathname === "/" ? `/${accountId}` : location.pathname,
+  //       search: `page=${currentPage.name
+  //         .toLowerCase()
+  //         .split(" ")
+  //         .join("-")}&v=${viewportPageBounds.x.toFixed(
+  //         2
+  //       )},${viewportPageBounds.y.toFixed(2)},${viewportPageBounds.w},${
+  //         viewportPageBounds.h
+  //       }`,
+  //     };
+
+  //     history.push(newLocation);
+  //   }, 1000);
+
+  //   return () => clearTimeout(updatePage);
+  // }, [currentPage, viewportPageBounds]);
+
   useEffect(() => {
     const updatePage = setTimeout(() => {
-      const newLocation = {
-        pathname:
-          location.pathname === "/" ? `/${accountId}` : location.pathname,
-        search: `page=${currentPage.name
-          .toLowerCase()
-          .split(" ")
-          .join("-")}&v=${viewportPageBounds.x.toFixed(
-          2
-        )},${viewportPageBounds.y.toFixed(2)},${viewportPageBounds.w},${
-          viewportPageBounds.h
-        }`,
-      };
+      let newLocation;
+      if (accountId) {
+        newLocation = {
+          pathname:
+            location.pathname === "/everything.near"
+              ? `/${accountId}`
+              : location.pathname,
+          search: `page=${currentPage.name
+            .toLowerCase()
+            .split(" ")
+            .join("-")}&v=${viewportPageBounds.x.toFixed(
+            2
+          )},${viewportPageBounds.y.toFixed(2)},${viewportPageBounds.w},${
+            viewportPageBounds.h
+          }`,
+        };
+      } else {
+        newLocation = {
+          pathname: "/everything.near",
+        };
+      }
       history.push(newLocation);
     }, 1000);
 
     return () => clearTimeout(updatePage);
-  }, [currentPage, viewportPageBounds]);
+  }, [accountId, location.pathname, history]);
 
   return <></>;
 };
