@@ -190,22 +190,6 @@ function TldrawCanvas({
           z: zoom,
         });
       }
-
-      // We can also use the sideEffects API to modify a shape before
-      // its change is committed to the database. This will run for
-      // all shapes whenever they are updated.
-      // editor.sideEffects.registerBeforeChangeHandler(
-      //   "shape",
-      //   (record, _prev, source) => {
-      //     if (source !== "user") return record;
-      //     record.meta = {
-      //       ...record.meta,
-      //       updatedBy: editor.user.getId(),
-      //       updatedAt: Date.now(),
-      //     };
-      //     return record;
-      //   }
-      // );
     },
     [creatorId]
   );
@@ -241,12 +225,20 @@ function TldrawCanvas({
         // loadComponents(props.components)
         components={{
           TopPanel: () => (
-            <div key={"TopPanel"} className="tldraw__TopPanel" style={{ pointerEvents: "all", display: "flex" }}>
+            <div
+              key={"TopPanel"}
+              className="tldraw__TopPanel"
+              style={{ pointerEvents: "all", display: "flex" }}
+            >
               <TopZone path={persistance} />
             </div>
           ),
           SharePanel: () => (
-            <div key={"SharePanel"} className="tldraw__SharePanel" style={{ pointerEvents: "all", display: "flex" }}>
+            <div
+              key={"SharePanel"}
+              className="tldraw__SharePanel"
+              style={{ pointerEvents: "all", display: "flex" }}
+            >
               <SharePanel path={persistance} />
             </div>
           ),
