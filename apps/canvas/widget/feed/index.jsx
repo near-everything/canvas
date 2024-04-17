@@ -83,90 +83,91 @@ function Item({ accountId, name, type, metadata }) {
 
   const profile = Social.getr(`${accountId}/profile`);
   return (
-    <Link style={{ textDecoration: "none" }} to={`/${accountId}`}>
-      <div
-        className="card"
-        style={{
-          maxWidth: "100%",
-          height: "200px",
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "space-between",
-          overflow: "hidden",
-        }}
-      >
-        {profile.backgroundImage ? (
-          <Widget
-            src="mob.near/widget/Image"
-            props={{
-              image: profile.backgroundImage || defaultImage,
-              className: "card-img-top",
-              style: {
+    <div className="card">
+      <Link style={{ textDecoration: "none" }} to={`/${accountId}`}>
+        <div
+          style={{
+            maxWidth: "100%",
+            height: "200px",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "space-between",
+            overflow: "hidden",
+          }}
+        >
+          {profile.backgroundImage ? (
+            <Widget
+              src="mob.near/widget/Image"
+              props={{
+                image: profile.backgroundImage || defaultImage,
+                className: "card-img-top",
+                style: {
+                  backgroundImage: `url(${defaultImage})`,
+                  height: "56px",
+                  backgroundSize: "cover",
+                  objectFit: "cover",
+                  backgroundPosition: "center",
+                },
+              }}
+            />
+          ) : (
+            <div
+              className="card-img-top"
+              style={{
                 backgroundImage: `url(${defaultImage})`,
-                height: "56px",
+                height: "80px",
                 backgroundSize: "cover",
-                objectFit: "cover",
                 backgroundPosition: "center",
-              },
-            }}
-          />
-        ) : (
-          <div
-            className="card-img-top"
-            style={{
-              backgroundImage: `url(${defaultImage})`,
-              height: "80px",
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-            }}
-          />
-        )}
+              }}
+            />
+          )}
 
-        <div className="card-body">
-          <Widget
-            src="hack.near/widget/profile.builder"
-            props={{ accountId }}
-          />
-          {metadata.description && (
-            <p
-              className="card-text"
-              style={{ overflow: "hidden", textOverflow: "ellipsis" }}
-            >
-              {metadata.description}
-            </p>
-          )}
-        </div>
-        <div className="d-flex flex-row justify-content-between">
-          <div className="p-3">
-            <Link to={`/${accountId}`}>{displayName}</Link>
+          <div className="card-body">
+            <Widget
+              src="hack.near/widget/profile.builder"
+              props={{ accountId }}
+            />
+            {metadata.description && (
+              <p
+                className="card-text"
+                style={{ overflow: "hidden", textOverflow: "ellipsis" }}
+              >
+                {metadata.description}
+              </p>
+            )}
           </div>
-          {context.accountId && (
-            <div className="p-3">
-              <Widget
-                src="mob.near/widget/N.StarButton"
-                props={{
-                  notifyAccountId: accountId,
-                  item: {
-                    type: "social",
-                    path: `${accountId}/${type}/${name}`,
-                  },
-                }}
-              />
-              <Widget
-                src="mob.near/widget/N.LikeButton"
-                props={{
-                  notifyAccountId: accountId,
-                  item: {
-                    type: "social",
-                    path: `${accountId}/${type}/${name}`,
-                  },
-                }}
-              />
-            </div>
-          )}
         </div>
+      </Link>
+      <div className="d-flex flex-row justify-content-between">
+        <div className="p-3">
+          <Link to={`/${accountId}`}>{displayName}</Link>
+        </div>
+        {context.accountId && (
+          <div className="p-3">
+            <Widget
+              src="mob.near/widget/N.StarButton"
+              props={{
+                notifyAccountId: accountId,
+                item: {
+                  type: "social",
+                  path: `${accountId}/${type}/${name}`,
+                },
+              }}
+            />
+            <Widget
+              src="mob.near/widget/N.LikeButton"
+              props={{
+                notifyAccountId: accountId,
+                item: {
+                  type: "social",
+                  path: `${accountId}/${type}/${name}`,
+                },
+              }}
+            />
+          </div>
+        )}
       </div>
-    </Link>
+    </div>
   );
 }
 
