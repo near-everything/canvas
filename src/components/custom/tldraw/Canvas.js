@@ -102,32 +102,29 @@ const Test = () => {
 
   useEffect(() => {
     const updatePage = setTimeout(() => {
-      let newLocation;
-      if (accountId) {
-        newLocation = {
-          pathname:
-            location.pathname === "/everything.near"
+      const newLocation = {
+        pathname:
+          location.pathname === "/" || location.pathname === "/null"
+            ? location.pathname === "/"
               ? `/${accountId}`
-              : location.pathname,
-          search: `?page=${currentPage.name
-            .toLowerCase()
-            .split(" ")
-            .join("-")}&v=${viewportPageBounds.x.toFixed(
-            2
-          )},${viewportPageBounds.y.toFixed(2)},${viewportPageBounds.w},${
-            viewportPageBounds.h
-          }`,
-        };
-      } else {
-        newLocation = {
-          pathname: "/everything.near",
-        };
-      }
+              : "/every.near"
+            : location.pathname,
+
+        search: `page=${currentPage.name
+          .toLowerCase()
+          .split(" ")
+          .join("-")}&v=${viewportPageBounds.x.toFixed(
+          2
+        )},${viewportPageBounds.y.toFixed(2)},${viewportPageBounds.w},${
+          viewportPageBounds.h
+        }`,
+      };
+
       history.push(newLocation);
     }, 1000);
 
     return () => clearTimeout(updatePage);
-  }, [accountId, location.pathname, currentPage, viewportPageBounds, history]);
+  }, [currentPage, viewportPageBounds]);
 
   return <></>;
 };

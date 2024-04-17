@@ -35,7 +35,11 @@ export default function ViewPage(props) {
       <Widget
         key={src}
         src={src}
-        props={{ path: path, page: page, viewport: viewport }}
+        props={{
+          path: path ?? "every.near",
+          page: page,
+          viewport: viewport,
+        }}
         config={{
           redirectMap: redirectMapStore.redirectMap,
         }}
