@@ -107,7 +107,7 @@ const Test = () => {
           location.pathname === "/" || location.pathname === "/null"
             ? location.pathname === "/"
               ? `/${accountId}`
-              : "/everything.near"
+              : "/every.near"
             : location.pathname,
 
         search: `page=${currentPage.name
