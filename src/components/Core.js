@@ -12,6 +12,7 @@ import { StopPretending } from "./icons/StopPretending";
 import { User } from "./icons/User";
 import PretendModal from "./navigation/PretendModal";
 import Draggable from "react-draggable";
+import context from "react-bootstrap/esm/AccordionContext";
 
 const CoreBackdrop = styled.div`
   position: fixed;
@@ -192,6 +193,7 @@ const Core = (props) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const handleTouchStart = () => {
+    event.stopPropagation();
     if (window.innerWidth <= 1900) {
       setIsDropdownOpen(!isDropdownOpen);
     }
@@ -257,93 +259,120 @@ const Core = (props) => {
                   />
                 </Button>
               ) : (
-                <Button onClick={props.requestSignIn} style={{ padding: 0 }}>
+                <Button
+                  onClick={props.requestSignIn}
+                  onTouchStart={props.requestSignIn}
+                  style={{ padding: 0 }}
+                >
                   <i className="bi bi-key-fill" />
                 </Button>
               )}
 
               {/* {isDropdownOpen && ( */}
-              <StyledDropdown
-                className={`dropdown ${
-                  isDropdownOpen ? "show" : ""
-                } ${dropdownPosition}`}
-              >
-                <ul
-                  className="dropdown-menu"
-                  aria-labelledby="dropdownMenu2222"
-                  style={{ minWidth: "fit-content" }}
+              {account.accountId && (
+                <StyledDropdown
+                  className={`dropdown ${
+                    isDropdownOpen ? "show" : ""
+                  } ${dropdownPosition}`}
                 >
-                  <li>
-                    <a
-                      className="dropdown-item"
-                      style={{ maxWidth: "300px" }}
-                      type="button"
-                      href={`https://${account.accountId}.social`}
-                    >
-                      <Widget
-                        src={"mob.near/widget/Profile.InlineBlock"}
-                        props={{
-                          accountId: account.accountId,
+                  <ul
+                    className="dropdown-menu"
+                    aria-labelledby="dropdownMenu2222"
+                    style={{ minWidth: "fit-content" }}
+                  >
+                    <li>
+                      <a
+                        className="dropdown-item"
+                        style={{ maxWidth: "300px" }}
+                        href={`https://${account.accountId}.social`}
+                        onTouchStart={(e) => {
+                          e.preventDefault();
+                          window.location.href = `https://${account.accountId}.social`;
                         }}
-                      />
-                    </a>
-                  </li>
-                  <li>
-                    <NavLink
-                      className="dropdown-item"
-                      type="button"
-                      to={`/${account.accountId}`}
-                    >
-                      <User />
-                      my everything
-                    </NavLink>
-                  </li>
-                  {account.pretendAccountId ? (
-                    <li>
-                      <button
-                        className="dropdown-item"
-                        disabled={!account.startPretending}
-                        onClick={() => account.startPretending(undefined)}
                       >
-                        <StopPretending />
-                        Stop pretending
-                      </button>
+                        <Widget
+                          src={"mob.near/widget/Profile.InlineBlock"}
+                          props={{
+                            accountId: account.accountId,
+                          }}
+                        />
+                      </a>
                     </li>
-                  ) : (
                     <li>
-                      <button
+                      <NavLink
                         className="dropdown-item"
-                        onClick={() => setShowPretendModal(true)}
+                        type="button"
+                        to={`/${account.accountId}`}
+                        onTouchStart={(e) => {
+                          e.preventDefault();
+                          history.push(`/${account.accountId}`);
+                        }}
                       >
-                        <Pretend />
-                        Pretend to be another account
-                      </button>
-                    </li>
-                  )}
-                  <li>
-                    <button
-                      className="dropdown-item"
-                      onClick={() => props.logOut()}
-                    >
-                      <LogOut />
-                      Sign Out
-                    </button>
-                  </li>
-                  <li>
-                    <ButtonRow>
-                      <ArrowButton>
-                        <i className="bi bi-arrow-left"></i>
-                      </ArrowButton>
-                      <NavLink type="button" to={"/"}>
-                        <i className="bi bi-house"></i>
+                        <User />
+                        my everything
                       </NavLink>
-                      <ArrowButton>
-                        <i className="bi bi-arrow-right"></i>
-                      </ArrowButton>
-                    </ButtonRow>
-                  </li>
-                </ul>
-              </StyledDropdown>
+                    </li>
+                    {account.pretendAccountId ? (
+                      <li>
+                        <button
+                          className="dropdown-item"
+                          disabled={!account.startPretending}
+                          onClick={() => account.startPretending(undefined)}
+                          onTouchStart={() =>
+                            account.startPretending(undefined)
+                          }
+                        >
+                          <StopPretending />
+                          Stop pretending
+                        </button>
+                      </li>
+                    ) : (
+                      <li>
+                        <button
+                          className="dropdown-item"
+                          onClick={() => setShowPretendModal(true)}
+                          onTouchStart={() => setShowPretendModal(true)}
+                        >
+                          <Pretend />
+                          Pretend to be another account
+                        </button>
+                      </li>
+                    )}
+                    <li>
+                      <button
+                        className="dropdown-item"
+                        onClick={() => props.logOut()}
+                        onTouchStart={() => props.logOut()}
+                      >
+                        <LogOut />
+                        Sign Out
+                      </button>
+                    </li>
+                    <li>
+                      <ButtonRow>
+                        <ArrowButton>
+                          <i className="bi bi-arrow-left"></i>
+                        </ArrowButton>
+
+                        <NavLink
+                          type="button"
+                          to={"/"}
+                          onTouchStart={(e) => {
+                            e.preventDefault();
+                            history.push("/");
+                          }}
+                        >
+                          <i className="bi bi-house"></i>
+                        </NavLink>
+
+                        <ArrowButton>
+                          <i className="bi bi-arrow-right"></i>
+                        </ArrowButton>
+                      </ButtonRow>
+                    </li>
+                  </ul>
+                </StyledDropdown>
+              )}
               {/* )} */}
             </div>
 
