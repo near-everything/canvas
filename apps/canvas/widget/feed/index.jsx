@@ -83,7 +83,12 @@ function Item({ accountId, name, type, metadata }) {
 
   const profile = Social.getr(`${accountId}/profile`);
   return (
-    <div className="card">
+    <div
+      className="card position-relative"
+      style={{
+        paddingBottom: "20px",
+      }}
+    >
       <Link style={{ textDecoration: "none" }} to={`/${accountId}`}>
         <div
           style={{
@@ -103,7 +108,7 @@ function Item({ accountId, name, type, metadata }) {
                 className: "card-img-top",
                 style: {
                   backgroundImage: `url(${defaultImage})`,
-                  height: "56px",
+                  height: "90px",
                   backgroundSize: "cover",
                   objectFit: "cover",
                   backgroundPosition: "center",
@@ -115,7 +120,7 @@ function Item({ accountId, name, type, metadata }) {
               className="card-img-top"
               style={{
                 backgroundImage: `url(${defaultImage})`,
-                height: "80px",
+                height: "90px",
                 backgroundSize: "cover",
                 backgroundPosition: "center",
               }}
@@ -138,12 +143,26 @@ function Item({ accountId, name, type, metadata }) {
           </div>
         </div>
       </Link>
-      <div className="d-flex flex-row justify-content-between">
+      <div
+        className="d-flex flex-row justify-content-between position-absolute "
+        style={{
+          width: "100%",
+          gap: "5rem",
+          bottom: 0,
+          left: "50%",
+          transform: "translateX(-50%)",
+        }}
+      >
         <div className="p-3">
           <Link to={`/${accountId}`}>{displayName}</Link>
         </div>
         {context.accountId && (
-          <div className="p-3">
+          <div
+            className="p-3 d-flex flex-row"
+            style={{
+              gap: "0.5rem",
+            }}
+          >
             <Widget
               src="mob.near/widget/N.StarButton"
               props={{
