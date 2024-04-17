@@ -18,32 +18,6 @@ function useQuery() {
   return React.useMemo(() => new URLSearchParams(search), [search]);
 }
 
-// export default function ViewPage(props) {
-//   useHashRouterLegacy();
-
-//   const { path } = useParams();
-//   const query = useQuery();
-//   const page = query.get("page");
-//   const viewport = query.get("v");
-
-//   const redirectMapStore = useBosLoaderStore();
-
-//   const src = props.widgets.default;
-
-//   return (
-//     <Container>
-//       <Widget
-//         key={src}
-//         src={src}
-//         props={{ path: path, page: page, viewport: viewport }}
-//         config={{
-//           redirectMap: redirectMapStore.redirectMap,
-//         }}
-//       />
-//     </Container>
-//   );
-// }
-
 export default function ViewPage(props) {
   useHashRouterLegacy();
 
