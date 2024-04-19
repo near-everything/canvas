@@ -81,7 +81,7 @@ function generateUID() {
   );
 }
 
-const handleCreate = () => {
+const handleCreate = (callback) => {
   const isCreator = context.accountId === creatorId;
 
   // load in the state.adapter (modules for IPFS, Arweave, Ceramic, Verida, On Machina... )
@@ -140,7 +140,8 @@ const handleCreate = () => {
         force: true,
         onCommit: () => {
           // close modal
-          props.toggleModal();
+          callback();
+          //          props.toggleModal();
         },
       });
     });
@@ -229,7 +230,13 @@ return (
       )}
     </TabContent>
     <FormGroup>
-      <button className="btn btn-success mb-1" onClick={handleCreate}>
+      <button
+        style={{
+          color: "white",
+        }}
+        className="btn btn-primary mb-2"
+        onClick={handleCreate}
+      >
         Create
       </button>
     </FormGroup>

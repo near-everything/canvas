@@ -17,7 +17,7 @@ const ModalBackdrop = styled.div`
 const ModalBox = styled.div`
   background: white;
   min-width: 400px;
-  max-width: 600px;
+  max-width: 400px;
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
@@ -223,7 +223,7 @@ return (
       (plugin) =>
         plugin.interface.isVisible && (
           <Button
-            className="classic"
+            className="classic btn"
             onClick={() => toggleModal(plugin.id)}
             disabled={plugin.button.disabled}
           >

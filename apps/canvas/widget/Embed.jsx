@@ -57,7 +57,8 @@ return (
     <h3>embed</h3>
     <Form>
       <div className="form-group">
-        <input placeholder="Path"
+        <input
+          placeholder="Path"
           type="text"
           value={path}
           onChange={(e) => setPath(e.target.value)}
@@ -65,7 +66,11 @@ return (
       </div>
     </Form>
     <FormGroup>
-      <button className="btn btn-success border" onClick={handleEmbed}>
+      <button
+        style={{ color: "white" }}
+        className="btn btn-primary"
+        onClick={handleEmbed}
+      >
         Submit
       </button>
     </FormGroup>
