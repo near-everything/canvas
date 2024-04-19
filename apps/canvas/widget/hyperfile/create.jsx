@@ -82,6 +82,7 @@ function generateUID() {
 }
 
 const handleCreate = (callback) => {
+  props.toggleModal();
   const isCreator = context.accountId === creatorId;
 
   // load in the state.adapter (modules for IPFS, Arweave, Ceramic, Verida, On Machina... )
@@ -140,8 +141,7 @@ const handleCreate = (callback) => {
         force: true,
         onCommit: () => {
           // close modal
-          callback();
-          //          props.toggleModal();
+          props.toggleModal();
         },
       });
     });
