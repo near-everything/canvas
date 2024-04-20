@@ -55,8 +55,6 @@ return (
   <Container key={path}>
     <Canvas
       initialSnapshot={data}
-      page={props.page}
-      viewport={props.viewport}
       persistance={path}
       autoFocus={true}
       isReadOnly={true} // read only

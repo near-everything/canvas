@@ -1,6 +1,6 @@
-import { Widget } from "near-social-vm";
+import { Widget, useAccountId } from "near-social-vm";
 import React from "react";
-import { useParams, useLocation } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 import styled from "styled-components";
 import { useHashRouterLegacy } from "../hooks/useHashRouterLegacy";
 import { useBosLoaderStore } from "../stores/bos-loader";
@@ -13,18 +13,15 @@ const Container = styled.div`
   align-items: stretch;
 `;
 
-function useQuery() {
-  const { search } = useLocation();
-  return React.useMemo(() => new URLSearchParams(search), [search]);
-}
-
 export default function ViewPage(props) {
   useHashRouterLegacy();
+  const history = useHistory();
 
   const { path } = useParams();
-  const query = useQuery();
-  const page = query.get("page");
-  const viewport = query.get("v");
+
+  if (!path) { // default to every.near
+    history.push("/every.near");
+  }
 
   const redirectMapStore = useBosLoaderStore();
 
@@ -36,9 +33,7 @@ export default function ViewPage(props) {
         key={src}
         src={src}
         props={{
-          path: path ?? "every.near",
-          page: page,
-          viewport: viewport,
+          path: path,
         }}
         config={{
           redirectMap: redirectMapStore.redirectMap,
