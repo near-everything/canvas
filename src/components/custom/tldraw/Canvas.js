@@ -68,6 +68,10 @@ const ZoomUI = styled.div`
 `;
 
 const DropdownContent = styled.div`
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
   background: #bcbbbf;
   padding: 0.5rem;
   display: flex;
@@ -77,6 +81,15 @@ const DropdownContent = styled.div`
   img {
     border-radius: 13px;
     cursor: pointer;
+  }
+
+  @media (max-width: 870px) {
+    right: 0;
+    transform: translateX(25%);
+    top: 0;
+    flex-direction: column;
+    width: max-content;
+    height: max-content;
   }
 `;
 
@@ -119,6 +132,14 @@ const TemplateUI = styled.div`
       background-color: #e5e5e5 !important;
       color: #111 !important;
     }
+  }
+
+  @media (max-width: 870px) {
+    top: 50px;
+    left: 0;
+    margin-left: 0.25rem;
+    height: max-content;
+    border-radius: 8px;
   }
 `;
 
@@ -399,18 +420,9 @@ function TldrawCanvas({
               <i className="bi bi-easel"></i>
             </button>
             {dropdown && (
-              <div
-                className="position-absolute"
-                style={{
-                  bottom: "100%",
-                  left: "50%",
-                  transform: "translateX(-50%)",
-                }}
-              >
-                <DropdownContent>
-                  <TemplateDropdown />
-                </DropdownContent>
-              </div>
+              <DropdownContent>
+                <TemplateDropdown />
+              </DropdownContent>
             )}
           </div>
         </TemplateUI>
