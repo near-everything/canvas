@@ -46,8 +46,8 @@ const CoreBox = styled.div`
   .dropdown-item.active {
     text-shadow: none;
     svg {
-      filter: invert(99%) sepia(6%) saturate(257%) hue-rotate(281deg)
-        brightness(120%) contrast(100%);
+      filter: brightness(0) saturate(100%) invert(100%) sepia(1%) saturate(0%)
+        hue-rotate(268deg) brightness(112%) contrast(100%);
     }
   }
 

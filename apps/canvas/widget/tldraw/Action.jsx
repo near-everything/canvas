@@ -92,8 +92,8 @@ const StyledActionButton = styled.div`
 
   /* Mobile */
   @media (max-width: 767px) {
-    width: 100px;
-    height: 100px;
+    width: 48px;
+    height: 48px;
     right: 15px;
     bottom: 110px;
   }

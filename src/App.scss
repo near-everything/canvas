@@ -183,14 +183,14 @@ kbd {
     border-right: 0;
     font-size: 14px;
 
+    .text-muted {
+      width: auto;
+    }
+
     @media (max-width: 768px) {
       display: flex;
       flex-shrink: 0;
       gap: 0;
-
-      .text-muted {
-        width: auto;
-      }
     }
   }
 }
