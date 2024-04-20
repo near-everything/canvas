@@ -5,14 +5,15 @@ const creatorId = parts[0];
 const thingId = parts[2];
 
 return (
-  <div className="mt-1">
+  <div className="styled-top-bar">
     <Widget
       src="mob.near/widget/N.ProfileLine"
       props={{
         accountId: creatorId,
         tooltip: true,
-        hideCheckmark: true
+        hideCheckmark: true,
       }}
-    />{"/" + thingId}
+    />
+    {"/" + thingId}
   </div>
 );

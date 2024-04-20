@@ -16,12 +16,16 @@ const ModalBackdrop = styled.div`
 
 const ModalBox = styled.div`
   background: white;
-  min-width: 400px;
-  max-width: 400px;
+  max-width: 60%;
+  width: 100%;
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
   z-index: 1002;
+
+  @media (max-width: 768px) {
+    max-width: 80%;
+  }
 `;
 
 const ModalHeader = styled.div`
