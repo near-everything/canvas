@@ -1,11 +1,13 @@
-import { useEditor, useValue } from "@tldraw/editor";
+import { useEditor } from "@tldraw/editor";
 import {
   AssetRecordType,
   Tldraw,
   createTLStore,
   defaultShapeUtils,
 } from "@tldraw/tldraw";
-import { default as React, useCallback, useEffect, useState } from "react";
+import { Widget } from "near-social-vm";
+import { default as React, useCallback, useState } from "react";
+import styled from "styled-components";
 import { useUrlState } from "../../../hooks/useUrlState";
 import { ActionButton } from "../../ActionButton";
 import { ResponseShapeUtil } from "./ResponseShape";
@@ -13,12 +15,6 @@ import SharePanel from "./SharePanel";
 import { TldrawLogo } from "./TldrawLogo";
 import TopZone from "./TopZone";
 import { ZoomIn } from "./ZoomUI";
-import styled from "styled-components";
-import {
-  useHistory,
-  useLocation,
-} from "react-router-dom";
-import { Widget, useAccountId } from "near-social-vm";
 
 const shapeUtils = [ResponseShapeUtil];
 
@@ -130,58 +126,22 @@ function TldrawCanvas({
     }
   });
 
-  // const setAppToState = useCallback(
-  //   (editor) => {
-  //     editor.user.updateUserPreferences({
-  //       id: creatorId,
-  //     });
-
-  //     editor.getInitialMetaForShape = (_shape) => {
-  //       return {
-  //         createdBy: editor.user.getId(),
-  //         createdAt: Date.now(),
-  //         updatedBy: editor.user.getId(),
-  //         updatedAt: Date.now(),
-  //       };
-  //     };
-
-  //     if (page) {
-  //       const pages = editor.getPages().map((item) => {
-  //         return {
-  //           id: item.id,
-  //           name: item.name.toLowerCase().split(" ").join("-"),
-  //         };
-  //       });
-  //       const selectedPage = pages.find((item) => item.name === page);
-  //       if (selectedPage) {
-  //         editor.setCurrentPage(selectedPage.id);
-  //       }
-  //     }
-
-  //     if (viewport) {
-  //       const [x, y, w, h] = viewport.split(",");
-  //       const { w: sw, h: sh } = editor.getViewportScreenBounds();
-
-  //       const zoom = Math.min(
-  //         Math.max(Math.min(sw / w, sh / h), MIN_ZOOM),
-  //         MAX_ZOOM
-  //       );
-
-  //       editor.setCamera({
-  //         x: -x + (sw - w * zoom) / 2 / zoom,
-  //         y: -y + (sh - h * zoom) / 2 / zoom,
-  //         z: zoom,
-  //       });
-  //     }
-  //   },
-  //   [creatorId]
-  // );
-
   const handleMount = useCallback(
     (editor) => {
       window.app = editor;
       window.editor = editor;
       editor.updateInstanceState({ isReadonly: isReadOnly });
+      // editor.user.updateUserPreferences({
+      //   id: accountId,
+      // });
+      // editor.getInitialMetaForShape = (_shape) => {
+      //   return {
+      //     createdBy: editor.user.getId(),
+      //     createdAt: Date.now(),
+      //     updatedBy: editor.user.getId(),
+      //     updatedAt: Date.now(),
+      //   };
+      // };
       // editor.registerExternalAssetHandler("file", createAssetFromFile);
       // editor.registerExternalAssetHandler("url", createAssetFromUrl);
     },
