@@ -12,7 +12,6 @@ import { StopPretending } from "./icons/StopPretending";
 import { User } from "./icons/User";
 import PretendModal from "./navigation/PretendModal";
 import Draggable from "react-draggable";
-import context from "react-bootstrap/esm/AccordionContext";
 
 const CoreBackdrop = styled.div`
   position: fixed;
@@ -42,6 +41,14 @@ const CoreBox = styled.div`
   a {
     text-decoration: none;
     color: black;
+  }
+
+  .dropdown-item.active {
+    text-shadow: none;
+    svg {
+      filter: brightness(0) saturate(100%) invert(100%) sepia(1%) saturate(0%)
+        hue-rotate(268deg) brightness(112%) contrast(100%);
+    }
   }
 
   @media (max-width: 1898px) {
@@ -203,7 +210,7 @@ const Core = (props) => {
 
   const handleDrag = (a, ui) => {
     const spaceBelow = window.innerHeight - (ui.y + ui.node.offsetHeight);
-    if (spaceBelow < 200) {
+    if (spaceBelow < 312) {
       setdropdownPosition({ y: ui.y - ui.node.offsetHeight - 10 });
     } else {
       setdropdownPosition(null);
@@ -290,12 +297,14 @@ const Core = (props) => {
                           window.location.href = `https://${account.accountId}.social`;
                         }}
                       >
-                        <Widget
-                          src={"mob.near/widget/Profile.InlineBlock"}
-                          props={{
-                            accountId: account.accountId,
-                          }}
-                        />
+                        <div style={{ width: "100%" }}>
+                          <Widget
+                            src={"mob.near/widget/Profile.InlineBlock"}
+                            props={{
+                              accountId: account.accountId,
+                            }}
+                          />
+                        </div>
                       </a>
                     </li>
                     <li>

@@ -32,7 +32,7 @@ const ModalHeader = styled.div`
 
 const CloseButton = styled.button`
   background: #f44336;
-  color: white;
+  color: white !important;
   border: none;
   border-radius: 5px;
   padding: 10px 15px;
@@ -92,8 +92,8 @@ const StyledActionButton = styled.div`
 
   /* Mobile */
   @media (max-width: 767px) {
-    width: 100px;
-    height: 100px;
+    width: 48px;
+    height: 48px;
     right: 15px;
     bottom: 110px;
   }
@@ -139,7 +139,7 @@ const plugins = [
         getSelectionAsImageDataUrl: getSelectionAsImageDataUrl,
         getContentOfPreviousResponse: getContentOfPreviousResponse,
         makeEmptyResponseShape: makeEmptyResponseShape,
-        populateResponseShape: populateResponseShape
+        populateResponseShape: populateResponseShape,
       },
       attribution: ["petersalomonsen.near"], // this should come from widget metadata
     },

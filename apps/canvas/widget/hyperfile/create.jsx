@@ -1,5 +1,4 @@
 const Wrapper = styled.div`
-  max-width: 400px;
   margin: 0 auto;
 `;
 
@@ -81,7 +80,8 @@ function generateUID() {
   );
 }
 
-const handleCreate = () => {
+const handleCreate = (callback) => {
+  props.toggleModal();
   const isCreator = context.accountId === creatorId;
 
   // load in the state.adapter (modules for IPFS, Arweave, Ceramic, Verida, On Machina... )
@@ -229,7 +229,13 @@ return (
       )}
     </TabContent>
     <FormGroup>
-      <button className="btn btn-success mb-1" onClick={handleCreate}>
+      <button
+        style={{
+          color: "white",
+        }}
+        className="btn btn-primary mb-2"
+        onClick={handleCreate}
+      >
         Create
       </button>
     </FormGroup>

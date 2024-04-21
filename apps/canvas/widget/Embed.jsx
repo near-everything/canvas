@@ -1,5 +1,4 @@
 const Wrapper = styled.div`
-  max-width: 400px;
   margin: 0 auto;
   font-size: 1rem;
 
@@ -57,7 +56,8 @@ return (
     <h3>embed</h3>
     <Form>
       <div className="form-group">
-        <input placeholder="Path"
+        <input
+          placeholder="Path"
           type="text"
           value={path}
           onChange={(e) => setPath(e.target.value)}
@@ -65,7 +65,11 @@ return (
       </div>
     </Form>
     <FormGroup>
-      <button className="btn btn-success border" onClick={handleEmbed}>
+      <button
+        style={{ color: "white" }}
+        className="btn btn-primary"
+        onClick={handleEmbed}
+      >
         Submit
       </button>
     </FormGroup>
