@@ -1,5 +1,6 @@
 const Wrapper = styled.div`
   margin: 0 auto;
+  max-width: 400px;
   font-size: 1rem;
 
   h3 {

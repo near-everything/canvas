@@ -16,8 +16,8 @@ const ModalBackdrop = styled.div`
 
 const ModalBox = styled.div`
   background: white;
-  max-width: 60%;
-  width: 100%;
+  min-width: 400px;
+  max-width: 600px;
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
