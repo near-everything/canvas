@@ -33,7 +33,7 @@ if (hyperfile.adapter) {
   console.log(`Invalid data: ${hyperfile}`);
   return (
     <Container key={path}>
-      <Canvas persistance={path} autoFocus={true} />
+      <Canvas persistance={path} autoFocus={true} isReadOnly={true} />
     </Container>
   );
 }
@@ -55,10 +55,9 @@ return (
   <Container key={path}>
     <Canvas
       initialSnapshot={data}
-      page={props.page}
-      viewport={props.viewport}
       persistance={path}
       autoFocus={true}
+      isReadOnly={true} // read only
     />
   </Container>
 );

@@ -1,71 +1,35 @@
+import { useEditor } from "@tldraw/editor";
 import {
+  AssetRecordType,
   Tldraw,
   createTLStore,
   defaultShapeUtils,
-  AssetRecordType,
 } from "@tldraw/tldraw";
-import { useEditor, useValue } from "@tldraw/editor";
-import { MAX_ZOOM, MIN_ZOOM } from "@tldraw/tldraw";
-import React, { useCallback, useEffect, useState } from "react";
+import { Widget } from "near-social-vm";
+import { default as React, useCallback, useState } from "react";
+import styled from "styled-components";
+import { useUrlState } from "../../../hooks/useUrlState";
 import { ActionButton } from "../../ActionButton";
 import { ResponseShapeUtil } from "./ResponseShape";
 import SharePanel from "./SharePanel";
 import { TldrawLogo } from "./TldrawLogo";
 import TopZone from "./TopZone";
-import styled from "styled-components";
-import { useAccountId } from "near-social-vm";
-import { useHistory, useLocation } from "react-router-dom";
+import { ZoomIn } from "./ZoomUI";
 
 const shapeUtils = [ResponseShapeUtil];
 
-const ZoomUI = styled.div`
-  position: fixed;
-  left: 100px;
-  bottom: 0;
-  z-index: 599;
-  pointer-events: all;
-  display: flex;
-  flex-direction: row;
-  background: hsl(204, 16%, 94%);
-  gap: 0.5rem;
-  padding: 5px;
-  border-radius: 13px 13px 0 0;
-  border: 4px solid rgb(249, 250, 251);
-  border-bottom: 0;
-  button {
-    color: #2d2d2d;
-    border: none !important;
-    padding: 6px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: transparent;
-    border: transparent;
-    font-size: 12px;
-    gap: 8px;
-    text-shadow: 1px 1px #fff;
+export function UrlStateSync() {
+  const syncViewport = useCallback((params) => {
+    window.history.replaceState(
+      {},
+      document.title,
+      window.location.pathname + `?v=${params.v}&p=${params.p}`
+    );
+  }, []);
+  useUrlState(syncViewport);
 
-    border-radius: 4px !important;
-
-    &:active {
-      border-style: inset;
-      background-color: #d5d5d5;
-      color: #000;
-    }
-
-    &:hover {
-      background-color: #e5e5e5 !important;
-      color: #111 !important;
-    }
-  }
-
-  @media (max-width: 840px) {
-    left: 55px;
-  }
-  @media (max-width: 690px) {
-    display: none;
-  }
-`;
+  return null;
+}
 
 const DropdownContent = styled.div`
   position: absolute;
@@ -143,84 +107,13 @@ const TemplateUI = styled.div`
   }
 `;
 
-const ZoomIn = () => {
-  const editor = useEditor();
-
-  return (
-    <ZoomUI>
-      <button
-        onClick={() => {
-          editor.zoomIn();
-        }}
-      >
-        <i className="bi bi-plus-lg"></i>
-      </button>
-      <button
-        onClick={() => {
-          editor.zoomOut();
-        }}
-      >
-        <i className="bi bi-dash"></i>
-      </button>
-    </ZoomUI>
-  );
-};
-
-const Test = () => {
-  const editor = useEditor();
-  const location = useLocation();
-  const history = useHistory();
-  const accountId = useAccountId();
-
-  const currentPage = useValue("currentPage", () => editor.getCurrentPage(), [
-    editor,
-  ]);
-  const viewportPageBounds = useValue(
-    "viewportPageBounds",
-    () => editor.getViewportPageBounds(),
-    [editor]
-  );
-
-  useEffect(() => {
-    const updatePage = setTimeout(() => {
-      const newLocation = {
-        pathname:
-          location.pathname === "/" || location.pathname === "/null"
-            ? location.pathname === "/"
-              ? `/${accountId}`
-              : "/every.near"
-            : location.pathname,
-
-        search: `page=${currentPage.name
-          .toLowerCase()
-          .split(" ")
-          .join("-")}&v=${viewportPageBounds.x.toFixed(
-          2
-        )},${viewportPageBounds.y.toFixed(2)},${viewportPageBounds.w},${
-          viewportPageBounds.h
-        }`,
-      };
-
-      history.push(newLocation);
-    }, 1000);
-
-    return () => clearTimeout(updatePage);
-  }, [currentPage, viewportPageBounds]);
-
-  return <></>;
-};
-
 function TldrawCanvas({
-  page,
   persistance,
-  autoFocus,
-  viewport,
-  hideUi,
+  autoFocus = true,
+  hideUi = false,
+  isReadOnly = false,
   initialSnapshot,
 }) {
-  const parts = persistance.split("/");
-  const creatorId = parts[0];
-
   const [store] = useState(() => {
     if (initialSnapshot) {
       const newStore = createTLStore({
@@ -233,51 +126,26 @@ function TldrawCanvas({
     }
   });
 
-  const setAppToState = useCallback(
+  const handleMount = useCallback(
     (editor) => {
-      editor.user.updateUserPreferences({
-        id: creatorId,
-      });
-
-      editor.getInitialMetaForShape = (_shape) => {
-        return {
-          createdBy: editor.user.getId(),
-          createdAt: Date.now(),
-          updatedBy: editor.user.getId(),
-          updatedAt: Date.now(),
-        };
-      };
-
-      if (page) {
-        const pages = editor.getPages().map((item) => {
-          return {
-            id: item.id,
-            name: item.name.toLowerCase().split(" ").join("-"),
-          };
-        });
-        const selectedPage = pages.find((item) => item.name === page);
-        if (selectedPage) {
-          editor.setCurrentPage(selectedPage.id);
-        }
-      }
-
-      if (viewport) {
-        const [x, y, w, h] = viewport.split(",");
-        const { w: sw, h: sh } = editor.getViewportScreenBounds();
-
-        const zoom = Math.min(
-          Math.max(Math.min(sw / w, sh / h), MIN_ZOOM),
-          MAX_ZOOM
-        );
-
-        editor.setCamera({
-          x: -x + (sw - w * zoom) / 2 / zoom,
-          y: -y + (sh - h * zoom) / 2 / zoom,
-          z: zoom,
-        });
-      }
+      window.app = editor;
+      window.editor = editor;
+      editor.updateInstanceState({ isReadonly: isReadOnly });
+      // editor.user.updateUserPreferences({
+      //   id: accountId,
+      // });
+      // editor.getInitialMetaForShape = (_shape) => {
+      //   return {
+      //     createdBy: editor.user.getId(),
+      //     createdAt: Date.now(),
+      //     updatedBy: editor.user.getId(),
+      //     updatedAt: Date.now(),
+      //   };
+      // };
+      // editor.registerExternalAssetHandler("file", createAssetFromFile);
+      // editor.registerExternalAssetHandler("url", createAssetFromUrl);
     },
-    [creatorId]
+    [isReadOnly]
   );
 
   function loadComponents(c = {}) {
@@ -285,19 +153,23 @@ function TldrawCanvas({
       if (!c[key]) {
         acc[key] = null;
       } else {
-        const { src, props } = c[key];
-        acc[key] = () => (
-          <div
-            key={key}
-            className={`tldraw__${key}`}
-            style={{ pointerEvents: "all", display: "flex" }}
-          >
-            <Widget
-              src={plugin.src}
-              props={{ ...plugin.props, color, name, id }}
-            />
-          </div>
-        );
+        if (typeof c[key] === "function") {
+          acc[key] = c[key];
+        } else {
+          const plugin = c[key];
+          acc[key] = () => (
+            <div
+              key={key}
+              className={`tldraw__${key}`}
+              style={{ pointerEvents: "all", display: "flex" }}
+            >
+              <Widget
+                src={plugin.src}
+                props={{ ...plugin.props, color, name, id }}
+              />
+            </div>
+          );
+        }
       }
       return acc;
     }, {});
@@ -380,9 +252,14 @@ function TldrawCanvas({
     <div className={"tldraw__editor"}>
       <Tldraw
         persistenceKey={persistance || "everyone"}
+        autoFocus={autoFocus}
+        hideUi={hideUi}
+        store={store}
         shapeUtils={shapeUtils}
-        // loadComponents(props.components)
-        components={{
+        onMount={handleMount}
+        initialState={isReadOnly ? "hand" : "select"}
+        components={loadComponents({
+          // props.components
           TopPanel: () => (
             <div
               key={"TopPanel"}
@@ -401,11 +278,7 @@ function TldrawCanvas({
               <SharePanel path={persistance} />
             </div>
           ),
-        }}
-        store={store}
-        onMount={setAppToState}
-        autoFocus={autoFocus ?? true}
-        hideUi={hideUi ?? false}
+        })}
       >
         <ActionButton path={persistance} />
         <TldrawLogo />
@@ -426,7 +299,7 @@ function TldrawCanvas({
             )}
           </div>
         </TemplateUI>
-        <Test />
+        <UrlStateSync />
       </Tldraw>
     </div>
   );
