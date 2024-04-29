@@ -1,13 +1,6 @@
-import { useEditor } from "@tldraw/editor";
-import {
-  AssetRecordType,
-  Tldraw,
-  createTLStore,
-  defaultShapeUtils,
-} from "@tldraw/tldraw";
+import { Tldraw, createTLStore, defaultShapeUtils } from "@tldraw/tldraw";
 import { Widget } from "near-social-vm";
 import { default as React, useCallback, useState } from "react";
-import styled from "styled-components";
 import { useUrlState } from "../../../hooks/useUrlState";
 import { ActionButton } from "../../ActionButton";
 import { ResponseShapeUtil } from "./ResponseShape";
@@ -99,80 +92,6 @@ function TldrawCanvas({
       return acc;
     }, {});
   }
-
-  const [dropdown, setDropdown] = useState(false);
-  const TemplateDropdown = () => {
-    const templates = [
-      {
-        src: "https://i.pinimg.com/736x/17/60/1e/17601e367e1689524f531c775c80d497.jpg",
-        type: "jpg",
-        width: 736,
-        height: 952,
-      },
-      {
-        src: "https://png.pngtree.com/template/20210809/ourmid/pngtree-cute-simple-note-template-design-image_561822.jpg",
-        type: "jpg",
-        width: 328,
-        height: 405,
-      },
-    ];
-    const editor = useEditor();
-    const handleImageClick = (imageUrl, imageType, imageHeight, imageWidth) => {
-      const assetId = AssetRecordType.createId();
-      //[2]
-      editor.createAssets([
-        {
-          id: assetId,
-          type: "image",
-          typeName: "asset",
-          props: {
-            name: imageUrl,
-            src: imageUrl, // You could also use a base64 encoded string here
-            w: imageWidth,
-            h: imageHeight,
-            mimeType: `image/${imageType}`,
-            isAnimated: false,
-          },
-          meta: {},
-        },
-      ]);
-      //[3]
-      editor.createShape({
-        type: "image",
-        // Let's center the image in the editor
-        x: (window.innerWidth - imageWidth) / 2,
-        y: (window.innerHeight - imageHeight) / 2,
-        props: {
-          assetId,
-          w: imageWidth,
-          h: imageHeight,
-        },
-      });
-    };
-    return (
-      <>
-        {templates.map((item) => (
-          <div
-            key={item.src}
-            onClick={() => {
-              handleImageClick(item.src, item.type, item.height, item.width);
-              setDropdown(!dropdown);
-            }}
-          >
-            <img
-              style={{
-                width: "100px",
-                height: "100px",
-                objectFit: "cover",
-              }}
-              src={item.src}
-            />
-          </div>
-        ))}
-      </>
-    );
-  };
-
   return (
     <div className={"tldraw__editor"}>
       <Tldraw
