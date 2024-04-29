@@ -1,3 +1,4 @@
+
 import { useEditor } from "@tldraw/editor";
 import {
   AssetRecordType,
@@ -9,12 +10,25 @@ import { Widget } from "near-social-vm";
 import { default as React, useCallback, useState } from "react";
 import styled from "styled-components";
 import { useUrlState } from "../../../hooks/useUrlState";
+=======
+import { Tldraw, createTLStore, defaultShapeUtils } from "@tldraw/tldraw";
+import { useEditor, useValue } from "@tldraw/editor";
+import { MAX_ZOOM, MIN_ZOOM } from "@tldraw/tldraw";
+import React, { useCallback, useEffect, useState } from "react";
+>>>>>>> 330d8947 ([REFACTOR] Templates UI)
 import { ActionButton } from "../../ActionButton";
 import { ResponseShapeUtil } from "./ResponseShape";
 import SharePanel from "./SharePanel";
 import { TldrawLogo } from "./TldrawLogo";
 import TopZone from "./TopZone";
+<<<<<<< HEAD
 import { ZoomIn } from "./ZoomUI";
+=======
+import styled from "styled-components";
+import { useAccountId } from "near-social-vm";
+import { useHistory, useLocation } from "react-router-dom";
+import { Templates } from "./Templates";
+>>>>>>> 330d8947 ([REFACTOR] Templates UI)
 
 const shapeUtils = [ResponseShapeUtil];
 
@@ -31,6 +45,7 @@ export function UrlStateSync() {
   return null;
 }
 
+<<<<<<< HEAD
 const DropdownContent = styled.div`
   position: absolute;
   bottom: 100%;
@@ -106,6 +121,74 @@ const TemplateUI = styled.div`
     border-radius: 8px;
   }
 `;
+=======
+const ZoomIn = () => {
+  const editor = useEditor();
+
+  return (
+    <ZoomUI>
+      <button
+        onClick={() => {
+          editor.zoomIn();
+        }}
+      >
+        <i className="bi bi-plus-lg"></i>
+      </button>
+      <button
+        onClick={() => {
+          editor.zoomOut();
+        }}
+      >
+        <i className="bi bi-dash"></i>
+      </button>
+    </ZoomUI>
+  );
+};
+
+const Test = () => {
+  const editor = useEditor();
+  const location = useLocation();
+  const history = useHistory();
+  const accountId = useAccountId();
+
+  const currentPage = useValue("currentPage", () => editor.getCurrentPage(), [
+    editor,
+  ]);
+  const viewportPageBounds = useValue(
+    "viewportPageBounds",
+    () => editor.getViewportPageBounds(),
+    [editor]
+  );
+
+  useEffect(() => {
+    const updatePage = setTimeout(() => {
+      const newLocation = {
+        pathname:
+          location.pathname === "/" || location.pathname === "/null"
+            ? location.pathname === "/"
+              ? `/${accountId}`
+              : "/every.near"
+            : location.pathname,
+
+        search: `page=${currentPage.name
+          .toLowerCase()
+          .split(" ")
+          .join("-")}&v=${viewportPageBounds.x.toFixed(
+          2
+        )},${viewportPageBounds.y.toFixed(2)},${viewportPageBounds.w},${
+          viewportPageBounds.h
+        }`,
+      };
+
+      history.push(newLocation);
+    }, 1000);
+
+    return () => clearTimeout(updatePage);
+  }, [currentPage, viewportPageBounds]);
+
+  return <></>;
+};
+>>>>>>> 330d8947 ([REFACTOR] Templates UI)
 
 function TldrawCanvas({
   persistance,
@@ -175,79 +258,6 @@ function TldrawCanvas({
     }, {});
   }
 
-  const [dropdown, setDropdown] = useState(false);
-  const TemplateDropdown = () => {
-    const templates = [
-      {
-        src: "https://i.pinimg.com/736x/17/60/1e/17601e367e1689524f531c775c80d497.jpg",
-        type: "jpg",
-        width: 736,
-        height: 952,
-      },
-      {
-        src: "https://png.pngtree.com/template/20210809/ourmid/pngtree-cute-simple-note-template-design-image_561822.jpg",
-        type: "jpg",
-        width: 328,
-        height: 405,
-      },
-    ];
-    const editor = useEditor();
-    const handleImageClick = (imageUrl, imageType, imageHeight, imageWidth) => {
-      const assetId = AssetRecordType.createId();
-      //[2]
-      editor.createAssets([
-        {
-          id: assetId,
-          type: "image",
-          typeName: "asset",
-          props: {
-            name: imageUrl,
-            src: imageUrl, // You could also use a base64 encoded string here
-            w: imageWidth,
-            h: imageHeight,
-            mimeType: `image/${imageType}`,
-            isAnimated: false,
-          },
-          meta: {},
-        },
-      ]);
-      //[3]
-      editor.createShape({
-        type: "image",
-        // Let's center the image in the editor
-        x: (window.innerWidth - imageWidth) / 2,
-        y: (window.innerHeight - imageHeight) / 2,
-        props: {
-          assetId,
-          w: imageWidth,
-          h: imageHeight,
-        },
-      });
-    };
-    return (
-      <>
-        {templates.map((item) => (
-          <div
-            key={item.src}
-            onClick={() => {
-              handleImageClick(item.src, item.type, item.height, item.width);
-              setDropdown(!dropdown);
-            }}
-          >
-            <img
-              style={{
-                width: "100px",
-                height: "100px",
-                objectFit: "cover",
-              }}
-              src={item.src}
-            />
-          </div>
-        ))}
-      </>
-    );
-  };
-
   return (
     <div className={"tldraw__editor"}>
       <Tldraw
@@ -283,6 +293,7 @@ function TldrawCanvas({
         <ActionButton path={persistance} />
         <TldrawLogo />
         <ZoomIn />
+<<<<<<< HEAD
         <TemplateUI>
           <div className="position-relative">
             <button
@@ -300,6 +311,10 @@ function TldrawCanvas({
           </div>
         </TemplateUI>
         <UrlStateSync />
+=======
+        <Templates />
+        <Test />
+>>>>>>> 330d8947 ([REFACTOR] Templates UI)
       </Tldraw>
     </div>
   );
