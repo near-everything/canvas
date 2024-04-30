@@ -1,11 +1,9 @@
 /**
  * This should be primary view
  */
-
 const path = props.path || context.accountId || "every.near";
 
 const parts = path.split("/");
-
 if (parts.length === 1) {
   path = `${path}/canvas/main`;
 }
@@ -33,7 +31,7 @@ if (hyperfile.adapter) {
   console.log(`Invalid data: ${hyperfile}`);
   return (
     <Container key={path}>
-      <Canvas persistance={path} autoFocus={true} isReadOnly={true} />
+      <Canvas persistance={path} autoFocus={true} isReadOnly={!(creatorId === context.accountId)} />
     </Container>
   );
 }
@@ -42,7 +40,7 @@ if (creatorId === context.accountId) {
   // use local persistance
   return (
     <Container key={path}>
-      <Canvas persistance={path} autoFocus={true} />
+      <Canvas persistance={path} autoFocus={true} isReadOnly={false} />
     </Container>
   );
 }
