@@ -54,6 +54,7 @@
     "prod:analyze": "npm run prod -- --env presets=analyze",
     "build": "npm run prod",
     "start": "npm run dev",
+    "test": "npx playwright test",
     "lint": "eslint src --ext js,jsx --report-unused-disable-directives --max-warnings 0"
   },
   "eslintConfig": {
@@ -113,6 +114,7 @@
     "webpack-cli": "^4.8.0",
     "webpack-dev-server": "^4.1.0",
     "webpack-manifest-plugin": "^5.0.0",
-    "webpack-merge": "^5.8.0"
+    "webpack-merge": "^5.8.0",
+    "@playwright/test": "^1.43.1"
   }
 }
