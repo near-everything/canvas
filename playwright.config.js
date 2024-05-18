@@ -31,7 +31,7 @@ export default defineConfig({
     /* Maximum time each action such as `click()` can take. Defaults to 0 (no limit). */
     actionTimeout: 0,
     /* Base URL to use in actions like `await page.goto('/')`. */
-    baseURL: "http://localhost:8000",
+    baseURL: "http://localhost:3000",
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: "on-first-retry",
@@ -39,12 +39,12 @@ export default defineConfig({
       cookies: [],
       origins: [
         {
-          origin: "http://localhost:8000",
+          origin: "http://localhost:8080",
           localStorage: [
             {
               name: "flags",
               value: JSON.stringify({
-                bosLoaderUrl: "http://127.0.0.1:8000/api/loader",
+                bosLoaderUrl: "http://127.0.0.1:8080/api/loader",
               }),
             },
           ],
@@ -55,10 +55,10 @@ export default defineConfig({
 
   /* Configure projects for major browsers */
   projects: [
-    //{
-    // name: "chromium",
-    // use: { ...devices["Desktop Chrome"] },
-    // },
+    {
+      name: "chromium",
+      use: { ...devices["Desktop Chrome"] },
+    },
 
     /*{
       name: 'firefox',
@@ -85,10 +85,10 @@ export default defineConfig({
     //   name: 'Microsoft Edge',
     //   use: { channel: 'msedge' },
     // },
-    {
-      name: "Google Chrome",
-      use: { channel: "chrome" },
-    },
+    // {
+    //   name: 'Google Chrome',
+    //   use: { channel: 'chrome' },
+    // },
   ],
 
   /* Folder for test artifacts such as screenshots, videos, traces, etc. */
@@ -97,7 +97,7 @@ export default defineConfig({
   /* Run your local dev server before starting the tests */
   webServer: {
     command: "npm run dev",
-    port: 8000,
+    port: 3000,
     reuseExistingServer: !process.env.CI,
   },
 });

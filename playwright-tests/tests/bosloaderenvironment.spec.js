@@ -8,7 +8,7 @@ test("should find bos loader configuration in localstorage", async ({
   await page.evaluate(() => {
     localStorage.setItem(
       "flags",
-      JSON.stringify({ bosLoaderUrl: "http://127.0.0.1:8000/api/loader" })
+      JSON.stringify({ bosLoaderUrl: "http://127.0.0.1:8080/api/loader" })
     );
   });
 
@@ -16,7 +16,7 @@ test("should find bos loader configuration in localstorage", async ({
     localStorage.getItem("flags")
   );
   expect(localStoreFlags).toEqual(
-    JSON.stringify({ bosLoaderUrl: "http://127.0.0.1:8000/api/loader" })
+    JSON.stringify({ bosLoaderUrl: "http://127.0.0.1:8080/api/loader" })
   );
 });
 
