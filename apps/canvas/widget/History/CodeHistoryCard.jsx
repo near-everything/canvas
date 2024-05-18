@@ -7,14 +7,14 @@ function getDatastringFromBlockHeight(blockHeight) {
 }
 
 let CodeWrapper = styled.div`
-& > pre > div {
-  margin: 0px !important;
-}
+  & > pre > div {
+    margin: 0px !important;
+  }
 
-& > pre {
-  margin: 0px !important;
-  border-radius: 0px 0px 5px 5px;
-}
+  & > pre {
+    margin: 0px !important;
+    border-radius: 0px 0px 5px 5px;
+  }
 `;
 
 return (
@@ -23,7 +23,9 @@ return (
       <small className="text-muted">
         <div className="row justify-content-between">
           <div className="col-4 d-flex frex-row justify-content-start align-items-center">
-            <div className="p-2">changes in block #{props.currentBlockHeight}</div>
+            <div className="p-2">
+              changes in block #{props.currentBlockHeight}
+            </div>
 
             <OverlayTrigger
               placement="auto"

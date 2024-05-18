@@ -41,8 +41,7 @@ const handlePost = () => {
     // save for embedding a canvas
     post: {
       main: JSON.stringify({
-        content:
-          "[EMBED](everycanvas.near/widget/p.view?path=...blockHeight=)",
+        content: "[EMBED](everycanvas.near/widget/p.view?path=...blockHeight=)",
         shapes: selectedShapes,
       }),
     },

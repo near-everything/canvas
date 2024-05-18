@@ -18,7 +18,6 @@ const TestnetWidgets = {
   notificationButton: "eugenethedream/widget/NotificationButton",
 };
 
-
 const MainnetWidgets = {
   image: "mob.near/widget/Image",
   default: "everycanvas.near/widget/index",

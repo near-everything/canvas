@@ -5,7 +5,7 @@ State.init({
 });
 
 function onRevert(v) {
-  console.log("reverting", v)
+  console.log("reverting", v);
   if (v.adapter) {
     console.log("adapter", v.adapter);
     const { get } = VM.require(v.adapter) || {
