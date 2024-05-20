@@ -47,10 +47,7 @@ export default function Flags() {
           />
         </InputGrid>
 
-        <button
-          onClick={() => setFlags({ bosLoaderUrl: url })}
-          style={{ marginLeft: "auto" }}
-        >
+        <button onClick={() => setFlags({ bosLoaderUrl: url })} style={{ marginLeft: "auto" }}>
           Save
         </button>
       </Form>

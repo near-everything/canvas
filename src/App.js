@@ -10,13 +10,7 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 import "bootstrap/dist/js/bootstrap.bundle";
 import { isValidAttribute } from "dompurify";
 import "error-polyfill";
-import {
-  EthersProviderContext,
-  useAccount,
-  useInitNear,
-  useNear,
-  utils,
-} from "near-social-vm";
+import { EthersProviderContext, useAccount, useInitNear, useNear, utils } from "near-social-vm";
 import React, { useCallback, useEffect, useState } from "react";
 import "react-bootstrap-typeahead/css/Typeahead.bs5.css";
 import "react-bootstrap-typeahead/css/Typeahead.css";
@@ -58,11 +52,7 @@ function App() {
         networkId: NetworkId,
         selector: setupWalletSelector({
           network: NetworkId,
-          modules: [
-            setupHereWallet(),
-            setupMeteorWallet(),
-            setupMyNearWallet(),
-          ],
+          modules: [setupHereWallet(), setupMeteorWallet(), setupMyNearWallet()],
         }),
         customElements: {
           Link: (props) => {
@@ -71,9 +61,7 @@ function App() {
               delete props.href;
             }
             if (props.to) {
-              props.to = isValidAttribute("a", "href", props.to)
-                ? props.to
-                : "about:blank";
+              props.to = isValidAttribute("a", "href", props.to) ? props.to : "about:blank";
             }
             return <Link {...props} />;
           },
@@ -84,9 +72,7 @@ function App() {
         config: {
           defaultFinality: undefined,
           nodeUrl:
-            NetworkId === "mainnet"
-              ? "https://near.lava.build"
-              : "https://near-testnet.lava.build",
+            NetworkId === "mainnet" ? "https://near.lava.build" : "https://near-testnet.lava.build",
         },
       });
   }, [initNear]);
@@ -96,9 +82,7 @@ function App() {
       return;
     }
     near.selector.then((selector) => {
-      setWalletModal(
-        setupModal(selector, { contractId: near.config.contractName })
-      );
+      setWalletModal(setupModal(selector, { contractId: near.config.contractName }));
     });
   }, [near]);
 
@@ -123,9 +107,7 @@ function App() {
   }, [near]);
 
   const refreshAllowance = useCallback(async () => {
-    alert(
-      "You're out of access key allowance. Need sign in again to refresh it"
-    );
+    alert("You're out of access key allowance. Need sign in again to refresh it");
     await logOut();
     requestSignIn();
   }, [logOut, requestSignIn]);

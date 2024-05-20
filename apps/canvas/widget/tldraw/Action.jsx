@@ -154,10 +154,7 @@ return (
     {isModalOpen && (
       <Modal onClose={toggleModal}>
         <div className="w-100">
-          <Widget
-            src={activePlugin.interface.src}
-            props={activePlugin.interface.props}
-          />
+          <Widget src={activePlugin.interface.src} props={activePlugin.interface.props} />
         </div>
         <Widget
           src="miraclx.near/widget/Attribution"

@@ -1,8 +1,6 @@
 import { test, expect } from "@playwright/test";
 
-test("should find bos loader configuration in localstorage", async ({
-  page,
-}) => {
+test("should find bos loader configuration in localstorage", async ({ page }) => {
   await page.goto("/");
 
   await page.evaluate(() => {
@@ -12,9 +10,7 @@ test("should find bos loader configuration in localstorage", async ({
     );
   });
 
-  const localStoreFlags = await page.evaluate(() =>
-    localStorage.getItem("flags")
-  );
+  const localStoreFlags = await page.evaluate(() => localStorage.getItem("flags"));
   expect(localStoreFlags).toEqual(
     JSON.stringify({ bosLoaderUrl: "http://127.0.0.1:8080/api/loader" })
   );

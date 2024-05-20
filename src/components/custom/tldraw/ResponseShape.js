@@ -41,9 +41,9 @@ export class ResponseShapeUtil extends BaseBoxShapeUtil {
 
   component(shape) {
     console.log(
-      `shapeId: ${shape.id} of size x: ${toDomPrecision(
-        shape.props.w
-      )}, and y: ${toDomPrecision(shape.props.h)}`
+      `shapeId: ${shape.id} of size x: ${toDomPrecision(shape.props.w)}, and y: ${toDomPrecision(
+        shape.props.h
+      )}`
     );
     const isEditing = useIsEditing(shape.id);
     const toast = useToasts();

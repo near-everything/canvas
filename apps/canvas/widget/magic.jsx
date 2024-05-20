@@ -107,9 +107,7 @@ return (
     <Button onClick={convertToText}>convert to text</Button>
     <textarea style={{ width: "100%" }} value={text} disabled />
     <Button onClick={convertToDataUrl}>convert to image</Button>
-    <div className="d-flex">
-      {dataUrl && <img src={dataUrl} height={100} width={200} />}
-    </div>
+    <div className="d-flex">{dataUrl && <img src={dataUrl} height={100} width={200} />}</div>
     <Button onClick={getPreviousResponse}>get previous response</Button>
     <textarea style={{ width: "100%" }} value={previousResponse} disabled />
     <h5>prompt</h5>
@@ -119,31 +117,19 @@ return (
       onChange={(e) => setPrompt(e.target.value)}
     />
     <h5>model</h5>
-    <select
-      style={{ width: "100%" }}
-      onChange={(e) => setModel(e.target.value)}
-      value={model}
-    >
+    <select style={{ width: "100%" }} onChange={(e) => setModel(e.target.value)} value={model}>
       <option value="gpt-3.5-turbo">gpt-3.5-turbo</option>
       <option value="gpt-4">gpt-4</option>
       <option value="gpt-4-vision-preview">gpt-4-vision-preview</option>
     </select>
     <Button onClick={createMessages}>create messages</Button>
-    <textarea
-      style={{ width: "100%" }}
-      value={JSON.stringify(messages)}
-      disabled
-    />
+    <textarea style={{ width: "100%" }} value={JSON.stringify(messages)} disabled />
     <Button onClick={createEmptyShape}>create empty response shape</Button>
     <Widget
       src="everycanvas.near/widget/near-openai"
       props={{ model: model, messages: messages, setResponse: setResponse }}
     />
-    <textarea
-      style={{ width: "100%" }}
-      value={JSON.stringify(response)}
-      disabled
-    />
+    <textarea style={{ width: "100%" }} value={JSON.stringify(response)} disabled />
     <Button onClick={updateResponseShape}>update response shape</Button>
   </>
 );

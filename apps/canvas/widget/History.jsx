@@ -145,24 +145,19 @@ return (
           <div className="card-header">
             <div className="d-flex justify-content-between align-items-center">
               <h3>{blocksChanges.length} Commits </h3>
-              {state.selectedBlockHeight &&
-                blocksChanges[0] !== state.selectedBlockHeight && (
-                  <button type="button" onClick={handleRevert}>
-                    Revert
-                  </button>
-                )}
+              {state.selectedBlockHeight && blocksChanges[0] !== state.selectedBlockHeight && (
+                <button type="button" onClick={handleRevert}>
+                  Revert
+                </button>
+              )}
             </div>
           </div>
 
           <div className="list-group">
-            {blocksChanges
-              .slice(0, 5)
-              .map((height) => renderBlockChangesLink(height))}
+            {blocksChanges.slice(0, 5).map((height) => renderBlockChangesLink(height))}
 
             <div className="collapse" id="collapseExample">
-              {blocksChanges
-                .slice(5)
-                .map((height) => renderBlockChangesLink(height))}
+              {blocksChanges.slice(5).map((height) => renderBlockChangesLink(height))}
             </div>
 
             {blocksChanges.length > 5 && (
@@ -206,9 +201,7 @@ return (
           </TabsButton>
         </Tabs>
 
-        {state.selectedTab == "code" && (
-          <div>{blockHeightToCode(state.selectedBlockHeight)}</div>
-        )}
+        {state.selectedTab == "code" && <div>{blockHeightToCode(state.selectedBlockHeight)}</div>}
 
         {state.selectedTab == "render" && (
           <div>{blockHeightToRender(state.selectedBlockHeight)}</div>

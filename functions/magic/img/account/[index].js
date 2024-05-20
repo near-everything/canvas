@@ -1,8 +1,4 @@
-import {
-  DefaultProfileImage,
-  internalImageToUrl,
-  socialGet,
-} from "../../../common";
+import { DefaultProfileImage, internalImageToUrl, socialGet } from "../../../common";
 
 export async function onRequest({ request, next, env }) {
   const url = new URL(request.url);

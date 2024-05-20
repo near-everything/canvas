@@ -83,13 +83,7 @@ const templates = [
   },
 ];
 
-const handleImageClick = (
-  editor,
-  imageUrl,
-  imageType,
-  imageHeight,
-  imageWidth
-) => {
+const handleImageClick = (editor, imageUrl, imageType, imageHeight, imageWidth) => {
   const assetId = AssetRecordType.createId();
   editor.createAssets([
     {
@@ -125,13 +119,7 @@ const TemplateDropdown = ({ editor }) => (
       <div
         key={item.src}
         onClick={() => {
-          handleImageClick(
-            editor,
-            item.src,
-            item.type,
-            item.height,
-            item.width
-          );
+          handleImageClick(editor, item.src, item.type, item.height, item.width);
           // setDropdown(!dropdown);
         }}
       >

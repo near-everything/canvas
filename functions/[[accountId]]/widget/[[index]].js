@@ -1,9 +1,4 @@
-import {
-  socialGet,
-  imageToUrl,
-  wrapImage,
-  DefaultProfileImage,
-} from "../../common";
+import { socialGet, imageToUrl, wrapImage, DefaultProfileImage } from "../../common";
 
 class MetaTitleInjector {
   constructor({ title }) {
@@ -48,10 +43,7 @@ class MetaDescriptionInjector {
   }
 
   element(element) {
-    element.setAttribute(
-      "content",
-      this.shortDescription?.replaceAll("\n", " ")
-    );
+    element.setAttribute("content", this.shortDescription?.replaceAll("\n", " "));
   }
 }
 
@@ -90,11 +82,7 @@ async function postData(env, url, data, isPost) {
   const accountId = url.searchParams.get("accountId");
   const blockHeight = url.searchParams.get("blockHeight");
   const [content, name, authorImage] = await Promise.all([
-    socialGet(
-      `${accountId}/post/${isPost ? "main" : "comment"}`,
-      blockHeight,
-      true
-    ),
+    socialGet(`${accountId}/post/${isPost ? "main" : "comment"}`, blockHeight, true),
     socialGet(`${accountId}/profile/name`),
     socialGet(`${accountId}/profile/image/**`),
   ]);
@@ -118,13 +106,10 @@ async function profileData(env, url, data) {
 
   const name = profile?.name;
   data.raw = profile;
-  data.description =
-    profile?.description || `Profile of ${accountId} on Near Social`;
+  data.description = profile?.description || `Profile of ${accountId} on Near Social`;
   data.image = await imageToUrl(env, profile?.image);
   data.authorImage = data.image || wrapImage(DefaultProfileImage);
-  data.title = name
-    ? `${name} (${accountId}) | Near Social`
-    : `${accountId} | Near Social`;
+  data.title = name ? `${name} (${accountId}) | Near Social` : `${accountId} | Near Social`;
   data.accountName = name;
   data.accountId = accountId;
 }
@@ -133,14 +118,11 @@ async function widgetData(env, url, data) {
   const parts = url.pathname.split("/");
   const accountId = parts[1];
   const widgetId = parts[3];
-  const metadata = await socialGet(
-    `${accountId}/widget/${widgetId}/metadata/**`
-  );
+  const metadata = await socialGet(`${accountId}/widget/${widgetId}/metadata/**`);
 
   const name = metadata?.name || widgetId;
   data.raw = metadata;
-  data.description =
-    metadata?.description || `Component ${name} created by ${accountId}`;
+  data.description = metadata?.description || `Component ${name} created by ${accountId}`;
   data.image = await imageToUrl(env, metadata?.image);
   data.title = `${name} by ${accountId} | Near Social`;
   data.accountName = name;
@@ -196,10 +178,7 @@ async function generateData(env, url) {
 
 export async function onRequest({ request, next, env }) {
   const url = new URL(request.url);
-  if (
-    url.pathname.split("/").length < 4 ||
-    url.pathname.endsWith(".bundle.js")
-  ) {
+  if (url.pathname.split("/").length < 4 || url.pathname.endsWith(".bundle.js")) {
     return next();
   }
   const data = await generateData(env, url);

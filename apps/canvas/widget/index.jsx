@@ -31,11 +31,7 @@ if (hyperfile.adapter) {
   console.log(`Invalid data: ${hyperfile}`);
   return (
     <Container key={path}>
-      <Canvas
-        persistance={path}
-        autoFocus={true}
-        isReadOnly={!(creatorId === context.accountId)}
-      />
+      <Canvas persistance={path} autoFocus={true} isReadOnly={!(creatorId === context.accountId)} />
     </Container>
   );
 }

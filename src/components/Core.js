@@ -1,10 +1,6 @@
 import { Widget, useAccount } from "near-social-vm";
 import React, { useState } from "react";
-import {
-  NavLink,
-  useHistory,
-  useLocation,
-} from "react-router-dom/cjs/react-router-dom.min";
+import { NavLink, useHistory, useLocation } from "react-router-dom/cjs/react-router-dom.min";
 import styled from "styled-components";
 import { LogOut } from "./icons/LogOut";
 import { Pretend } from "./icons/Pretend";
@@ -46,8 +42,8 @@ const CoreBox = styled.div`
   .dropdown-item.active {
     text-shadow: none;
     svg {
-      filter: brightness(0) saturate(100%) invert(100%) sepia(1%) saturate(0%)
-        hue-rotate(268deg) brightness(112%) contrast(100%);
+      filter: brightness(0) saturate(100%) invert(100%) sepia(1%) saturate(0%) hue-rotate(268deg)
+        brightness(112%) contrast(100%);
     }
   }
 
@@ -224,13 +220,7 @@ const Core = (props) => {
   };
 
   return (
-    <Draggable
-      position={null}
-      axis="y"
-      bounds="parent"
-      onDrag={handleDrag}
-      onStop={handleDrapStop}
-    >
+    <Draggable position={null} axis="y" bounds="parent" onDrag={handleDrag} onStop={handleDrapStop}>
       <CoreBackdrop className="core__auth">
         <CoreBox className="classic" style={{ dropdownPosition }}>
           <div className="d-flex align-items-center">
@@ -278,9 +268,7 @@ const Core = (props) => {
               {/* {isDropdownOpen && ( */}
               {account.accountId && (
                 <StyledDropdown
-                  className={`dropdown ${
-                    isDropdownOpen ? "show" : ""
-                  } ${dropdownPosition}`}
+                  className={`dropdown ${isDropdownOpen ? "show" : ""} ${dropdownPosition}`}
                 >
                   <ul
                     className="dropdown-menu"
@@ -327,9 +315,7 @@ const Core = (props) => {
                           className="dropdown-item"
                           disabled={!account.startPretending}
                           onClick={() => account.startPretending(undefined)}
-                          onTouchStart={() =>
-                            account.startPretending(undefined)
-                          }
+                          onTouchStart={() => account.startPretending(undefined)}
                         >
                           <StopPretending />
                           Stop pretending

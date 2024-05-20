@@ -26,8 +26,7 @@ function SharePanel({ path }) {
   const getSelectionAsText = useCallback(() => {
     const selectedShapeIds = editor.getSelectedShapeIds();
     console.log("selectedShapeIds", selectedShapeIds);
-    const selectedShapeDescendantIds =
-      editor.getShapeAndDescendantIds(selectedShapeIds);
+    const selectedShapeDescendantIds = editor.getShapeAndDescendantIds(selectedShapeIds);
 
     const texts = Array.from(selectedShapeDescendantIds)
       .map((id) => {
@@ -69,9 +68,7 @@ function SharePanel({ path }) {
     });
 
     console.log(
-      `created shape: ${newShapeId} of size x:${
-        selectionBounds.maxX + 60
-      }, y: ${selectionBounds.y}`
+      `created shape: ${newShapeId} of size x:${selectionBounds.maxX + 60}, y: ${selectionBounds.y}`
     );
 
     return newShapeId;

@@ -75,8 +75,7 @@ const calculateStatistics = (shapesData) => {
 
   const stats = shapesData.reduce((accumulator, shape) => {
     // Count types
-    accumulator.typeCounts[shape.type] =
-      (accumulator.typeCounts[shape.type] || 0) + 1;
+    accumulator.typeCounts[shape.type] = (accumulator.typeCounts[shape.type] || 0) + 1;
 
     // Sum positions
     accumulator.totalPosition.x += shape.x;
@@ -108,30 +107,21 @@ return (
     <Form>
       <FormGroup>
         <Label>shapes</Label>
-        <textarea
-          className="form-control"
-          rows={5}
-          value={JSON.stringify(shapes)}
-        />
+        <textarea className="form-control" rows={5} value={JSON.stringify(shapes)} />
       </FormGroup>
       <Statistics>
         <p>
           <strong>Types of Shapes:</strong> {JSON.stringify(stats.typeCounts)}
         </p>
         <p>
-          <strong>Average Position:</strong> X:{" "}
-          {stats.averagePosition.x.toFixed(2)}, Y:{" "}
+          <strong>Average Position:</strong> X: {stats.averagePosition.x.toFixed(2)}, Y:{" "}
           {stats.averagePosition.y.toFixed(2)}
         </p>
         {/* Display other stats */}
       </Statistics>
 
       <FormGroup>
-        <button
-          className="btn btn-success mb-1"
-          onClick={handlePost}
-          disabled={shapes.length <= 0}
-        >
+        <button className="btn btn-success mb-1" onClick={handlePost} disabled={shapes.length <= 0}>
           Post
         </button>
       </FormGroup>
