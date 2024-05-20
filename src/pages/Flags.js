@@ -33,15 +33,11 @@ export default function Flags() {
 
   return (
     <Container className="container-xl">
-      <h1>
-        Flags
-      </h1>
+      <h1>Flags</h1>
 
       <Form>
         <InputGrid>
-          <p>
-            BOS Loader Url
-          </p>
+          <p>BOS Loader Url</p>
 
           <input
             className="form-control"
@@ -51,19 +47,20 @@ export default function Flags() {
           />
         </InputGrid>
 
-        <button
-          onClick={() => setFlags({ bosLoaderUrl: url })}
-          style={{ marginLeft: "auto" }}
-        >Save</button>
+        <button onClick={() => setFlags({ bosLoaderUrl: url })} style={{ marginLeft: "auto" }}>
+          Save
+        </button>
       </Form>
     </Container>
   );
-};
+}
 
-{/* <Widget
+{
+  /* <Widget
 src="devs.near/widget/SetFlagButton"
 props={{
   url: "https://everything.dev",
   setFlags: setFlags,
 }}
-/> */}
+/> */
+}

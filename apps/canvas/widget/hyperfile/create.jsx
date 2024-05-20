@@ -194,10 +194,7 @@ return (
           />
           <FormGroup>
             <Label>adapter</Label>
-            <Select
-              value={adapter}
-              onChange={(e) => setAdapter(e.target.value)}
-            >
+            <Select value={adapter} onChange={(e) => setAdapter(e.target.value)}>
               {adapters.map((o) => (
                 <option value={o.value}>{o.title}</option>
               ))}
@@ -211,11 +208,7 @@ return (
         <Form>
           <FormGroup>
             <Label>name</Label>
-            <Input
-              type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-            />
+            <Input type="text" value={name} onChange={(e) => setName(e.target.value)} />
           </FormGroup>
           <FormGroup>
             <Label>description</Label>

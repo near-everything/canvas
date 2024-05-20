@@ -66,11 +66,7 @@ return (
       </div>
     </Form>
     <FormGroup>
-      <button
-        style={{ color: "white" }}
-        className="btn btn-primary"
-        onClick={handleEmbed}
-      >
+      <button style={{ color: "white" }} className="btn btn-primary" onClick={handleEmbed}>
         Submit
       </button>
     </FormGroup>

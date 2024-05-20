@@ -247,44 +247,39 @@ const defaultEthersProviderContext = {
   setChain: onboard.setChain,
 };
 
-export const useEthersProviderContext = singletonHook(
-  defaultEthersProviderContext,
-  () => {
-    const [{ wallet }] = useConnectWallet();
-    const [ethersProvider, setEthersProvider] = useState(
-      defaultEthersProviderContext
-    );
+export const useEthersProviderContext = singletonHook(defaultEthersProviderContext, () => {
+  const [{ wallet }] = useConnectWallet();
+  const [ethersProvider, setEthersProvider] = useState(defaultEthersProviderContext);
 
-    useEffect(() => {
-      (async () => {
-        const walletsSub = onboard.state.select("wallets");
-        const { unsubscribe } = walletsSub.subscribe((wallets) => {
-          const connectedWallets = wallets.map(({ label }) => label);
-          ls.set(web3onboardKey, connectedWallets);
-        });
-
-        const previouslyConnectedWallets = ls.get(web3onboardKey) || [];
-
-        if (previouslyConnectedWallets) {
-          // You can also auto connect "silently" and disable all onboard modals to avoid them flashing on page load
-          await onboard.connectWallet({
-            autoSelect: {
-              label: previouslyConnectedWallets[0],
-              disableModals: true,
-            },
-          });
-        }
-      })();
-    }, []);
-
-    useEffect(() => {
-      setEthersProvider({
-        provider: wallet?.provider,
-        useConnectWallet,
-        setChain: onboard.setChain,
+  useEffect(() => {
+    (async () => {
+      const walletsSub = onboard.state.select("wallets");
+      const { unsubscribe } = walletsSub.subscribe((wallets) => {
+        const connectedWallets = wallets.map(({ label }) => label);
+        ls.set(web3onboardKey, connectedWallets);
       });
-    }, [wallet]);
 
-    return ethersProvider;
-  }
-);
+      const previouslyConnectedWallets = ls.get(web3onboardKey) || [];
+
+      if (previouslyConnectedWallets) {
+        // You can also auto connect "silently" and disable all onboard modals to avoid them flashing on page load
+        await onboard.connectWallet({
+          autoSelect: {
+            label: previouslyConnectedWallets[0],
+            disableModals: true,
+          },
+        });
+      }
+    })();
+  }, []);
+
+  useEffect(() => {
+    setEthersProvider({
+      provider: wallet?.provider,
+      useConnectWallet,
+      setChain: onboard.setChain,
+    });
+  }, [wallet]);
+
+  return ethersProvider;
+});

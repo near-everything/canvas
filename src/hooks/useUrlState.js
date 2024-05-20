@@ -14,9 +14,9 @@ const viewportFromString = (str) => {
 };
 
 const viewportToString = ({ x, y, w, h }, precision = 0) => {
-  return `${x.toFixed(precision)},${y.toFixed(precision)},${w.toFixed(
+  return `${x.toFixed(precision)},${y.toFixed(precision)},${w.toFixed(precision)},${h.toFixed(
     precision
-  )},${h.toFixed(precision)}`;
+  )}`;
 };
 
 export const getViewportUrlQuery = (editor) => {
@@ -39,8 +39,7 @@ export function useUrlState(onChangeUrl) {
 
     if (url.searchParams.has(PARAMS.page) || url.searchParams.has(PARAMS.p)) {
       const newPageId =
-        url.searchParams.get(PARAMS.page) ??
-        "page:" + url.searchParams.get(PARAMS.p);
+        url.searchParams.get(PARAMS.page) ?? "page:" + url.searchParams.get(PARAMS.p);
       if (newPageId) {
         if (editor.store.has(newPageId)) {
           editor.setCurrentPage(newPageId);
@@ -48,10 +47,7 @@ export function useUrlState(onChangeUrl) {
       }
     }
 
-    if (
-      url.searchParams.has(PARAMS.viewport) ||
-      url.searchParams.has(PARAMS.v)
-    ) {
+    if (url.searchParams.has(PARAMS.viewport) || url.searchParams.has(PARAMS.v)) {
       const newViewportRaw =
         url.searchParams.get(PARAMS.viewport) ?? url.searchParams.get(PARAMS.v);
       if (newViewportRaw) {
@@ -60,10 +56,7 @@ export function useUrlState(onChangeUrl) {
           const { x, y, w, h } = viewport;
           const { w: sw, h: sh } = editor.getViewportScreenBounds();
 
-          const zoom = Math.min(
-            Math.max(Math.min(sw / w, sh / h), MIN_ZOOM),
-            MAX_ZOOM
-          );
+          const zoom = Math.min(Math.max(Math.min(sw / w, sh / h), MIN_ZOOM), MAX_ZOOM);
 
           editor.setCamera({
             x: -x + (sw - w * zoom) / 2 / zoom,

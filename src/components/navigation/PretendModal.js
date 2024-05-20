@@ -25,17 +25,12 @@ export default function PretendModal(props) {
             type="text"
             value={accountId}
             onChange={(e) =>
-              setAccountId(
-                e.target.value.toLowerCase().replaceAll(/[^a-z0-9_.\-]/g, "")
-              )
+              setAccountId(e.target.value.toLowerCase().replaceAll(/[^a-z0-9_.\-]/g, ""))
             }
           />
         </div>
         <div className="mt-2">
-          <Widget
-            src={props.widgets.profileInlineBlock}
-            props={{ accountId }}
-          />
+          <Widget src={props.widgets.profileInlineBlock} props={{ accountId }} />
         </div>
       </Modal.Body>
       <Modal.Footer>

@@ -85,9 +85,7 @@ export function BosLoaderBanner() {
           }
         >
           <Container href={"/flags"}>
-            {redirectMapStore.failedToLoad
-              ? "BOS Loader fetch error"
-              : "Loading components"}
+            {redirectMapStore.failedToLoad ? "BOS Loader fetch error" : "Loading components"}
           </Container>
         </OverlayTrigger>
         <Button type="button" onClick={closeBanner}>

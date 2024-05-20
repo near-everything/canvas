@@ -11,11 +11,9 @@ let data = {
   accountId: state.account,
 };
 
-const accounts_granted_permissions = Near.view(
-  social_contract_id,
-  "debug_get_permissions",
-  { account_id: connected_account }
-);
+const accounts_granted_permissions = Near.view(social_contract_id, "debug_get_permissions", {
+  account_id: connected_account,
+});
 
 const handleGrantAccount = () => {
   Near.call([
@@ -47,8 +45,7 @@ return (
       {!!data.accountId && (
         <>
           <p>
-            You are granting write permissions to{" "}
-            <span class="fw-bold">{data.accountId}</span>{" "}
+            You are granting write permissions to <span class="fw-bold">{data.accountId}</span>{" "}
           </p>
           <p>
             for the path: <span class="fw-bold">{path}</span>
@@ -63,9 +60,7 @@ return (
           handleGrantAccount();
         }}
         disabled={
-          !state.account ||
-          !/.near$/.test(state.account) ||
-          state.account === connected_account
+          !state.account || !/.near$/.test(state.account) || state.account === connected_account
         }
       >
         Grant

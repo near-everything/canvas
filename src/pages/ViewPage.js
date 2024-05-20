@@ -19,7 +19,8 @@ export default function ViewPage(props) {
 
   const { path } = useParams();
 
-  if (!path) { // default to every.near
+  if (!path) {
+    // default to every.near
     history.push("/every.near");
   }
 

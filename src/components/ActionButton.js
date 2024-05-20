@@ -20,8 +20,7 @@ export function ActionButton({ path }) {
   const getSelectionAsText = useCallback(() => {
     const selectedShapeIds = editor.getSelectedShapeIds();
     console.log("selectedShapeIds", selectedShapeIds);
-    const selectedShapeDescendantIds =
-      editor.getShapeAndDescendantIds(selectedShapeIds);
+    const selectedShapeDescendantIds = editor.getShapeAndDescendantIds(selectedShapeIds);
 
     const texts = Array.from(selectedShapeDescendantIds)
       .map((id) => {
@@ -49,9 +48,7 @@ export function ActionButton({ path }) {
         const svg = await editor.getSvg(editor.getSelectedShapes());
         if (!svg) throw new Error("Could not get SVG");
 
-        const IS_SAFARI = /^((?!chrome|android).)*safari/i.test(
-          navigator.userAgent
-        );
+        const IS_SAFARI = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
 
         const blob = await getSvgAsImage(svg, IS_SAFARI, {
           type: "png",

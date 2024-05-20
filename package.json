@@ -35,7 +35,6 @@
     "near-api-js": "^2.1.3",
     "near-social-vm": "git+https://github.com/NearSocial/VM.git#2.6.0",
     "near-social-vm-types": "^1.0.0",
-    "prettier": "^2.7.1",
     "qrcode.react": "^3.1.0",
     "react": "^18.2.0",
     "react-bootstrap": "^2.5.0",
@@ -47,13 +46,19 @@
     "zustand": "^4.4.6"
   },
   "scripts": {
+    "fmt": "prettier --write '**/*.{js,jsx,ts,tsx,json}'",
+    "fmt:check": "prettier --check '**/*.{js,jsx,ts,tsx,json}'",
     "serve": "webpack serve",
     "webpack": "webpack",
-    "dev": "concurrently \"bos-workspace dev\" \"npm run serve -- --env mode=development\"",
+    "bw": "bos-workspace",
+    "dev": "concurrently \"bw dev\" \"npm run serve -- --env mode=development\"",
     "prod": "npm run webpack -- --env mode=production",
     "prod:analyze": "npm run prod -- --env presets=analyze",
     "build": "npm run prod",
     "start": "npm run dev",
+    "test": "npx playwright test",
+    "test:ui": "npx playwright test --ui",
+    "test:ui:codespaces": "npx playwright test --ui-host=0.0.0.0",
     "lint": "eslint src --ext js,jsx --report-unused-disable-directives --max-warnings 0"
   },
   "eslintConfig": {
@@ -113,6 +118,8 @@
     "webpack-cli": "^4.8.0",
     "webpack-dev-server": "^4.1.0",
     "webpack-manifest-plugin": "^5.0.0",
-    "webpack-merge": "^5.8.0"
+    "webpack-merge": "^5.8.0",
+    "@playwright/test": "^1.43.1",
+    "prettier": "^2.8.8"
   }
 }

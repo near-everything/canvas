@@ -81,10 +81,7 @@ function TldrawCanvas({
               className={`tldraw__${key}`}
               style={{ pointerEvents: "all", display: "flex" }}
             >
-              <Widget
-                src={plugin.src}
-                props={{ ...plugin.props, color, name, id }}
-              />
+              <Widget src={plugin.src} props={{ ...plugin.props, color, name, id }} />
             </div>
           );
         }

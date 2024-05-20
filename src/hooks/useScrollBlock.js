@@ -16,9 +16,7 @@ export default () => {
 
     const scrollBarWidth = window.innerWidth - html.clientWidth;
     const bodyPaddingRight =
-      parseInt(
-        window.getComputedStyle(body).getPropertyValue("padding-right")
-      ) || 0;
+      parseInt(window.getComputedStyle(body).getPropertyValue("padding-right")) || 0;
 
     /**
      * 1. Fixes a bug in iOS and desktop Safari whereby setting

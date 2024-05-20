@@ -51,10 +51,7 @@ const processData = useCallback(
             accountId,
             type: type,
             name: kv[0],
-            metadatadata: Social.get(
-              `${accountId}/${type}/${kv[0]}/metadata/**`,
-              "final"
-            ),
+            metadatadata: Social.get(`${accountId}/${type}/${kv[0]}/metadata/**`, "final"),
           };
         });
       })
@@ -128,15 +125,9 @@ function Item({ accountId, name, type, metadata }) {
           )}
 
           <div className="card-body">
-            <Widget
-              src="hack.near/widget/profile.builder"
-              props={{ accountId }}
-            />
+            <Widget src="hack.near/widget/profile.builder" props={{ accountId }} />
             {metadata.description && (
-              <p
-                className="card-text"
-                style={{ overflow: "hidden", textOverflow: "ellipsis" }}
-              >
+              <p className="card-text" style={{ overflow: "hidden", textOverflow: "ellipsis" }}>
                 {metadata.description}
               </p>
             )}

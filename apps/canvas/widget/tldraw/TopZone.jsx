@@ -22,10 +22,7 @@ return (
       }}
     />
     {"/" + thingId}
-    <OverlayTrigger
-      placement="auto"
-      overlay={<Tooltip>{"Copy to clipboard"}</Tooltip>}
-    >
+    <OverlayTrigger placement="auto" overlay={<Tooltip>{"Copy to clipboard"}</Tooltip>}>
       <Button
         onClick={() =>
           clipboard.writeText(

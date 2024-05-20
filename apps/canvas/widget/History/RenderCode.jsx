@@ -1,7 +1,4 @@
-const currentCode = Social.get(
-  `${props.path}`,
-  props.currentBlockHeight
-);
+const currentCode = Social.get(`${props.path}`, props.currentBlockHeight);
 
 if (currentCode === null) return "Loading";
 

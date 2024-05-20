@@ -59,9 +59,7 @@ async function create_ask_ai_request_body(messages, model) {
   }
 
   const nonce = ++accessKey.nonce;
-  const recentBlockHash = nearApi.utils.serialize.base_decode(
-    accessKey.block_hash
-  );
+  const recentBlockHash = nearApi.utils.serialize.base_decode(accessKey.block_hash);
 
   const transaction = nearApi.transactions.createTransaction(
     account.accountId,
