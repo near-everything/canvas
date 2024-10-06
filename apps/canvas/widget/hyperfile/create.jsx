@@ -44,7 +44,7 @@ const adapters = [
   // },
   {
     title: "IPFS",
-    value: "everycanvas.near/widget/adapter.ipfs",
+    value: "efiz.near/widget/adapter.build-ipfs",
   },
   // {
   //   title: "GitHub",
@@ -66,7 +66,7 @@ const { creatorId } = props;
 
 const [json, setJson] = useState(props.data ?? "");
 const [source, setSource] = useState(props.source ?? "");
-const [adapter, setAdapter] = useState(defaultAdapter.value ?? "");
+const [adapter, setAdapter] = useState(defaultAdapter.value);
 const [reference, setReference] = useState(undefined);
 const [filename, setFilename] = useState(props.filename ?? "");
 const [activeTab, setActiveTab] = useState("data");
@@ -81,12 +81,15 @@ function generateUID() {
   );
 }
 
+
+const { create } = VM.require(adapter);
+
 const handleCreate = (callback) => {
   props.toggleModal();
   const isCreator = context.accountId === creatorId;
 
   // load in the state.adapter (modules for IPFS, Arweave, Ceramic, Verida, On Machina... )
-  const { create } = VM.require(adapter) || (() => {});
+  
   if (create) {
     // store the data somewhere, based on the adapter
     create(json).then((reference) => {
